@@ -3,13 +3,12 @@ package gomoku.components;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import gomoku.Gomoku;
 import gomoku.interfaces.CursorWay;
 
-public abstract class Cursor extends JLabel implements gomoku.interfaces.Moveable {
+public class Cursor extends JLabel implements gomoku.interfaces.Moveable {
 
 	// mContext
-	Gomoku mContext;
+	Background mContext;
 	// todo -- 좌표계 설정 완료후 바꿔주기!
 	final int BLOCK = 50; // 바둑판 눈금 한 칸
 	final int MAX_X = 2000; // 바둑판 오른쪽 끝 눈금 X좌표
@@ -35,11 +34,11 @@ public abstract class Cursor extends JLabel implements gomoku.interfaces.Moveabl
 
 	CursorWay cursorWay;
 
-	public Gomoku getmContext() {
+	public Background getmContext() {
 		return mContext;
 	}
 
-	public void setmContext(Gomoku mContext) {
+	public void setmContext(Background mContext) {
 		this.mContext = mContext;
 	}
 
@@ -139,7 +138,7 @@ public abstract class Cursor extends JLabel implements gomoku.interfaces.Moveabl
 		this.cursorWay = cursorWay;
 	}
 
-	public Cursor(Gomoku mContext) {
+	public Cursor(Background mContext) {
 		this.mContext = mContext;
 		initData();
 		setInitLayout();
@@ -147,7 +146,7 @@ public abstract class Cursor extends JLabel implements gomoku.interfaces.Moveabl
 	}
 
 	private void initData() {
-		cursorImg = new ImageIcon("images/cursor.png");
+		cursorImg = new ImageIcon("images/bubble.png");
 
 		x = 500; // 초기값 , 추후 중앙값으로 수정
 		y = 500;
@@ -167,7 +166,7 @@ public abstract class Cursor extends JLabel implements gomoku.interfaces.Moveabl
 
 	private void setInitLayout() {
 		setIcon(cursorImg);
-		setSize(150, 150);
+		setSize(50, 50);
 		setLocation(x, y);
 	}
 

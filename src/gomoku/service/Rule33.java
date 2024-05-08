@@ -1,5 +1,6 @@
 package service;
 
+
 // thread로 실행
 public class Rule33 {
 
@@ -16,7 +17,7 @@ public class Rule33 {
 	private static boolean check;
 
 	public Rule33(int x, int y) {
-		this.gomoku = new int[x][y];
+		
 	}
 
 	private static boolean checkRule33() {

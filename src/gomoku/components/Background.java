@@ -22,6 +22,8 @@ public class Background extends JFrame {
 	private Stone stone;
 	private Cursor cursor;
 
+	Background mContext = this;
+
 	public Background() {
 		initData();
 		setInitLayout();
@@ -34,6 +36,7 @@ public class Background extends JFrame {
 		setTitle("오목게임");
 		setSize(1000, 1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		cursor = new Cursor(mContext);
 	}
 
 	private void setInitLayout() {
@@ -41,6 +44,8 @@ public class Background extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
+
+		add(cursor);
 	}
 
 	private void addEventListener() {
@@ -51,7 +56,20 @@ public class Background extends JFrame {
 
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_LEFT:
-
+					cursor.left();
+					break;
+				case KeyEvent.VK_RIGHT:
+					cursor.right();
+					break;
+				case KeyEvent.VK_UP:
+					cursor.up();
+					break;
+				case KeyEvent.VK_DOWN:
+					cursor.down();
+					break;
+				case KeyEvent.VK_SPACE:
+					stone.playStone();
+					break;
 				}
 			}
 
