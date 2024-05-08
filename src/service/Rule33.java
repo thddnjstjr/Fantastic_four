@@ -3,7 +3,7 @@ package service;
 // thread로 실행
 public class Rule33 {
 
-	private static int[][] board;
+	private Gomoku[][] gomoku;
 	private static int x; // row
 	private static int y; // col
 	private static int b; // 현재돌 1:흑, 2:백 currentPlayer = 1;
@@ -16,7 +16,7 @@ public class Rule33 {
 	private static boolean check;
 
 	public Rule33(int x, int y) {
-		this.board = new int[x][y];
+		this.gomoku = new int[x][y];
 	}
 
 	private static boolean checkRule33() {
@@ -51,16 +51,16 @@ public class Rule33 {
 
 			// 같은돌 만나는 경우
 			// check 를 false 로 둠으로 연속으로 만나는지 체크
-			if (board[xx][y] == b) {
+			if (gomoku[xx][y] == b) {
 				check = false;
 				stone1++;
 			}
 
 			// 다른 돌 만나는 경우 탐색 중지
-			if (board[xx][y] == w)
+			if (gomoku[xx][y] == w)
 				break left;
 
-			if (board[xx][y] == 0) {
+			if (gomoku[xx][y] == 0) {
 				if (check == false) {
 					check = true;
 				} else {
@@ -87,16 +87,16 @@ public class Rule33 {
 
 			// 같은돌 만나는 경우
 			// check 를 false 로 둠으로 연속으로 만나는지 체크
-			if (board[xx][yy] == b) {
+			if (gomoku[xx][yy] == b) {
 				check = false;
 				stone2++;
 			}
 
 			// 다른 돌 만나는 경우 탐색 중지
-			if (board[xx][y] == w)
+			if (gomoku[xx][y] == w)
 				break right;
 
-			if (board[xx][y] == 0) {
+			if (gomoku[xx][y] == 0) {
 				if (check == false) {
 					check = true;
 				} else {
@@ -124,7 +124,7 @@ public class Rule33 {
 		if (x - left == 0 || x + right == 15) {
 			return 0;
 		} else {
-			if (board[x - left - 1][y] == w || board[x + right + 1][y] == w) {
+			if (gomoku[x - left - 1][y] == w || gomoku[x + right + 1][y] == w) {
 				return 0;
 			} else {
 				return 1;
@@ -147,16 +147,16 @@ public class Rule33 {
 
 			// 같은돌 만나는 경우
 			// check 를 false 로 둠으로 연속으로 만나는지 체크
-			if (board[x][yy] == b) {
+			if (gomoku[x][yy] == b) {
 				check = false;
 				stone1++;
 			}
 
 			// 다른 돌 만나는 경우 탐색 중지
-			if (board[x][yy] == w)
+			if (gomoku[x][yy] == w)
 				break top;
 
-			if (board[x][yy] == 0) {
+			if (gomoku[x][yy] == 0) {
 				if (check == false) {
 					check = true;
 				} else {
@@ -183,16 +183,16 @@ public class Rule33 {
 
 			// 같은돌 만나는 경우
 			// check 를 false 로 둠으로 연속으로 만나는지 체크
-			if (board[x][yy] == b) {
+			if (gomoku[x][yy] == b) {
 				check = false;
 				stone2++;
 			}
 
 			// 다른 돌 만나는 경우 탐색 중지
-			if (board[x][yy] == w)
+			if (gomoku[x][yy] == w)
 				break bottom;
 
-			if (board[x][yy] == 0) {
+			if (gomoku[x][yy] == 0) {
 				if (check == false) {
 					check = true;
 				} else {
@@ -220,7 +220,7 @@ public class Rule33 {
 		if (y - top == 0 || y + bottom == 15) {
 			return 0;
 		} else {
-			if (board[x][y - top - 1] == w || board[x][y + bottom + 1] == w) {
+			if (gomoku[x][y - top - 1] == w || gomoku[x][y + bottom + 1] == w) {
 				return 0;
 			} else {
 				return 1;
@@ -241,15 +241,15 @@ public class Rule33 {
 			if (xx == -1 || y == -1) {
 				break leftUpDiagonal;
 			}
-			if (board[xx][yy] == b) {
+			if (gomoku[xx][yy] == b) {
 				check = false;
 				stone1++;
 			}
 
-			if (board[xx][yy] == w) {
+			if (gomoku[xx][yy] == w) {
 				break leftUpDiagonal;
 			}
-			if (board[xx][yy] == 0) {
+			if (gomoku[xx][yy] == 0) {
 				if (check = false) {
 					check = true;
 				} else {
@@ -275,15 +275,15 @@ public class Rule33 {
 			if (xx == 16 || y == 16) {
 				break rightDownDiagonal;
 			}
-			if (board[xx][yy] == b) {
+			if (gomoku[xx][yy] == b) {
 				check = false;
 				stone1++;
 			}
 
-			if (board[xx][yy] == w) {
+			if (gomoku[xx][yy] == w) {
 				break rightDownDiagonal;
 			}
-			if (board[xx][yy] == 0) {
+			if (gomoku[xx][yy] == 0) {
 				if (check = false) {
 					check = true;
 				} else {
@@ -311,7 +311,7 @@ public class Rule33 {
 		if (y - leftup == 0 || x - leftup == 0 || y + rightdown == 15 || x + rightdown == 15) {
 			return 0;
 		} else {
-			if (board[x - leftup - 1][y - leftup - 1] == w || board[x + rightdown + 1][y + rightdown + 1] == w) {
+			if (gomoku[x - leftup - 1][y - leftup - 1] == w || gomoku[x + rightdown + 1][y + rightdown + 1] == w) {
 				return 0;
 			} else {
 				return 1;
@@ -332,15 +332,15 @@ public class Rule33 {
 			if (xx == -1 || y == -1) {
 				break leftDownDiagonal;
 			}
-			if (board[xx][yy] == b) {
+			if (gomoku[xx][yy] == b) {
 				check = false;
 				stone1++;
 			}
 
-			if (board[xx][yy] == w) {
+			if (gomoku[xx][yy] == w) {
 				break leftDownDiagonal;
 			}
-			if (board[xx][yy] == 0) {
+			if (gomoku[xx][yy] == 0) {
 				if (check = false) {
 					check = true;
 				} else {
@@ -366,15 +366,15 @@ public class Rule33 {
 			if (xx == 16 || y == 16) {
 				break rightUpDiagonal;
 			}
-			if (board[xx][yy] == b) {
+			if (gomoku[xx][yy] == b) {
 				check = false;
 				stone1++;
 			}
 
-			if (board[xx][yy] == w) {
+			if (gomoku[xx][yy] == w) {
 				break rightUpDiagonal;
 			}
-			if (board[xx][yy] == 0) {
+			if (gomoku[xx][yy] == 0) {
 				if (check = false) {
 					check = true;
 				} else {
@@ -402,7 +402,7 @@ public class Rule33 {
 		if (y - leftdown == 0 || x - leftdown == 0 || y + rightup == 15 || x + rightup == 15) {
 			return 0;
 		} else {
-			if (board[x - leftdown - 1][y + leftdown + 1] == w || board[x + rightup + 1][y - rightup - 1] == w) {
+			if (gomoku[x - leftdown - 1][y + leftdown + 1] == w || gomoku[x + rightup + 1][y - rightup - 1] == w) {
 				return 0;
 			} else {
 				return 1;
