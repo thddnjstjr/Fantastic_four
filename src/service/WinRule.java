@@ -8,18 +8,23 @@ public class WinRule {
 		this.x = x;
 		this.y = y;
 	}
+	board[x][y] = 
 	while(true){
 		for (int i = 0; i < white.length - 1; i++) {
 			for(int j = 0; j < white.length -1; j++) {
 			if (white[j][i] == white[j+1][i]) {
 				Xfive++;
-				if (Xfive == 4) {
-					System.out.println("승리하셨습니다");
-					win();
-				}
+			}
+			}
+			if(Xfive > 4) {
+				System.out.println("육목은 안됩니다.");
+				continue;
+			}
+			else if (Xfive == 4) {
+				System.out.println("승리하셨습니다");
+				win();
 			}
 			Xfive = 0;
-			}
 		}
 	}
 	while(true){
@@ -41,33 +46,27 @@ public class WinRule {
 			for(int j = 0; j < white.length -1; j++) {
 				for(int t = 1; t< 6; t++) {
 				if (white[j][i] == white[j+t][i+t]) {
-					Zfive++;
+					num1++;
 				}
-				}
-				Zfive = 0;
-				for(int t = 1; t< 6; t++) {
 				 if (white[j][i] == white[j+t][i-t]) {
-					Zfive++;
+					num2++;
 				}
-				}
-				Zfive = 0;
-				 for(int t = 1; t< 6; t++) {
 				 if (white[j][i] == white[j-t][i+t]) {
-					Zfive++;
-				}
+					num3++;
 				 }
-				 Zfive = 0;
-				 for(int t = 1; t< 6; t++) {
 				 if (white[j][i] == white[j-t][i-t]) {
-					Zfive++;
+					num4++;
 				}
-				 }
-				 Zfive = 0;
-				if (Zfive == 4) {
+				if (num1 == 4 || num2 == 4 || num3 == 4 || num4 == 4) {
+					if(6)
 					System.out.println("승리하셨습니다");
 					win();
 				}
 				}
+				num1 = 0;
+				num2 = 0;
+				num3 = 0;
+				num4 = 0;
 			}
 		}
 	}

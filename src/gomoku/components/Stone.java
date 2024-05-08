@@ -1,4 +1,4 @@
-package jyd;
+package gomoku.components;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -6,7 +6,9 @@ import javax.swing.JLabel;
 public class Stone extends JLabel {
 
 	// mContext
-	Gomoku mContext;
+	final int BLOCK = 50;
+	
+	Background mContext;
 
 	// x , y 좌표값
 	private int x;
@@ -59,9 +61,9 @@ public class Stone extends JLabel {
 		this.color = color;
 	}
 
-	public Stone(Gomoku mContext) {
+	public Stone(Background mContext) {
 		this.mContext = mContext;
-		this.color = mContext.color;
+		this.x = mContext.getX()*BLOCK;
 		initData();
 		setInitLayout();
 		// new Thread().start(); 스톤 실행시 쓰레드로 동작하도록 구현
@@ -94,15 +96,15 @@ public class Stone extends JLabel {
 
 		if (color == 1) {
 			// - todo 쓰레드로 구성되게 코드 수정
-			Stone bs = new Stone();
+			Stone bs = new Stone(mContext);
 			setLocation(x, y);
-			color = false;
+			color = 2;
 		}
 		if (color == 2) {
 			// - todo 쓰레드로 구성되게 코드 수정
-			Stone bs = new Stone();
+			Stone ws = new Stone(mContext);
 			setLocation(x, y);
-			color = true;
+			color = 1;
 		}
 	}
 
