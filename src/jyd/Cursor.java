@@ -242,4 +242,7 @@ public class Cursor extends JLabel implements Moveable {
 		}
 	}
 
+	public static void main(String[] args) {
+		new Cursor();
+	}
 }
