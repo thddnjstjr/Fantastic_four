@@ -1,12 +1,12 @@
-package jyd;
+package gomoku.components;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import interfaces.Moveable;
-import state.CursorWay;
+import gomoku.Gomoku;
+import gomoku.interfaces.CursorWay;
 
-public class Cursor extends JLabel implements Moveable {
+public abstract class Cursor extends JLabel implements gomoku.interfaces.Moveable {
 
 	// mContext
 	Gomoku mContext;
@@ -166,7 +166,7 @@ public class Cursor extends JLabel implements Moveable {
 	}
 
 	private void setInitLayout() {
-		setIcon(cursor);
+		setIcon(cursorImg);
 		setSize(150, 150);
 		setLocation(x, y);
 	}
@@ -184,7 +184,11 @@ public class Cursor extends JLabel implements Moveable {
 				public void run() {
 					x -= BLOCK; // - todo : 좌표계 설정 이후 BLOCK값을 눈금 크기에 맞게 수정
 					setLocation(x, y);
-					Thread.sleep(50);
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 			}).start();
 		}
@@ -202,7 +206,11 @@ public class Cursor extends JLabel implements Moveable {
 				public void run() {
 					x += BLOCK; // - todo : 좌표계 설정 이후 BLOCK값을 눈금 크기에 맞게 수정
 					setLocation(x, y);
-					Thread.sleep(50);
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 			}).start();
 		}
@@ -219,7 +227,11 @@ public class Cursor extends JLabel implements Moveable {
 				public void run() {
 					y -= BLOCK; // - todo : 좌표계 설정 이후 BLOCK값을 눈금 크기에 맞게 수정
 					setLocation(x, y);
-					Thread.sleep(50);
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 			}).start();
 		}
@@ -236,7 +248,11 @@ public class Cursor extends JLabel implements Moveable {
 				public void run() {
 					y += BLOCK; // - todo : 좌표계 설정 이후 BLOCK값을 눈금 크기에 맞게 수정
 					setLocation(x, y);
-					Thread.sleep(50);
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 			}).start();
 		}
