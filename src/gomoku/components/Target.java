@@ -10,7 +10,6 @@ public class Target extends JLabel implements Moveable {
 
 	// mContext
 	Background mContext;
-	Stone stone;
 	// todo -- 좌표계 설정 완료후 바꿔주기!
 	final int BLOCK = 52; // 바둑판 눈금 한 칸
 	final int MAX_X = 946; // 바둑판 오른쪽 끝 눈금 X좌표
@@ -37,9 +36,6 @@ public class Target extends JLabel implements Moveable {
 
 	CursorWay cursorWay;
 
-	public Background getmContext() {
-		return mContext;
-	}
 
 	public void setmContext(Background mContext) {
 		this.mContext = mContext;
@@ -140,7 +136,13 @@ public class Target extends JLabel implements Moveable {
 	public void setCursorWay(CursorWay cursorWay) {
 		this.cursorWay = cursorWay;
 	}
+	public WhiteStone getWhiteStone() {
+		return whiteStone;
+	}
 
+	public BlackStone getBlackStone() {
+		return blackStone;
+	}
 	public Target(Background mContext) {
 		this.mContext = mContext;
 		initData();

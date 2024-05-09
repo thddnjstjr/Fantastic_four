@@ -11,13 +11,11 @@ public class Rule {
 	public Rule(Background mContext) {
 		this.mContext = mContext;
 		rule33 = new Rule33(mContext);
-		// winRule = new WinRule(mContext);
 	}
 
 	public void winrule() {
 		new Thread(() -> {
 
-			// winrule();
 		}).start();
 	}
 
