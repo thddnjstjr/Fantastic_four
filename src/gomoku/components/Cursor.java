@@ -148,9 +148,9 @@ public class Cursor extends JLabel implements Moveable {
 	}
 
 	private void initData() {
-		cursorImg = new ImageIcon("images/corsur.png");
+		cursorImg = new ImageIcon("images/corsurimg.png");
 		cursorImg = new ImageIcon("images/bubble.png");
-		cursorImg = new ImageIcon("images/cursor.png");
+		cursorImg = new ImageIcon("images/cursorimg.png");
 
 		x = 478; // 초기값 , 추후 중앙값으로 수정
 		y = 477;

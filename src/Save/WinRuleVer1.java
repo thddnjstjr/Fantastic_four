@@ -1,8 +1,8 @@
-package service;
+package Save;
 
 import gomoku.components.Background;
 
-public class WinRule implements Runnable {
+public class WinRuleVer1 implements Runnable {
 	// 멤버변수
 	int x;
 	int y;
@@ -16,7 +16,7 @@ public class WinRule implements Runnable {
 	private Background mContext;
 	int block = 52;
 
-	public WinRule(Background mContext) {
+	public WinRuleVer1(Background mContext) {
 		this.mContext = mContext;
 		this.map = mContext.getMap();
 	}
