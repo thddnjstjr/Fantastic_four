@@ -90,6 +90,8 @@ public class Stone extends JLabel {
 
 	public void playStone() {
 		// todo - 중복 착점 불가 방어적 코드 추가
+		
+		// arraylist.contains쓰기
 
 		if (color == 1) {
 			// - todo 쓰레드로 구성되게 코드 수정

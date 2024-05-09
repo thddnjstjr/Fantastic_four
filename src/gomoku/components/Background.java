@@ -50,10 +50,9 @@ public class Background extends JFrame {
 
 	private void addEventListener() {
 		this.addKeyListener(new KeyAdapter() {
-
-			public void keypressed(KeyEvent e) {
-				System.out.println(e.getKeyCode());
-
+			@Override
+			public void keyReleased(KeyEvent e) {
+				System.out.println(cursor.getX() + " ," + cursor.getY());
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_LEFT:
 					cursor.left();
@@ -72,7 +71,6 @@ public class Background extends JFrame {
 					break;
 				}
 			}
-
 		});
 	}
 
