@@ -8,7 +8,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+<<<<<<< HEAD
 import service.Rule;
+=======
+import service.WinRule;
+>>>>>>> 50eaa5c502f02306af3a8a9a1f0305d764b923e5
 
 public class Background extends JFrame {
 
@@ -24,11 +28,15 @@ public class Background extends JFrame {
 	public int[][] getMap() {
 		return map;
 	}
+<<<<<<< HEAD
 
 	private Player player;
 
 	private Stone stone;
 	Target cursor;
+=======
+	Cursor cursor;
+>>>>>>> 50eaa5c502f02306af3a8a9a1f0305d764b923e5
 	private int x;
 	private int y;
 	private int color;
@@ -39,6 +47,7 @@ public class Background extends JFrame {
 		initData();
 		setInitLayout();
 		addEventListener();
+		new Thread(new WinRule(mContext)).start();
 	}
 
 	public int getColor() {
@@ -69,9 +78,12 @@ public class Background extends JFrame {
 		this.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
+<<<<<<< HEAD
 				// System.out.println(cursor.getX() + " ," + cursor.getY());
+=======
+>>>>>>> 50eaa5c502f02306af3a8a9a1f0305d764b923e5
 				switch (e.getKeyCode()) {
-				case KeyEvent.VK_LEFT:
+				case KeyEvent.VK_LEFT:  
 					cursor.left();
 					break;
 				case KeyEvent.VK_RIGHT:
@@ -93,7 +105,12 @@ public class Background extends JFrame {
 						cursor.WhiteStone();
 						map[cursor.getX()][cursor.getY()] = 2;
 					}
+<<<<<<< HEAD
 					// System.out.println(map[cursor.getX()][cursor.getY()]);
+=======
+					System.out.println(cursor.getX() + " ," + cursor.getY());
+					System.out.println(map[cursor.getX()][cursor.getY()]);
+>>>>>>> 50eaa5c502f02306af3a8a9a1f0305d764b923e5
 					repaint();
 					color++;
 					break;
