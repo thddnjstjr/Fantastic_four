@@ -9,11 +9,12 @@ public class Cursor extends JLabel implements gomoku.interfaces.Moveable {
 
 	// mContext
 	Background mContext;
+	Stone stone;
 	// todo -- 좌표계 설정 완료후 바꿔주기!
 	final int BLOCK = 52; // 바둑판 눈금 한 칸
-	final int MAX_X = 2000; // 바둑판 오른쪽 끝 눈금 X좌표
+	final int MAX_X = 946; // 바둑판 오른쪽 끝 눈금 X좌표
 	final int MIN_X = 20; // 바둑판 왼쪽 끝 눈금 X좌표
-	final int MAX_Y = 2000; // 바둑판 하단 끝 눈금 Y좌표
+	final int MAX_Y = 945; // 바둑판 하단 끝 눈금 Y좌표
 	final int MIN_Y = 20; // 바둑판 상단 끝 눈금 Y좌표
 
 	private int x;
@@ -256,6 +257,15 @@ public class Cursor extends JLabel implements gomoku.interfaces.Moveable {
 				}
 			}).start();
 		}
+	}
+
+	public void playStone() {		
+		new Thread(() -> {
+			while (true) {
+				stone.playStone();
+			}
+		}).start();
+		
 	}
 
 }

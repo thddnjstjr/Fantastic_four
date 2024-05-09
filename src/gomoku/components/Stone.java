@@ -7,6 +7,8 @@ public class Stone extends JLabel {
 
 	// mContext
 	Background mContext;
+	Cursor cursor;
+	Stone stone;
 
 	// x , y 좌표값
 	private int x;
@@ -48,7 +50,7 @@ public class Stone extends JLabel {
 	}
 
 	public void setWhiteStone(ImageIcon whiteStone) {
-		whiteStone = whiteStone;
+		this.whiteStone = whiteStone;
 	}
 
 	public int getColor() {
@@ -69,8 +71,8 @@ public class Stone extends JLabel {
 	public void initData() {
 		blackStone = new ImageIcon("images/blackStone.png");
 		whiteStone = new ImageIcon("images/whiteStone.png");
-		x = 500; // todo - 값 받아와서 적용될 수 있게 수정
-		y = 500; // todo - 값 받아와서 적용될 수 있게 수정
+		x = cursor.getX(); // todo - 값 받아와서 적용될 수 있게 수정
+		y = cursor.getY(); // todo - 값 받아와서 적용될 수 있게 수정
 
 		color = 1; // color 값 받아와서 적용될 수 있게 수정.
 
@@ -90,18 +92,19 @@ public class Stone extends JLabel {
 
 	public void playStone() {
 		// todo - 중복 착점 불가 방어적 코드 추가
-		
 		// arraylist.contains쓰기
-
+		
+		stone = new Stone(mContext);		
+		stone.setColor(1);
 		if (color == 1) {
 			// - todo 쓰레드로 구성되게 코드 수정
-			Stone bs = new Stone(mContext);
+			mContext.add(stone);
 			setLocation(x, y);
 			color = 2;
 		}
 		if (color == 2) {
 			// - todo 쓰레드로 구성되게 코드 수정
-			Stone ws = new Stone(mContext);
+			mContext.add(stone);
 			setLocation(x, y);
 			color = 1;
 		}

@@ -4,7 +4,7 @@ package service;
 // thread로 실행
 public class Rule33 {
 
-	private Gomoku[][] gomoku;
+	private static int Borad[][];
 	private static int x; // row
 	private static int y; // col
 	private static int b; // 현재돌 1:흑, 2:백 currentPlayer = 1;

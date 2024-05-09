@@ -44,7 +44,7 @@ public class Background extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
-
+		
 		add(cursor);
 	}
 
@@ -67,7 +67,7 @@ public class Background extends JFrame {
 					cursor.down();
 					break;
 				case KeyEvent.VK_SPACE:
-					stone.playStone();
+					cursor.playStone();
 					break;
 				}
 			}
