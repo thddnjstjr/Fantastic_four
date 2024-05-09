@@ -7,6 +7,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import service.WinRule;
+
 public class Background extends JFrame {
 
 	final int LINE_NUM = 1000;
@@ -20,10 +22,6 @@ public class Background extends JFrame {
 	public int[][] getMap() {
 		return map;
 	}
-
-	private Player player;
-
-	private Stone stone;
 	Cursor cursor;
 	private int x;
 	private int y;
@@ -35,6 +33,7 @@ public class Background extends JFrame {
 		initData();
 		setInitLayout();
 		addEventListener();
+		new Thread(new WinRule(mContext)).start();
 	}
 
 	private void initData() {
@@ -60,9 +59,8 @@ public class Background extends JFrame {
 		this.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				System.out.println(cursor.getX() + " ," + cursor.getY());
 				switch (e.getKeyCode()) {
-				case KeyEvent.VK_LEFT:
+				case KeyEvent.VK_LEFT:  
 					cursor.left();
 					break;
 				case KeyEvent.VK_RIGHT:
@@ -82,6 +80,7 @@ public class Background extends JFrame {
 						cursor.WhiteStone();
 						map[cursor.getX()][cursor.getY()] = 2;
 					}
+					System.out.println(cursor.getX() + " ," + cursor.getY());
 					System.out.println(map[cursor.getX()][cursor.getY()]);
 					repaint();
 					color++;

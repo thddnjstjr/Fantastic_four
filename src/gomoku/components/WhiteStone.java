@@ -12,7 +12,7 @@ public class WhiteStone extends JLabel{
 		// x , y 좌표값
 		private int x;
 		private int y;
-
+		
 		// 흑돌 백돌 이미지
 		private ImageIcon whiteStone;
 
