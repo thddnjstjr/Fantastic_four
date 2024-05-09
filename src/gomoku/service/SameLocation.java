@@ -1,5 +1,7 @@
 package gomoku.service;
 
+import gomoku.components.Background;
+
 public class SameLocation {
 	private static Background stone;
 	private static int x;

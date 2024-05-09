@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import gomoku.interfaces.CursorWay;
 import gomoku.interfaces.Moveable;
 
-public class Cursor extends JLabel implements Moveable {
+public class Target extends JLabel implements Moveable {
 
 	// mContext
 	Background mContext;
@@ -17,7 +17,7 @@ public class Cursor extends JLabel implements Moveable {
 	final int MIN_X = 20; // 바둑판 왼쪽 끝 눈금 X좌표
 	final int MAX_Y = 945; // 바둑판 하단 끝 눈금 Y좌표
 	final int MIN_Y = 20; // 바둑판 상단 끝 눈금 Y좌표
-	
+
 	private int x;
 	private int y;
 	private ImageIcon cursorImg;
@@ -141,7 +141,7 @@ public class Cursor extends JLabel implements Moveable {
 		this.cursorWay = cursorWay;
 	}
 
-	public Cursor(Background mContext) {
+	public Target(Background mContext) {
 		this.mContext = mContext;
 		initData();
 		setInitLayout();
@@ -263,24 +263,13 @@ public class Cursor extends JLabel implements Moveable {
 		}
 	}
 
-<<<<<<< HEAD
-	public void playStone() {		
-		new Thread(() -> {
-			while (true) {
-				stone.playStone();
-			}
-		}).start();
-		
-	}
-
-=======
 	public void WhiteStone() {
 		whiteStone = new WhiteStone(mContext);
 		mContext.add(whiteStone);
 	}
+
 	public void BlackStone() {
 		blackStone = new BlackStone(mContext);
 		mContext.add(blackStone);
 	}
->>>>>>> d6f818249901a90bdfcbf1a51d170f3be8985c61
 }

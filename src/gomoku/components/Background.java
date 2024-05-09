@@ -2,10 +2,13 @@ package gomoku.components;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import service.Rule;
 
 public class Background extends JFrame {
 
@@ -17,6 +20,7 @@ public class Background extends JFrame {
 	private final int WHITE_STONE = 2; // 배열에 입력된 값이 2인 경우 그자리에는 백돌이 있음
 
 	private JLabel backgroundMap;
+
 	public int[][] getMap() {
 		return map;
 	}
@@ -24,17 +28,21 @@ public class Background extends JFrame {
 	private Player player;
 
 	private Stone stone;
-	Cursor cursor;
+	Target cursor;
 	private int x;
 	private int y;
 	private int color;
 	Background mContext = this;
-
+	Rule rule;
 
 	public Background() {
 		initData();
 		setInitLayout();
 		addEventListener();
+	}
+
+	public int getColor() {
+		return color;
 	}
 
 	private void initData() {
@@ -43,8 +51,9 @@ public class Background extends JFrame {
 		setTitle("오목게임");
 		setSize(1000, 1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		cursor = new Cursor(mContext);
+		cursor = new Target(mContext);
 
+		rule = new Rule(mContext);
 	}
 
 	private void setInitLayout() {
@@ -52,7 +61,7 @@ public class Background extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
-		
+
 		add(cursor);
 	}
 
@@ -60,7 +69,7 @@ public class Background extends JFrame {
 		this.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				System.out.println(cursor.getX() + " ," + cursor.getY());
+				// System.out.println(cursor.getX() + " ," + cursor.getY());
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_LEFT:
 					cursor.left();
@@ -75,24 +84,26 @@ public class Background extends JFrame {
 					cursor.down();
 					break;
 				case KeyEvent.VK_SPACE:
-<<<<<<< HEAD
-					cursor.playStone();
-=======
 					if ((color % 2) == 0) {
 						cursor.BlackStone();
+						getBlack(cursor.getX(), cursor.getY());
 						map[cursor.getX()][cursor.getY()] = 1;
+
 					} else {
 						cursor.WhiteStone();
 						map[cursor.getX()][cursor.getY()] = 2;
 					}
-					System.out.println(map[cursor.getX()][cursor.getY()]);
+					// System.out.println(map[cursor.getX()][cursor.getY()]);
 					repaint();
 					color++;
->>>>>>> d6f818249901a90bdfcbf1a51d170f3be8985c61
 					break;
 				}
 			}
 		});
-	// 다른 메소드들 생략
-}
+		// 다른 메소드들 생략
+	}
+	public static int[][] getBlack(int x, int y) {
+		int[][] b = new int[x][y];
+		return b;
+	}
 }

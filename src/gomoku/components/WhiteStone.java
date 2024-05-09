@@ -8,7 +8,7 @@ public class WhiteStone extends JLabel{
 		final int BLOCK = 50;
 		
 		Background mContext;
-		Cursor cursor;
+		Target cursor;
 		// x , y 좌표값
 		private int x;
 		private int y;
