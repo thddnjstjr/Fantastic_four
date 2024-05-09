@@ -9,20 +9,27 @@ import javax.swing.JLabel;
 
 public class Background extends JFrame {
 
-	final int LINE_NUM = 19;
-	final int LINE_WIDTH = 19;
+	final int LINE_NUM = 1000;
+	final int LINE_WIDTH = 1000;
 
 	private final int[][] map = new int[LINE_NUM][LINE_NUM];
 	private final int BLACK_STONE = 1; // 배열에 입력된 값이 1인 경우 그자리에는 흑돌이 있음
 	private final int WHITE_STONE = 2; // 배열에 입력된 값이 2인 경우 그자리에는 백돌이 있음
 
 	private JLabel backgroundMap;
+	public int[][] getMap() {
+		return map;
+	}
+
 	private Player player;
 
 	private Stone stone;
-	private Cursor cursor;
-
+	Cursor cursor;
+	private int x;
+	private int y;
+	private int color;
 	Background mContext = this;
+
 
 	public Background() {
 		initData();
@@ -37,6 +44,7 @@ public class Background extends JFrame {
 		setSize(1000, 1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		cursor = new Cursor(mContext);
+
 	}
 
 	private void setInitLayout() {
@@ -51,7 +59,7 @@ public class Background extends JFrame {
 	private void addEventListener() {
 		this.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyReleased(KeyEvent e) {
+			public void keyPressed(KeyEvent e) {
 				System.out.println(cursor.getX() + " ," + cursor.getY());
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_LEFT:
@@ -67,12 +75,24 @@ public class Background extends JFrame {
 					cursor.down();
 					break;
 				case KeyEvent.VK_SPACE:
+<<<<<<< HEAD
 					cursor.playStone();
+=======
+					if ((color % 2) == 0) {
+						cursor.BlackStone();
+						map[cursor.getX()][cursor.getY()] = 1;
+					} else {
+						cursor.WhiteStone();
+						map[cursor.getX()][cursor.getY()] = 2;
+					}
+					System.out.println(map[cursor.getX()][cursor.getY()]);
+					repaint();
+					color++;
+>>>>>>> d6f818249901a90bdfcbf1a51d170f3be8985c61
 					break;
 				}
 			}
 		});
-	}
-
 	// 다른 메소드들 생략
+}
 }

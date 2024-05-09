@@ -4,8 +4,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import gomoku.interfaces.CursorWay;
+import gomoku.interfaces.Moveable;
 
-public class Cursor extends JLabel implements gomoku.interfaces.Moveable {
+public class Cursor extends JLabel implements Moveable {
 
 	// mContext
 	Background mContext;
@@ -16,11 +17,12 @@ public class Cursor extends JLabel implements gomoku.interfaces.Moveable {
 	final int MIN_X = 20; // 바둑판 왼쪽 끝 눈금 X좌표
 	final int MAX_Y = 945; // 바둑판 하단 끝 눈금 Y좌표
 	final int MIN_Y = 20; // 바둑판 상단 끝 눈금 Y좌표
-
+	
 	private int x;
 	private int y;
 	private ImageIcon cursorImg;
-
+	private WhiteStone whiteStone;
+	private BlackStone blackStone;
 	// 커서의 움직임 상태
 	private boolean left;
 	private boolean right;
@@ -147,6 +149,8 @@ public class Cursor extends JLabel implements gomoku.interfaces.Moveable {
 	}
 
 	private void initData() {
+		cursorImg = new ImageIcon("images/corsur.png");
+		cursorImg = new ImageIcon("images/bubble.png");
 		cursorImg = new ImageIcon("images/cursor.png");
 
 		x = 478; // 초기값 , 추후 중앙값으로 수정
@@ -259,6 +263,7 @@ public class Cursor extends JLabel implements gomoku.interfaces.Moveable {
 		}
 	}
 
+<<<<<<< HEAD
 	public void playStone() {		
 		new Thread(() -> {
 			while (true) {
@@ -268,4 +273,14 @@ public class Cursor extends JLabel implements gomoku.interfaces.Moveable {
 		
 	}
 
+=======
+	public void WhiteStone() {
+		whiteStone = new WhiteStone(mContext);
+		mContext.add(whiteStone);
+	}
+	public void BlackStone() {
+		blackStone = new BlackStone(mContext);
+		mContext.add(blackStone);
+	}
+>>>>>>> d6f818249901a90bdfcbf1a51d170f3be8985c61
 }

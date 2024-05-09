@@ -6,6 +6,8 @@ import javax.swing.JLabel;
 public class Stone extends JLabel {
 
 	// mContext
+	final int BLOCK = 50;
+	
 	Background mContext;
 	Cursor cursor;
 	Stone stone;
@@ -63,6 +65,7 @@ public class Stone extends JLabel {
 
 	public Stone(Background mContext) {
 		this.mContext = mContext;
+		this.x = mContext.getX()*BLOCK;
 		initData();
 		setInitLayout();
 		// new Thread().start(); 스톤 실행시 쓰레드로 동작하도록 구현
@@ -98,13 +101,21 @@ public class Stone extends JLabel {
 		stone.setColor(1);
 		if (color == 1) {
 			// - todo 쓰레드로 구성되게 코드 수정
+<<<<<<< HEAD
 			mContext.add(stone);
+=======
+			Stone stone = new Stone(mContext);
+>>>>>>> d6f818249901a90bdfcbf1a51d170f3be8985c61
 			setLocation(x, y);
 			color = 2;
 		}
 		if (color == 2) {
 			// - todo 쓰레드로 구성되게 코드 수정
+<<<<<<< HEAD
 			mContext.add(stone);
+=======
+			Stone stone = new Stone(mContext);
+>>>>>>> d6f818249901a90bdfcbf1a51d170f3be8985c61
 			setLocation(x, y);
 			color = 1;
 		}
