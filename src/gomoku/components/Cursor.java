@@ -4,22 +4,24 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import gomoku.interfaces.CursorWay;
+import gomoku.interfaces.Moveable;
 
-public class Cursor extends JLabel implements gomoku.interfaces.Moveable {
+public class Cursor extends JLabel implements Moveable {
 
 	// mContext
 	Background mContext;
 	// todo -- 좌표계 설정 완료후 바꿔주기!
-	final int BLOCK = 50; // 바둑판 눈금 한 칸
-	final int MAX_X = 2000; // 바둑판 오른쪽 끝 눈금 X좌표
+	final int BLOCK = 52; // 바둑판 눈금 한 칸
+	final int MAX_X = 946; // 바둑판 오른쪽 끝 눈금 X좌표
 	final int MIN_X = 20; // 바둑판 왼쪽 끝 눈금 X좌표
-	final int MAX_Y = 2000; // 바둑판 하단 끝 눈금 Y좌표
+	final int MAX_Y = 945; // 바둑판 하단 끝 눈금 Y좌표
 	final int MIN_Y = 20; // 바둑판 상단 끝 눈금 Y좌표
-
+	
 	private int x;
 	private int y;
 	private ImageIcon cursorImg;
-
+	private WhiteStone whiteStone;
+	private BlackStone blackStone;
 	// 커서의 움직임 상태
 	private boolean left;
 	private boolean right;
@@ -148,9 +150,10 @@ public class Cursor extends JLabel implements gomoku.interfaces.Moveable {
 	private void initData() {
 		cursorImg = new ImageIcon("images/corsur.png");
 		cursorImg = new ImageIcon("images/bubble.png");
+		cursorImg = new ImageIcon("images/cursor.png");
 
-		x = 500; // 초기값 , 추후 중앙값으로 수정
-		y = 500;
+		x = 478; // 초기값 , 추후 중앙값으로 수정
+		y = 477;
 
 		// 커서의 초기 상태값 정지상태.
 		left = false;
@@ -190,6 +193,7 @@ public class Cursor extends JLabel implements gomoku.interfaces.Moveable {
 						e.printStackTrace();
 					}
 				}
+
 			}).start();
 		}
 
@@ -258,6 +262,12 @@ public class Cursor extends JLabel implements gomoku.interfaces.Moveable {
 		}
 	}
 
-	public static void main(String[] args) {
+	public void WhiteStone() {
+		whiteStone = new WhiteStone(mContext);
+		mContext.add(whiteStone);
+	}
+	public void BlackStone() {
+		blackStone = new BlackStone(mContext);
+		mContext.add(blackStone);
 	}
 }
