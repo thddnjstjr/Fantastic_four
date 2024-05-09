@@ -26,7 +26,8 @@ public class Background extends JFrame {
 	Background mContext = this;
 	
 	
-	
+
+
 	public Background() {
 		initData();
 		setInitLayout();
@@ -61,6 +62,7 @@ public class Background extends JFrame {
 				System.out.println("d");
 			}
 		};
+		cursor = new Cursor(mContext);
 	}
 
 	private void setInitLayout() {
@@ -68,6 +70,7 @@ public class Background extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
+
 		add(cursor);
 	}
 
@@ -80,6 +83,18 @@ public class Background extends JFrame {
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_LEFT:
 					cursor.left();
+					break;
+				case KeyEvent.VK_RIGHT:
+					cursor.right();
+					break;
+				case KeyEvent.VK_UP:
+					cursor.up();
+					break;
+				case KeyEvent.VK_DOWN:
+					cursor.down();
+					break;
+				case KeyEvent.VK_SPACE:
+					stone.playStone();
 					break;
 				}
 			}

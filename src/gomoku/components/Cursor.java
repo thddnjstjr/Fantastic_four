@@ -3,10 +3,9 @@ package gomoku.components;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import gomoku.Gomoku;
 import gomoku.interfaces.CursorWay;
 
-public abstract class Cursor extends JLabel implements gomoku.interfaces.Moveable {
+public class Cursor extends JLabel implements gomoku.interfaces.Moveable {
 
 	// mContext
 	Background mContext;
@@ -148,6 +147,7 @@ public abstract class Cursor extends JLabel implements gomoku.interfaces.Moveabl
 
 	private void initData() {
 		cursorImg = new ImageIcon("images/corsur.png");
+		cursorImg = new ImageIcon("images/bubble.png");
 
 		x = 500; // 초기값 , 추후 중앙값으로 수정
 		y = 500;
@@ -167,7 +167,7 @@ public abstract class Cursor extends JLabel implements gomoku.interfaces.Moveabl
 
 	private void setInitLayout() {
 		setIcon(cursorImg);
-		setSize(150, 150);
+		setSize(50, 50);
 		setLocation(x, y);
 	}
 
