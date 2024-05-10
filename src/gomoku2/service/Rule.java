@@ -1,4 +1,4 @@
-package service;
+package gomoku2.service;
 
 import gomoku.components.Background;
 

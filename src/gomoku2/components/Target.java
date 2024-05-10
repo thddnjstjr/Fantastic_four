@@ -1,4 +1,4 @@
-package gomoku.components;
+package gomoku2.components;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;

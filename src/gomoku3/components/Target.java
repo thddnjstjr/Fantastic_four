@@ -1,10 +1,10 @@
-package gomoku.components;
+package gomoku3.components;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import gomoku2.interfaces.CursorWay;
-import gomoku2.interfaces.Moveable;
+import gomoku3.interfaces.CursorWay;
+import gomoku3.interfaces.Moveable;
 
 public class Target extends JLabel implements Moveable {
 
