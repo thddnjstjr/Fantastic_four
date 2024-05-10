@@ -26,13 +26,15 @@ public class Background extends JFrame implements ActionListener{
 
 	private JLabel backgroundMap;
 
-	Target cursor;
+	Target[] cursor;
 	private int x;
 	private int y;
 	private int color;
 	private boolean three;
+	private int count;
 	Background mContext = this;
-	JButton button;
+	JButton button1;
+	JButton button2;
 	JLabel result;
 	boolean flag = false;
 	Rule rule;
@@ -60,10 +62,11 @@ public class Background extends JFrame implements ActionListener{
 		setTitle("오목게임");
 		setSize(1000, 1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		cursor = new Target(mContext);
-		button = new JButton("다시 하기");
-		cursor = new Target(mContext);
-		result = new JLabel(new ImageIcon("images/five.jpg"));
+		cursor = new Target[30];
+		cursor[count] = new Target(mContext);
+		button1 = new JButton("다시 하기");
+		button2 = new JButton("종료");
+		result = new JLabel(new ImageIcon("images/ghost.gif"));
 		result.setSize(1000,1000);
 	//	rule = new Rule(mContext);
 	}
@@ -73,43 +76,45 @@ public class Background extends JFrame implements ActionListener{
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
-		add(cursor);
+		add(cursor[count]);
 		repaint();
 	}
 
 	private void addEventListener() {
+		button1.addActionListener(this);
+		button2.addActionListener(this);
 		this.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				// System.out.println(cursor.getX() + " ," + cursor.getY());
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_LEFT:  
-					cursor.left();
+					cursor[count].left();
 					break;
 				case KeyEvent.VK_RIGHT:
-					cursor.right();
+					cursor[count].right();
 					break;
 				case KeyEvent.VK_UP:
-					cursor.up();
+					cursor[count].up();
 					break;
 				case KeyEvent.VK_DOWN:
-					cursor.down();
+					cursor[count].down();
 					break;
 				case KeyEvent.VK_SPACE:
-					if(map[cursor.getX()][cursor.getY()] == 0) {
+					if(map[cursor[count].getX()][cursor[count].getY()] == 0) {
 					if ((color % 2) == 0) {
 						System.out.println("흑돌 차례 입니다.");
-						cursor.BlackStone();
-						map[cursor.getX()][cursor.getY()] = 1;
+						cursor[count].BlackStone();
+						map[cursor[count].getX()][cursor[count].getY()] = 1;
 
 					} else {
 						System.out.println("백돌 차례 입니다.");
-						cursor.WhiteStone();
-						map[cursor.getX()][cursor.getY()] = 2;
+						cursor[count].WhiteStone();
+						map[cursor[count].getX()][cursor[count].getY()] = 2;
 					}
 					// System.out.println(map[cursor.getX()][cursor.getY()]);
-					System.out.println(cursor.getX() + " ," + cursor.getY());
-					System.out.println(map[cursor.getX()][cursor.getY()]);
+					System.out.println(cursor[count].getX() + " ," + cursor[count].getY());
+					System.out.println(map[cursor[count].getX()][cursor[count].getY()]);
 					repaint();
 					color++;
 					break;
@@ -129,15 +134,26 @@ public class Background extends JFrame implements ActionListener{
 			}
 		}
 		getContentPane().removeAll();
-		remove(cursor);
 		setContentPane(result);
+		add(button1);
+		add(button2);
+		button1.setBounds(350, 650,100,50);
+		button2.setBounds(550, 650,100,50);
+		repaint();
+	}
+	public void reset() {
+		getContentPane().removeAll();
+		setContentPane(backgroundMap);
+		count++;
+		cursor[count] = new Target(mContext);
+		add(cursor[count]);
 		repaint();
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton selectedButton = (JButton) e.getSource();
-		if (selectedButton.getText().equals("button")) {
-			removeAll();
+		if (selectedButton.getText().equals("다시 하기")) {
+			reset();
 	}
 }
 		// 다른 메소드들 생략
