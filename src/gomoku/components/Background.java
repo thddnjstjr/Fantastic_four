@@ -32,6 +32,7 @@ public class Background extends JFrame implements ActionListener{
 	private int color;
 	private boolean three;
 	private int count;
+	private int remote;
 	Background mContext = this;
 	JButton button1;
 	JButton button2;
@@ -132,6 +133,9 @@ public class Background extends JFrame implements ActionListener{
 		});
 	// 다른 메소드들 생략
 }
+	public void start() {
+		
+	}
 	public void win() {
 		for(int i = 0; i < map.length; i++) {
 			for(int j = 0; j < map.length; j++) {
@@ -151,6 +155,7 @@ public class Background extends JFrame implements ActionListener{
 		setContentPane(backgroundMap);
 		count++;
 		cursor[count] = new Target(mContext);
+		new Background();
 		add(cursor[count]);
 		repaint();
 	}
@@ -159,6 +164,7 @@ public class Background extends JFrame implements ActionListener{
 		JButton selectedButton = (JButton) e.getSource();
 		if (selectedButton.getText().equals("다시 하기")) {
 			reset();
+			exit();
 	}
 }
 		// 다른 메소드들 생략
