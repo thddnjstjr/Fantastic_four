@@ -51,7 +51,7 @@ public class WhiteStone extends JLabel{
 
 		public WhiteStone(Background mContext) {
 			this.mContext = mContext;
-			this.cursor = mContext.cursor;
+			this.cursor = mContext.cursor[mContext.getCount()];
 			initData();
 			setInitLayout();
 			// new Thread().start(); 스톤 실행시 쓰레드로 동작하도록 구현
@@ -59,8 +59,8 @@ public class WhiteStone extends JLabel{
 
 		public void initData() {
 			whiteStone = new ImageIcon("images/whiteStone.png");
-			x = mContext.cursor.getX() - 10;
-			y = mContext.cursor.getY() - 21;
+			x = mContext.cursor[mContext.getCount()].getX() - 10;
+			y = mContext.cursor[mContext.getCount()].getY() - 21;
 			color = 1; // color 값 받아와서 적용될 수 있게 수정.
 
 		}

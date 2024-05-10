@@ -45,6 +45,11 @@ public class Background extends JFrame implements ActionListener{
 		addEventListener();
 		new Thread(new WinRule(mContext)).start();
 	}
+	
+	public int getCount() {
+		return count;
+	}
+
 	public int[][] getMap() {
 		return map;
 	}
@@ -113,8 +118,8 @@ public class Background extends JFrame implements ActionListener{
 						map[cursor[count].getX()][cursor[count].getY()] = 2;
 					}
 					// System.out.println(map[cursor.getX()][cursor.getY()]);
-					System.out.println(cursor[count].getX() + " ," + cursor[count].getY());
-					System.out.println(map[cursor[count].getX()][cursor[count].getY()]);
+					 System.out.println(cursor[count].getX() + " ," + cursor[count].getY());
+					 System.out.println(map[cursor[count].getX()][cursor[count].getY()]);
 					repaint();
 					color++;
 					break;
