@@ -71,11 +71,11 @@ public class WinRule implements Runnable {
 					block = 52;
 					if (blackDiagonal[0] == 4 || blackDiagonal[1] == 4 || blackDiagonal[2] == 4 || blackDiagonal[3] == 4) {
 						System.out.println("흑돌 대각선 승리");
-						mContext.win();
+						mContext.blackWin();
 					}
 					if (whiteDiagonal[0] == 4 || whiteDiagonal[1] == 4 || whiteDiagonal[2] == 4 || whiteDiagonal[3] == 4) {
 						System.out.println("백돌 대각선 승리");
-						mContext.win();
+						mContext.whiteWin();
 					}
 					for (int y = 0; y < blackDiagonal.length; y++) {
 						blackDiagonal[y] = 0;
@@ -99,17 +99,17 @@ public class WinRule implements Runnable {
 				break Loop;
 			} else if (blackX == 4) {
 				System.out.println("흑돌가로승리하셨습니다");
-				mContext.win();
+				mContext.blackWin();
 				
 			} else if (blackY == 4) {
 				System.out.println("흑돌세로승리하셨습니다");
-				mContext.win();
+				mContext.blackWin();
 			} else if (whiteX == 4) {
 				System.out.println("백돌가로승리하셨습니다");
-				mContext.win();
+				mContext.whiteWin();
 			} else if (whiteY == 4) {
 				System.out.println("백돌세로승리하셨습니다");
-				mContext.win();
+				mContext.whiteWin();
 			}
 			blackX = 0;
 			blackY = 0;

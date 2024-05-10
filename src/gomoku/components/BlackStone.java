@@ -58,7 +58,7 @@ public class BlackStone extends JLabel{
 
 		public BlackStone(Background mContext) {
 			this.mContext = mContext;
-			this.cursor = mContext.cursor[mContext.getCount()];
+			this.cursor = mContext.cursor;
 			initData();
 			setInitLayout();
 			// new Thread().start(); 스톤 실행시 쓰레드로 동작하도록 구현
@@ -66,8 +66,8 @@ public class BlackStone extends JLabel{
 
 		public void initData() {
 			blackStone = new ImageIcon("images/blackStone.png");
-			x = mContext.cursor[mContext.getCount()].getX() - 10;
-			y = mContext.cursor[mContext.getCount()].getY() - 45;
+			x = mContext.cursor.getX() - 10;
+			y = mContext.cursor.getY() - 45;
 			color = 1; // color 값 받아와서 적용될 수 있게 수정.
 
 		}
