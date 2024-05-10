@@ -12,8 +12,8 @@ public class Target extends JLabel implements Moveable {
 	Background mContext;
 	// todo -- 좌표계 설정 완료후 바꿔주기!
 	final int BLOCK = 52; // 바둑판 눈금 한 칸
-	final int MAX_X = 946; // 바둑판 오른쪽 끝 눈금 X좌표
-	final int MIN_X = 20; // 바둑판 왼쪽 끝 눈금 X좌표
+	final int MAX_X = 1394; // 바둑판 오른쪽 끝 눈금 X좌표
+	final int MIN_X = 458; // 바둑판 왼쪽 끝 눈금 X좌표
 	final int MAX_Y = 945; // 바둑판 하단 끝 눈금 Y좌표
 	final int MIN_Y = 20; // 바둑판 상단 끝 눈금 Y좌표
 
@@ -155,7 +155,7 @@ public class Target extends JLabel implements Moveable {
 		cursorImg = new ImageIcon("images/bubble.png");
 		cursorImg = new ImageIcon("images/cursorimg.png");
 
-		x = 478; // 초기값 , 추후 중앙값으로 수정
+		x = 926; // 초기값 , 추후 중앙값으로 수정
 		y = 477;
 
 		// 커서의 초기 상태값 정지상태.
