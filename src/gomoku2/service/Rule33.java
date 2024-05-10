@@ -1,4 +1,4 @@
-package service;
+package gomoku2.service;
 
 import gomoku.components.Background;
 import gomoku.components.Target;
@@ -20,7 +20,7 @@ public class Rule33 {
 	public Rule33(Background mContext) {
 		this.mContext = mContext;
 		this.board = mContext.getMap();
-		target = mContext.getTarget();
+		//target = mContext.getTarget();
 	}
 
 	public boolean checkRule33() {
@@ -46,7 +46,7 @@ public class Rule33 {
 		int stone1 = 0;
 		int stone2 = 0;
 		int allstone = 0;
-		int[][] b = mContext
+		// int[][] b = mContext
 		int w = 0;
 		int blinkXminus = 1;
 		int blinkXplus = blinkXminus;
@@ -61,31 +61,31 @@ public class Rule33 {
 
 			// 같은돌 만나는 경우
 			// check 를 false 로 둠으로 연속으로 만나는지 체크
-			if (board[xx][y] == b) {
+			// if (board[xx][y] == b) {
 				check = false;
 				stone1++;
 			}
 
 			// 다른 돌 만나는 경우 탐색 중지
 			if (board[xx][y] == w)
-				break left;
+				// break left;
 
 			if (board[xx][y] == 0) {
 				if (check == false) {
 					check = true;
 				} else {
 					blinkXminus++;
-					break left;
+					// break left;
 				}
 			}
 
 			if (blinkXminus == 1) {
 				blinkXminus--;
 			} else {
-				break left;
+				// break left;
 			}
 			xx--;
-		}
+		//}
 
 		// → 탐색
 		xx = x + 52;
@@ -97,10 +97,10 @@ public class Rule33 {
 
 			// 같은돌 만나는 경우
 			// check 를 false 로 둠으로 연속으로 만나는지 체크
-			if (board[xx][y] == b) {
+			//if (board[xx][y] == b) {
 				check = false;
 				stone2++;
-			}
+			//}
 
 			// 다른 돌 만나는 경우 탐색 중지
 			if (board[xx][y] == w)

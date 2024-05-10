@@ -1,4 +1,4 @@
-package gomoku.components;
+package gomoku3.components;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,9 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import gomoku.Gomoku;
-import gomoku.service.Rule;
-import gomoku.service.WinRule;
+import gomoku3.Gomoku;
+import gomoku3.service.Rule;
+import gomoku3.service.WinRule;
 
 public class Background extends JFrame implements ActionListener {
 
