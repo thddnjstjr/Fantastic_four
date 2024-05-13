@@ -19,7 +19,7 @@ public class Background extends JFrame implements ActionListener {
 	final int LINE_NUM = 1000;
 	final int LINE_WIDTH = 1000;
 
-	private final int[][] map = new int[LINE_NUM][LINE_NUM];
+	private int[][] map;
 	private final int BLACK_STONE = 1; // 배열에 입력된 값이 1인 경우 그자리에는 흑돌이 있음
 	private final int WHITE_STONE = 2; // 배열에 입력된 값이 2인 경우 그자리에는 백돌이 있음
 
@@ -96,6 +96,7 @@ public class Background extends JFrame implements ActionListener {
 		button2.addActionListener(this);
 		button3.addActionListener(this);
 	}
+
 	private void addKeyListener() {
 		this.addKeyListener(new KeyAdapter() {
 			@Override
@@ -140,11 +141,12 @@ public class Background extends JFrame implements ActionListener {
 			}
 		});
 	}
+
 	public void start() {
 		getContentPane().removeAll();
 		cursor = new Target(mContext);
 		setContentPane(backgroundMap);
-		setSize(1000,1000);
+		setSize(1000, 1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		setLayout(null);
@@ -190,7 +192,7 @@ public class Background extends JFrame implements ActionListener {
 	public void reset() {
 		gomoku.newGame();
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton selectedButton = (JButton) e.getSource();
@@ -201,7 +203,6 @@ public class Background extends JFrame implements ActionListener {
 		} else if (selectedButton.getText().equals("시작")) {
 			start();
 		}
+
 	}
-
-
 }

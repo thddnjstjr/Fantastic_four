@@ -12,6 +12,7 @@ public class BlackStone extends JLabel{
 		// x , y 좌표값
 		private int x;
 		private int y;
+		private int[][]	maps;
 
 		// 흑돌 백돌 이미지
 		private ImageIcon blackStone;
@@ -69,7 +70,7 @@ public class BlackStone extends JLabel{
 			x = mContext.cursor.getX() - 10;
 			y = mContext.cursor.getY() - 45;
 			color = 1; // color 값 받아와서 적용될 수 있게 수정.
-
+			
 		}
 
 		public void setInitLayout() {

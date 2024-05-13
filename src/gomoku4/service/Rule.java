@@ -18,8 +18,4 @@ public class Rule {
 
 		}).start();
 	}
-
-	public boolean checkRule33() {
-		return rule33.checkRule33();
-	}
 }

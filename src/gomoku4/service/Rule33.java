@@ -4,434 +4,112 @@ import gomoku4.components.Background;
 import gomoku4.components.Target;
 
 // thread로 실행
-public class Rule33 {
+public class Rule33 implements Runnable {
 
-	Background mContext;
-	Target target;
-	private static int board[][];
-	private static int x; // row
-	private static int y; // col
-	private static int[][] b; // 현재돌 1:흑, 2:백 currentPlayer = 1
-	private static int[][] w; // 상대방 돌 otherPlayer = 2
-	private static int xx;
-	private static int yy;
-	private static boolean check;
+	private Background mContext;
+	private Target target;
+	private int[][] map;
+	private static final int BLOCK = 52;
+	private final int MIN_X = 20; // 바둑판 왼쪽 끝 눈금 X좌표
+	private final int MAX_X = 946; // 바둑판 오른쪽 끝 눈금 X좌표
+	private final int MIN_Y = 20; // 바둑판 상단 끝 눈금 Y좌표
+	private final int MAX_Y = 945; // 바둑판 하단 끝 눈금 Y좌표
+
+	private int left;
+	private int right;
+	private int up;
+	private int down;
+	private int leftup;
+	private int rightdown;
+	private int leftdown;
+	private int rightup;
+	private int i;
+	private int j;
+
+	// todo
+	// 가로탐색 x축 탐색
+	// 세로탐색 y축 탐색
+	// 왼쪽 대각선 탐색 x-- y-- | x++ y++ 탐색
+	// 오른쪽 대각선 탐색 x-- y++ | x++ y-- 탐색
 
 	public Rule33(Background mContext) {
 		this.mContext = mContext;
-		this.board = mContext.getMap();
-		//target = mContext.getTarget();
+		this.target = new Target(mContext);
+		this.map = mContext.getMap();
 	}
 
-	public boolean checkRule33() {
-		int count = 0;
-		// ← → 탐색
-		count += findWidth();
-		// ↑ ↓ 탐색
-		count += findHeight();
-		// ↖ ↘ 탐색
-		count += findleftUpDiagonal();
-		// ↙ ↗ 탐색
-		count += findleftDownDiagonal();
-		System.out.println("count : " + count);
-		if (count >= 2) {
+	@Override
+	public void run() {
+		int xcount = 0;
+		int ycount = 0;
+		while (true) {
+			for (i = MIN_X; i <= MAX_X; i++) { // x 축 탐색
+				for (j = MIN_Y; j <= MAX_Y; j++) { // y 축 탐색
+					if (map[i][j] != 0) {
+						if (map[i][j] == 0) {
+							if (isRule33(map)) {
+								
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private boolean isRule33(int[][] map) {
+		// 양쪽으로 탐색해서 blink 가 2면 blink -1 후 count ++
+		// count == 2이면 33
+		// 좌표 양끝을 벗어날수는 없으며, 양끝에 blink 와 상대돌이 있으면 count = 0;
+
+		if (search(map) == 2)
+			return true;
+		else
+			return false;
+	}
+
+	private int search(int[][] map) {
+		
+		// [x-1][j-1] [x][j-1] [x+1][j-1]
+		// [x-1][j]	  [x][j]   [x+1][j]
+		// [x-1][j+1] [x][j+1] [x+1][j+1]
+		
+		for (int x = 0; x < map.length; x++) {
+			for (int y = 0; y < map.length; y++) {
+				
+			}
+		}
+		
+		return 0;
+	}
+
+	private boolean isOpen(int[][] map, int i, int j) {
+		map = new int[i][j];
+		if (map[i - BLOCK][j] == 0) {
+			return true;
+		}
+		if (map[i + BLOCK][j] == 0) {
+			return true;
+		}
+		if (map[i][j - BLOCK] == 0) {
+			return true;
+		}
+		if (map[i][j + BLOCK] == 0) {
+			return true;
+		}
+		if (map[i - BLOCK][j - BLOCK] == 0) {
+			return true;
+		}
+		if (map[i + BLOCK][j + BLOCK] == 0) {
+			return true;
+		}
+		if (map[i - BLOCK][j + BLOCK] == 0) {
+			return true;
+		}
+		if (map[i + BLOCK][j - BLOCK] == 0) {
 			return true;
 		} else {
 			return false;
-		}
-	}
-
-	// ← → 탐색
-	private static int findWidth() {
-		int stone1 = 0;
-		int stone2 = 0;
-		int allstone = 0;
-		// int[][] b = mContext
-		int w = 0;
-		int blinkXminus = 1;
-		int blinkXplus = blinkXminus;
-
-		// ← 탐색
-		xx = x - 52;
-		check = false;
-		left: while (true) {
-			// 좌표 끝 도달시
-			if (xx < 0)
-				break left;
-
-			// 같은돌 만나는 경우
-			// check 를 false 로 둠으로 연속으로 만나는지 체크
-			// if (board[xx][y] == b) {
-				check = false;
-				stone1++;
-			}
-
-			// 다른 돌 만나는 경우 탐색 중지
-			if (board[xx][y] == w)
-				// break left;
-
-			if (board[xx][y] == 0) {
-				if (check == false) {
-					check = true;
-				} else {
-					blinkXminus++;
-					// break left;
-				}
-			}
-
-			if (blinkXminus == 1) {
-				blinkXminus--;
-			} else {
-				// break left;
-			}
-			xx--;
-		//}
-
-		// → 탐색
-		xx = x + 52;
-		check = false;
-		right: while (true) {
-			// 좌표 끝 도달시
-			if (xx >= 1000)
-				break right;
-
-			// 같은돌 만나는 경우
-			// check 를 false 로 둠으로 연속으로 만나는지 체크
-			//if (board[xx][y] == b) {
-				check = false;
-				stone2++;
-			//}
-
-			// 다른 돌 만나는 경우 탐색 중지
-			if (board[xx][y] == w)
-				break right;
-
-			if (board[xx][y] == 0) {
-				if (check == false) {
-					check = true;
-				} else {
-					blinkXplus++;
-					break right;
-				}
-			}
-
-			if (blinkXplus == 1) {
-				blinkXplus--;
-			} else {
-				break right;
-			}
-			xx++;
-		}
-
-		allstone = stone1 + stone2;
-		if (allstone != 2) {
-			return 0;
-		}
-
-		int left = (stone1 + (blinkXminus * 52));
-		int right = (stone2 + (blinkXplus * 52));
-
-		if (x - left <= 0 || x + right >= 1000) { // 벽끝
-			return 0;
-		} else { // 상대돌로 막힌경우 - 열린33이 아님
-			if (board[x - left - 52][y] == w || board[x + right + 52][y] == w) {
-				return 0;
-			} else { // 열린 33일때 1 값 리턴
-				return 1;
-			}
-		}
-	}
-
-	// ↑ ↓ 탐색
-	private static int findHeight() {
-		int stone1 = 0;
-		int stone2 = 0;
-		int allstone = 0;
-		int b = 1;
-		int w = 2;
-		int blinkYminus = 1;
-		int blinkYplus = blinkYminus;
-
-		// ↑ 탐색
-		yy = y - 52;
-		check = false;
-		top: while (true) {
-			// 좌표 끝 도달시
-			if (yy < 0)
-				break top;
-
-			// 같은돌 만나는 경우
-			// check 를 false 로 둠으로 연속으로 만나는지 체크
-			if (board[x][yy] == b) {
-				check = false;
-				stone1++;
-			}
-
-			// 다른 돌 만나는 경우 탐색 중지
-			if (board[x][yy] == w)
-				break top;
-
-			if (board[x][yy] == 0) {
-				if (check == false) {
-					check = true;
-				} else {
-					blinkYminus++;
-					break top;
-				}
-			}
-
-			if (blinkYminus == 1) {
-				blinkYminus--;
-			} else {
-				break top;
-			}
-			yy--;
-		}
-
-		// ↓ 탐색
-		yy = y + 52;
-		check = false;
-		bottom: while (true) {
-			// 좌표 끝 도달시
-			if (yy > 1000)
-				break bottom;
-
-			// 같은돌 만나는 경우
-			// check 를 false 로 둠으로 연속으로 만나는지 체크
-			if (board[x][yy] == b) {
-				check = false;
-				stone2++;
-			}
-
-			// 다른 돌 만나는 경우 탐색 중지
-			if (board[x][yy] == w)
-				break bottom;
-
-			if (board[x][yy] == 0) {
-				if (check == false) {
-					check = true;
-				} else {
-					blinkYplus++;
-					break bottom;
-				}
-			}
-
-			if (blinkYplus == 1) {
-				blinkYplus--;
-			} else {
-				break bottom;
-			}
-			yy++;
-		}
-
-		allstone = stone1 + stone2;
-		if (allstone != 2) {
-			return 0;
-		}
-
-		int top = (stone1 + (blinkYminus * 52));
-		int bottom = (stone2 + (blinkYplus * 52));
-
-		if (y - top <= 0 || y + bottom >= 1000) {
-			return 0;
-		} else {
-			if (board[x][y - top - 52] == w || board[x][y + bottom + 52] == w) {
-				return 0;
-			} else {
-				return 1;
-			}
-		}
-	}
-
-	// ↖ ↘ 탐색
-	public static int findleftUpDiagonal() {
-		int stone1 = 0;
-		int stone2 = 0;
-		int allstone = 0;
-		int b = 1;
-		int w = 2;
-		int blinkleftUpDiagonal = 1;
-		int blinkRightDownDiagonal = blinkleftUpDiagonal;
-
-		xx = x - 52;
-		yy = y - 52;
-		check = false;
-		// ↖ 탐색
-		leftUpDiagonal: while (true) {
-			if (xx < 0 || y < 0) {
-				break leftUpDiagonal;
-			}
-			if (board[xx][yy] == b) {
-				check = false;
-				stone1++;
-			}
-
-			if (board[xx][yy] == w) {
-				break leftUpDiagonal;
-			}
-			if (board[xx][yy] == 0) {
-				if (check = false) {
-					check = true;
-				} else {
-					blinkleftUpDiagonal++;
-					break leftUpDiagonal;
-				}
-
-				if (blinkleftUpDiagonal == 1) {
-					blinkleftUpDiagonal--;
-				} else {
-					break leftUpDiagonal;
-				}
-			}
-			xx--;
-			yy--;
-		}
-
-		// ↘ 탐색
-		xx = x + 52;
-		yy = y + 52;
-		check = false;
-		rightDownDiagonal: while (true) {
-			if (xx > 1000 || y > 1000) {
-				break rightDownDiagonal;
-			}
-			if (board[xx][yy] == b) {
-				check = false;
-				stone1++;
-			}
-
-			if (board[xx][yy] == w) {
-				break rightDownDiagonal;
-			}
-			if (board[xx][yy] == 0) {
-				if (check == false) {
-					check = true;
-				} else {
-					blinkRightDownDiagonal++;
-					break rightDownDiagonal;
-				}
-
-				if (blinkRightDownDiagonal == 1) {
-					blinkRightDownDiagonal--;
-				} else {
-					break rightDownDiagonal;
-				}
-			}
-			xx++;
-			yy++;
-		}
-		allstone = stone1 + stone2;
-		if (allstone != 2) {
-			return 0;
-		}
-
-		int leftup = (stone1 + (blinkleftUpDiagonal * 52));
-		int rightdown = (stone2 + (blinkRightDownDiagonal * 52));
-
-		if (y - leftup < 0 || x - leftup < 0 || y + rightdown > 1000 || x + rightdown > 1000) {
-			return 0;
-		} else {
-			if (board[x - leftup - 52][y - leftup - 52] == w || board[x + rightdown + 52][y + rightdown + 52] == w) {
-				return 0;
-			} else {
-				return 1;
-			}
-		}
-	}
-
-	// ↙ ↗ 탐색
-	public static int findleftDownDiagonal() {
-		int stone1 = 0;
-		int stone2 = 0;
-		int allstone = 0;
-		int b = 1;
-		int w = 2;
-		int blinkleftDownDiagonal = 1;
-		int blinkRightUpDiagonal = blinkleftDownDiagonal;
-
-		xx = x - 52;
-		yy = y + 52;
-		check = false;
-		// ↙ 탐색
-		leftDownDiagonal: while (true) {
-			if (xx < 0 || yy >= 1000) {
-				break leftDownDiagonal;
-			}
-			if (board[xx][yy] == b) {
-				check = false;
-				stone1++;
-			}
-
-			if (board[xx][yy] == w) {
-				break leftDownDiagonal;
-			}
-			if (board[xx][yy] == 0) {
-				if (check == false) {
-					check = true;
-				} else {
-					blinkleftDownDiagonal++;
-					break leftDownDiagonal;
-				}
-
-				if (blinkleftDownDiagonal == 1) {
-					blinkleftDownDiagonal--;
-				} else {
-					break leftDownDiagonal;
-				}
-			}
-			xx--;
-			yy++;
-		}
-
-		// ↗ 탐색
-		xx = x + 52;
-		yy = y - 52;
-		check = false;
-		rightUpDiagonal: while (true) {
-			if (xx >= 0 || yy < 0) {
-				break rightUpDiagonal;
-			}
-			if (board[xx][yy] == b) {
-				check = false;
-				stone1++;
-			}
-
-			if (board[xx][yy] == w) {
-				break rightUpDiagonal;
-			}
-			if (board[xx][yy] == 0) {
-				if (check == false) {
-					check = true;
-				} else {
-					blinkRightUpDiagonal++;
-					break rightUpDiagonal;
-				}
-
-				if (blinkRightUpDiagonal == 1) {
-					blinkRightUpDiagonal--;
-				} else {
-					break rightUpDiagonal;
-				}
-			}
-			xx++;
-			yy++;
-		}
-		allstone = stone1 + stone2;
-		if (allstone != 2) {
-			return 0;
-		}
-
-		int leftdown = (stone1 + (blinkleftDownDiagonal * 52));
-		int rightup = (stone2 + (blinkRightUpDiagonal * 52));
-
-		if (y - leftdown < 0 || x - leftdown < 0 || y + rightup > 1000 || x + rightup > 1000) {
-			return 0;
-		} else {
-			if (board[x - leftdown - 52][y + leftdown + 52] == w || board[x + rightup + 52][y - rightup - 52] == w) {
-				return 0;
-			} else {
-				return 1;
-			}
 		}
 	}
 }
