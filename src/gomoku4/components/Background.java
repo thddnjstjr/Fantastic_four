@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -11,7 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import gomoku4.Gomoku;
-import gomoku4.service.Rule;
 import gomoku4.service.WinRule;
 
 public class Background extends JFrame implements ActionListener {
@@ -19,7 +21,7 @@ public class Background extends JFrame implements ActionListener {
 	final int LINE_NUM = 1000;
 	final int LINE_WIDTH = 1000;
 
-	private int[][] map;
+	private int[][] map = new int[LINE_NUM][LINE_WIDTH];
 	private final int BLACK_STONE = 1; // 배열에 입력된 값이 1인 경우 그자리에는 흑돌이 있음
 	private final int WHITE_STONE = 2; // 배열에 입력된 값이 2인 경우 그자리에는 백돌이 있음
 
@@ -40,10 +42,11 @@ public class Background extends JFrame implements ActionListener {
 	JButton button1;
 	JButton button2;
 	JButton button3;
+	JButton button4;
 	JLabel blackwin;
 	JLabel whitewin;
 	JLabel mainmenu;
-	Rule rule;
+	Stack list;
 
 	public Background() {
 		initData();
@@ -78,8 +81,10 @@ public class Background extends JFrame implements ActionListener {
 		button1 = new JButton("다시 하기");
 		button2 = new JButton("종료");
 		button3 = new JButton("시작");
+		button4 = new JButton("무르기");
 		blackwin = new JLabel(new ImageIcon("images/blackwin.gif"));
 		blackwin.setSize(1000, 1000);
+		Stack list = new Stack();
 	}
 
 	private void setInitLayout() {
@@ -116,19 +121,19 @@ public class Background extends JFrame implements ActionListener {
 					break;
 				case KeyEvent.VK_SPACE:
 					if (blackWinner == false && whiteWinner == false) {
+						list.push(map);
 						if (map[cursor.getX()][cursor.getY()] == 0) {
 							if ((color % 2) == 0) {
 								System.out.println("흑돌 차례 입니다.");
 								cursor.BlackStone();
 								map[cursor.getX()][cursor.getY()] = 1;
-
 							} else {
 								System.out.println("백돌 차례 입니다.");
 								cursor.WhiteStone();
 								map[cursor.getX()][cursor.getY()] = 2;
 							}
-							System.out.println(cursor.getX() + " ," + cursor.getY());
-							System.out.println(map[cursor.getX()][cursor.getY()]);
+//							System.out.println(cursor.getX() + " ," + cursor.getY());
+//							System.out.println(map[cursor.getX()][cursor.getY()]);
 							repaint();
 							color++;
 							break;
@@ -202,6 +207,8 @@ public class Background extends JFrame implements ActionListener {
 			System.exit(0);
 		} else if (selectedButton.getText().equals("시작")) {
 			start();
+		} else if (selectedButton.getText().equals("무르기")) {
+			list.pop();
 		}
 
 	}
