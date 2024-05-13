@@ -3,8 +3,8 @@ package gomoku.components;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import gomoku.interfaces.CursorWay;
-import gomoku.interfaces.Moveable;
+import gomoku2.interfaces.CursorWay;
+import gomoku2.interfaces.Moveable;
 
 public class Target extends JLabel implements Moveable {
 

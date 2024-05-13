@@ -16,7 +16,7 @@ import gomoku3.service.WinRule;
 
 public class Background extends JFrame implements ActionListener {
 
-	final int LINE_NUM = 1000;
+	final int LINE_NUM = 2000;
 	final int LINE_WIDTH = 1000;
 
 	private final int[][] map = new int[LINE_NUM][LINE_NUM];
@@ -79,7 +79,6 @@ public class Background extends JFrame implements ActionListener {
 		button2 = new JButton("종료");
 		button3 = new JButton("시작");
 		blackwin = new JLabel(new ImageIcon("images/blackwin.gif"));
-		blackwin.setSize(1000, 1000);
 	}
 
 	private void setInitLayout() {
@@ -144,7 +143,7 @@ public class Background extends JFrame implements ActionListener {
 		getContentPane().removeAll();
 		cursor = new Target(mContext);
 		setContentPane(backgroundMap);
-		setSize(1000,1000);
+		setSize(1900,1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		setLayout(null);
@@ -167,6 +166,8 @@ public class Background extends JFrame implements ActionListener {
 		setContentPane(blackwin);
 		add(button1);
 		add(button2);
+		setSize(1000,1000);
+		setLocationRelativeTo(null);
 		button1.setBounds(370, 650, 100, 50);
 		button2.setBounds(530, 650, 100, 50);
 		repaint();
@@ -183,8 +184,11 @@ public class Background extends JFrame implements ActionListener {
 		setContentPane(blackwin);
 		add(button1);
 		add(button2);
+		setSize(1000,1000);
+		setLocationRelativeTo(null);
 		button1.setBounds(370, 650, 100, 50);
 		button2.setBounds(530, 650, 100, 50);
+		repaint();
 	}
 
 	public void reset() {
