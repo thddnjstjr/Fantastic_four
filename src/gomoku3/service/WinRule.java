@@ -28,17 +28,17 @@ public class WinRule implements Runnable {
 			for (int i = 0; i < map.length - block; i++) {
 				for (int j = 0; j < map.length - block; j++) {
 					if (map[j][i] != 0) {
-						for (int t = 0; t < 6; t++) {
-							if (map[j][i] == 1 && map[j + block][i] == 1) {
-								if(map[j+block][i] == 0 || map[j-block][i] == 0) {
-									blackX = 0;
-								}
-								blackX++;
-							}
-							if (map[j][i] == 2 && map[j + block][i] == 2) {
-								whiteX++;
-							}
-							block += 52;
+						if (map[j][i] == 1 && map[j + block][i] == 1) {
+							blackX++;
+						}
+						if (map[j][i] == 2 && map[j + block][i] == 2) {
+							whiteX++;
+						}
+						if(map[j+block][i] == 0 || map[j+block][i] == 2) {
+							blackX = 0;
+						}
+						if(map[j+block][i] == 0 || map[j+block][i] == 1) {
+							whiteX = 0;
 						}
 					}
 					if (map[i][j] != 0) {
@@ -51,24 +51,6 @@ public class WinRule implements Runnable {
 							}
 							block += 52;
 						}
-					}
-					if (blackX == 4) {
-						System.out.println("흑돌가로승리하셨습니다");
-						mContext.blackWin();
-						break Loop;
-					} else if (whiteX == 4) {
-						System.out.println("백돌가로승리하셨습니다");
-						mContext.whiteWin();
-						break Loop;
-					}
-					if (blackY == 4) {
-						System.out.println("흑돌세로승리하셨습니다");
-						mContext.blackWin();
-						break Loop;
-					} else if (whiteY == 4) {
-						System.out.println("백돌세로승리하셨습니다");
-						mContext.whiteWin();
-						break Loop;
 					}
 					block = 0;
 					for (int y = 0; y < blackDiagonal.length; y++) {
@@ -143,11 +125,29 @@ public class WinRule implements Runnable {
 						mContext.whiteWin();
 						break Loop;
 					}
-					blackX = 0;
-					blackY = 0;
-					whiteX = 0;
-					whiteY = 0;
 				}
+				if (blackX == 4) {
+					System.out.println("흑돌가로승리하셨습니다");
+					mContext.blackWin();
+					break Loop;
+				} else if (whiteX == 4) {
+					System.out.println("백돌가로승리하셨습니다");
+					mContext.whiteWin();
+					break Loop;
+				}
+				if (blackY == 4) {
+					System.out.println("흑돌세로승리하셨습니다");
+					mContext.blackWin();
+					break Loop;
+				} else if (whiteY == 4) {
+					System.out.println("백돌세로승리하셨습니다");
+					mContext.whiteWin();
+					break Loop;
+				}
+				blackX = 0;
+				blackY = 0;
+				whiteX = 0;
+				whiteY = 0;
 			}
 		}
 	}

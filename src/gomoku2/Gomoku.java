@@ -16,6 +16,7 @@ public class Gomoku {
 	}
 	public void newGame() {
 		gomoku[game].setVisible(false);
+		
 		game++;
 		gomoku[game] = new Background();
 	}
