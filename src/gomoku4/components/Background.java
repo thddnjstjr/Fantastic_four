@@ -266,7 +266,7 @@ public class Background extends JFrame implements ActionListener {
 		} else if (selectedButton.getText().equals("시작")) {
 			start();
 		} else if (selectedButton.getText().equals("무르기")) {
-			if(isClick) {				
+			if (isClick) {
 				if (color % 2 == 1) {
 					map[cursor.getBlackStone().getX()][cursor.getBlackStone().getY()] = 0;
 					remove(cursor.getBlackStone());
