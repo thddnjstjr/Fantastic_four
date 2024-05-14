@@ -41,11 +41,13 @@ public class Background extends JFrame implements ActionListener {
 	private boolean whiteWinner;
 	private boolean game;
 	boolean flag = false;
+	boolean isClick;
 	Gomoku gomoku = new Gomoku();
 	private Background mContext = this;
 	JButton button1;
 	JButton button2;
 	JButton button3;
+	JButton button4;
 	JLabel blackwin;
 	JLabel whitewin;
 	JLabel mainmenu;
@@ -102,6 +104,7 @@ public class Background extends JFrame implements ActionListener {
 		button1 = new JButton("다시 하기");
 		button2 = new JButton("종료");
 		button3 = new JButton("시작");
+		button4 = new JButton("무르기");
 		blackwin = new JLabel(new ImageIcon("images/blackwin.gif"));
 	}
 
@@ -130,12 +133,14 @@ public class Background extends JFrame implements ActionListener {
 		playerlabel.setSize(250, 280);
 		board.setLocation(1450, 600);
 		board.setSize(400, 350);
+		button4.setBounds(200, 800, 100, 50);
 	}
 
 	private void addEventListener() {
 		button1.addActionListener(this);
 		button2.addActionListener(this);
 		button3.addActionListener(this);
+		button4.addActionListener(this);
 	}
 
 	private void addKeyListener() {
@@ -158,6 +163,7 @@ public class Background extends JFrame implements ActionListener {
 				case KeyEvent.VK_SPACE:
 					if (blackWinner == false && whiteWinner == false) {
 						if (map[cursor.getX()][cursor.getY()] == 0) {
+							isClick = true;
 							if ((color % 2) == 0) {
 								System.out.println("백돌 차례 입니다.");
 								cursor.BlackStone();
@@ -201,6 +207,7 @@ public class Background extends JFrame implements ActionListener {
 		add(player);
 		add(playerlabel);
 		add(board);
+		add(button4);
 		add(backgroundLeft);
 		add(backgroundRight);
 		remove(button3);
@@ -258,6 +265,23 @@ public class Background extends JFrame implements ActionListener {
 			System.exit(0);
 		} else if (selectedButton.getText().equals("시작")) {
 			start();
+		} else if (selectedButton.getText().equals("무르기")) {
+			if(isClick) {				
+				if (color % 2 == 1) {
+					map[cursor.getBlackStone().getRealx()][cursor.getBlackStone().getRealy()] = 0;
+					remove(cursor.getBlackStone());
+					blackcount--;
+					color++;
+				} else if (color % 2 == 0) {
+					map[cursor.getWhiteStone().getRealx()][cursor.getWhiteStone().getRealy()] = 0;
+					remove(cursor.getWhiteStone());
+					whitecount--;
+					color++;
+				}
+			}
+			repaint();
+			this.requestFocus();
+			isClick = false;
 		}
 	}
 

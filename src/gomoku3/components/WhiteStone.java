@@ -12,7 +12,17 @@ public class WhiteStone extends JLabel{
 		// x , y 좌표값
 		private int x;
 		private int y;
-		
+		private int realx;
+		private int realy;
+
+		public int getRealx() {
+			return realx;
+		}
+
+		public int getRealy() {
+			return realy;
+		}
+
 		// 흑돌 백돌 이미지
 		private ImageIcon whiteStone;
 
@@ -52,6 +62,8 @@ public class WhiteStone extends JLabel{
 		public WhiteStone(Background mContext) {
 			this.mContext = mContext;
 			this.cursor = mContext.cursor;
+			realx = mContext.cursor.getX();
+			realy = mContext.cursor.getY();
 			initData();
 			setInitLayout();
 			// new Thread().start(); 스톤 실행시 쓰레드로 동작하도록 구현
