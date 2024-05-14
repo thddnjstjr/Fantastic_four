@@ -34,7 +34,7 @@ public class WinRule implements Runnable {
 							whiteX++;
 						}
 					}
-					if(map[i][j] != 0) {
+					if (map[i][j] != 0) {
 						if (map[i][j] == 1 && map[i][j + block] == 1) {
 							blackY++;
 						}
@@ -74,6 +74,7 @@ public class WinRule implements Runnable {
 					block = 52;
 					if (blackDiagonal[0] == 4 || blackDiagonal[1] == 4 || blackDiagonal[2] == 4
 							|| blackDiagonal[3] == 4) {
+						System.out.println(blackDiagonal[1]);
 						System.out.println("흑돌 대각선 승리");
 						mContext.blackWin();
 						break Loop;
@@ -87,6 +88,7 @@ public class WinRule implements Runnable {
 					for (int y = 0; y < blackDiagonal.length; y++) {
 						blackDiagonal[y] = 0;
 						whiteDiagonal[y] = 0;
+
 					}
 				}
 				if (blackX == 4) {
