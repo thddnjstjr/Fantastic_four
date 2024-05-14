@@ -274,4 +274,8 @@ public class Target extends JLabel implements Moveable {
 		blackStone = new BlackStone(mContext);
 		mContext.add(blackStone);
 	}
+	
+	public BlackStone getBlackSton() {
+		return this.blackStone;
+	}
 }

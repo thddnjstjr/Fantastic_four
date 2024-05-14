@@ -49,7 +49,6 @@ public class WinRule implements Runnable {
 							}
 							if (map[j][i] == 1 && map[j + block][i - block] == 1) {
 								blackDiagonal[1]++;
-								System.out.println(blackDiagonal[1]);
 							}
 							if (map[j][i] == 1 && map[j - block][i + block] == 1) {
 								blackDiagonal[2]++;
@@ -89,6 +88,7 @@ public class WinRule implements Runnable {
 					for (int y = 0; y < blackDiagonal.length; y++) {
 						blackDiagonal[y] = 0;
 						whiteDiagonal[y] = 0;
+
 					}
 				}
 				if (blackX == 4) {
