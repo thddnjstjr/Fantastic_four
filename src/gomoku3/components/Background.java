@@ -51,6 +51,7 @@ public class Background extends JFrame implements ActionListener {
 	JButton button4;
 	JButton button5;
 	JButton button6;
+	JButton button7;
 	JButton terran1;
 	JButton terran2;
 	JButton terran3;
@@ -73,11 +74,16 @@ public class Background extends JFrame implements ActionListener {
 	JLabel backgroundRight;
 	JLabel background2;
 	JLabel board;
+	JLabel white;
+	JLabel black;
+	JLabel blank;
+	JLabel blank2;
 
 	public Background() {
 		initData();
 		setInitLayout();
 		addEventListener();
+		resetimage();
 		new Thread(new WinRule(mContext)).start();
 	}
 
@@ -98,6 +104,10 @@ public class Background extends JFrame implements ActionListener {
 	}
 
 	private void initData() {
+		white = new JLabel(new ImageIcon("images/white.png"));
+		black = new JLabel(new ImageIcon("images/black.png"));
+		blank = new JLabel(new ImageIcon("images/blank.png"));
+		blank2 = new JLabel(new ImageIcon("images/blank.png"));
 		backgroundMap = new JLabel(new ImageIcon("images/omokbackground.png"));
 		background2 = new JLabel(new ImageIcon("images/background4.jpg"));
 		mainmenu = new JLabel(new ImageIcon("images/main.png"));
@@ -110,16 +120,13 @@ public class Background extends JFrame implements ActionListener {
 		player = new JLabel(blackPlayer.getIcon());
 		board = new JLabel(new ImageIcon("images/board2.png"));
 		tag = new JLabel(new ImageIcon("images/tag.png"));
-		setContentPane(mainmenu);
-		setTitle("오목게임");
-		setSize(1000, 1000);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		button1 = new JButton("다시 하기");
 		button2 = new JButton("종료");
 		button3 = new JButton(new ImageIcon("images/start.png"));
 		button4 = new JButton("무르기");
-		button5 = new JButton(new ImageIcon("images/setting.png"));
+		button5 = new JButton(new ImageIcon("images/character.png"));
 		button6 = new JButton(new ImageIcon("images/quit.png"));
+		button7 = new JButton(new ImageIcon("images/mainmenu.png"));
 		terran1 = new JButton(new ImageIcon("images/terran.gif"));
 		terran2 = new JButton(new ImageIcon("images/terran2.gif"));
 		terran3 = new JButton(new ImageIcon("images/terran3.gif"));
@@ -130,6 +137,10 @@ public class Background extends JFrame implements ActionListener {
 		zerg2 = new JButton(new ImageIcon("images/zerg2.gif"));
 		zerg3 = new JButton(new ImageIcon("images/zerg3.gif"));
 		blackwin = new JLabel(new ImageIcon("images/blackwin.gif"));
+		setContentPane(mainmenu);
+		setTitle("우주오목전쟁");
+		setSize(1000, 1000);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	private void setInitLayout() {
@@ -142,7 +153,7 @@ public class Background extends JFrame implements ActionListener {
 		add(button6);
 		button3.setBounds(420, 650, 150, 50);
 		button4.setBounds(200, 800, 150, 50);
-		button5.setBounds(405, 730, 180, 50);
+		button5.setBounds(310, 730, 400, 50);
 		button6.setBounds(410, 810, 180, 50);
 		button3.setBorderPainted(false);
 		button3.setContentAreaFilled(false);
@@ -150,6 +161,8 @@ public class Background extends JFrame implements ActionListener {
 		button5.setContentAreaFilled(false);
 		button6.setBorderPainted(false);
 		button6.setContentAreaFilled(false);
+		button7.setBorderPainted(false);
+		button7.setContentAreaFilled(false);
 		turn.setLocation(1600, 400);
 		turn.setSize(100, 100);
 		whitePlayer.setLocation(1460, 100);
@@ -168,15 +181,14 @@ public class Background extends JFrame implements ActionListener {
 		playerlabel.setSize(250, 280);
 		board.setLocation(1450, 600);
 		board.setSize(400, 350);
-		terran1.setBounds(200, 100, 200, 200);
-		terran2.setBounds(200, 350, 200, 200);
-		terran3.setBounds(200, 600, 200, 200);
-		protoss1.setBounds(500, 100, 200, 200);
-		protoss2.setBounds(500, 350, 200, 200);
-		protoss3.setBounds(500, 600, 200, 200);
-		zerg1.setBounds(800, 100, 200, 200);
-		zerg2.setBounds(800, 350, 200, 200);
-		zerg3.setBounds(800, 600, 200, 200);
+		black.setLocation(1080,100);
+		white.setLocation(1430,100);
+		blank.setLocation(1100,180);
+		blank2.setLocation(1450,180);
+		white.setSize(300,100);
+		black.setSize(300,100);
+		blank.setSize(250,250);
+		blank2.setSize(250,250);
 	}
 
 	private void addEventListener() {
@@ -186,6 +198,7 @@ public class Background extends JFrame implements ActionListener {
 		button4.addActionListener(this);
 		button5.addActionListener(this);
 		button6.addActionListener(this);
+		button7.addActionListener(this);
 		terran1.addActionListener(this);
 		terran2.addActionListener(this);
 		terran3.addActionListener(this);
@@ -196,7 +209,7 @@ public class Background extends JFrame implements ActionListener {
 		zerg2.addActionListener(this);
 		zerg3.addActionListener(this);
 	}
-
+	
 	private void addKeyListener() {
 		this.addKeyListener(new KeyAdapter() {
 			@Override
@@ -246,7 +259,28 @@ public class Background extends JFrame implements ActionListener {
 			}
 		});
 	}
-
+	public void resetimage() {
+		terran1.setBounds(200, 100, 200, 200);
+		terran2.setBounds(200, 350, 200, 200);
+		terran3.setBounds(200, 600, 200, 200);
+		protoss1.setBounds(500, 100, 200, 200);
+		protoss2.setBounds(500, 350, 200, 200);
+		protoss3.setBounds(500, 600, 200, 200);
+		zerg1.setBounds(800, 100, 200, 200);
+		zerg2.setBounds(800, 350, 200, 200);
+		zerg3.setBounds(800, 600, 200, 200);
+	}
+	public void mainMenu() {
+		getContentPane().removeAll();
+		setContentPane(mainmenu);
+		setSize(1000,1000);
+		setLocationRelativeTo(null);
+		add(button3);
+		add(button5);
+		add(button6);
+		button3.setLocation(420,650);
+		repaint();
+	}
 	public void start() {
 		getContentPane().removeAll();
 		setContentPane(backgroundMap);
@@ -276,6 +310,7 @@ public class Background extends JFrame implements ActionListener {
 		setContentPane(background2);
 		setSize(1900, 1000);
 		setLocationRelativeTo(null);
+		add(button7);
 		add(terran1);
 		add(terran2);
 		add(terran3);
@@ -286,7 +321,12 @@ public class Background extends JFrame implements ActionListener {
 		add(zerg2);
 		add(zerg3);
 		add(button3);
-		button3.setBounds(1600,800,150,50);
+		add(white);
+		add(black);
+		add(blank);
+		add(blank2);
+		button3.setBounds(1330,500,150,50);
+		button7.setBounds(1265,570,300,100);
 		repaint();
 	}
 
@@ -366,69 +406,114 @@ public class Background extends JFrame implements ActionListener {
 			characterSelect();
 		} else if (selectedButton == button6) {
 			System.exit(0);
-		} else if (selectedButton == terran1) {
+		} else if (selectedButton == button7) {
+			mainMenu();
+		}else if (selectedButton == terran1) {
 			if ((choicecount % 2) == 0) {
+				resetimage();
 				blackPlayer.setIcon(new ImageIcon("images/terran.gif"));
+				terran1.setLocation(1125, 205);
+				repaint();
 			} else {
 				whitePlayer.setIcon(new ImageIcon("images/terran.gif"));
+				terran1.setLocation(1475, 205);
+				repaint();
 			}
 			choicecount++;
 		} else if (selectedButton == terran2) {
 			if ((choicecount % 2) == 0) {
+				resetimage();
 				blackPlayer.setIcon(new ImageIcon("images/terran2.gif"));
+				terran2.setLocation(1125, 205);
+				repaint();
 			} else {
 				whitePlayer.setIcon(new ImageIcon("images/terran2.gif"));
+				terran2.setLocation(1475, 205);
+				repaint();
 			}
 			choicecount++;
 		} else if (selectedButton == terran3) {
 			if ((choicecount % 2) == 0) {
+				resetimage();
 				blackPlayer.setIcon(new ImageIcon("images/terran3.gif"));
+				terran3.setLocation(1125, 205);
+				repaint();
 			} else {
 				whitePlayer.setIcon(new ImageIcon("images/terran3.gif"));
+				terran3.setLocation(1475, 205);
+				repaint();
 			}
 			choicecount++;
 		} else if (selectedButton == protoss1) {
 			if ((choicecount % 2) == 0) {
+				resetimage();
 				blackPlayer.setIcon(new ImageIcon("images/protoss.gif"));
+				protoss1.setLocation(1125, 205);
+				repaint();
 			} else {
 				whitePlayer.setIcon(new ImageIcon("images/protoss.gif"));
+				protoss1.setLocation(1475, 205);
+				repaint();
 			}
 			choicecount++;
 		} else if (selectedButton == protoss2) {
 			if ((choicecount % 2) == 0) {
+				resetimage();
 				blackPlayer.setIcon(new ImageIcon("images/protoss2.gif"));
+				protoss2.setLocation(1125, 205);
+				repaint();
 			} else {
 				whitePlayer.setIcon(new ImageIcon("images/protoss2.gif"));
+				protoss2.setLocation(1475, 205);
+				repaint();
 			}
 			choicecount++;
 		} else if (selectedButton == protoss3) {
 			if ((choicecount % 2) == 0) {
+				resetimage();
 				blackPlayer.setIcon(new ImageIcon("images/protoss3.gif"));
+				protoss3.setLocation(1125, 205);
+				repaint();
 			} else {
 				whitePlayer.setIcon(new ImageIcon("images/protoss3.gif"));
+				protoss3.setLocation(1475, 205);
+				repaint();
 			}
 			choicecount++;
 		} else if (selectedButton == zerg1) {
 			if ((choicecount % 2) == 0) {
+				resetimage();
 				blackPlayer.setIcon(new ImageIcon("images/zerg1.gif"));
+				zerg1.setLocation(1125, 205);
+				repaint();
 			} else {
 				whitePlayer.setIcon(new ImageIcon("images/zerg1.gif"));
+				zerg1.setLocation(1475, 205);
+				repaint();
 			}
 			choicecount++;
 		} else if (selectedButton == zerg2) {
 			if ((choicecount % 2) == 0) {
+				resetimage();
 				blackPlayer.setIcon(new ImageIcon("images/zerg2.gif"));
+				zerg2.setLocation(1125, 205);
+				repaint();
 			} else {
 				whitePlayer.setIcon(new ImageIcon("images/zerg2.gif"));
+				zerg2.setLocation(1475, 205);
+				repaint();
 			}
 			choicecount++;
 		} else if (selectedButton == zerg3) {
-			System.out.println("작동");
-			System.out.println(choicecount);
 			if ((choicecount % 2) == 0) {
+				resetimage();
 				blackPlayer.setIcon(new ImageIcon("images/zerg3.gif"));
+				zerg3.setLocation(1125, 205);
+				repaint();
 			} else {
 				whitePlayer.setIcon(new ImageIcon("images/zerg3.gif"));
+				zerg3.setLocation(1475, 205);
+				repaint();
 			}
 			choicecount++;
 		}
