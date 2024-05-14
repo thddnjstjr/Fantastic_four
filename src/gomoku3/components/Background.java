@@ -36,6 +36,7 @@ public class Background extends JFrame implements ActionListener {
 	private int remote;
 	private int blackcount;
 	private int whitecount;
+	private int choicecount;
 	private boolean three;
 	private boolean blackWinner;
 	private boolean whiteWinner;
@@ -48,6 +49,17 @@ public class Background extends JFrame implements ActionListener {
 	JButton button2;
 	JButton button3;
 	JButton button4;
+	JButton button5;
+	JButton button6;
+	JButton terran1;
+	JButton terran2;
+	JButton terran3;
+	JButton zerg1;
+	JButton zerg2;
+	JButton zerg3;
+	JButton protoss1;
+	JButton protoss2;
+	JButton protoss3;
 	JLabel blackwin;
 	JLabel whitewin;
 	JLabel mainmenu;
@@ -59,8 +71,8 @@ public class Background extends JFrame implements ActionListener {
 	JLabel playerlabel;
 	JLabel backgroundLeft;
 	JLabel backgroundRight;
+	JLabel background2;
 	JLabel board;
-	Rule rule;
 
 	public Background() {
 		initData();
@@ -87,7 +99,8 @@ public class Background extends JFrame implements ActionListener {
 
 	private void initData() {
 		backgroundMap = new JLabel(new ImageIcon("images/omokbackground.png"));
-		mainmenu = new JLabel(new ImageIcon("images/ghost.gif"));
+		background2 = new JLabel(new ImageIcon("images/background4.jpg"));
+		mainmenu = new JLabel(new ImageIcon("images/main.png"));
 		turn = new JLabel(new ImageIcon("images/blackStone.png"));
 		whitePlayer = new JLabel(new ImageIcon("images/protoss.gif"));
 		blackPlayer = new JLabel(new ImageIcon("images/terran.gif"));
@@ -103,8 +116,19 @@ public class Background extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		button1 = new JButton("다시 하기");
 		button2 = new JButton("종료");
-		button3 = new JButton("시작");
+		button3 = new JButton(new ImageIcon("images/start.png"));
 		button4 = new JButton("무르기");
+		button5 = new JButton(new ImageIcon("images/setting.png"));
+		button6 = new JButton(new ImageIcon("images/quit.png"));
+		terran1 = new JButton(new ImageIcon("images/terran.gif"));
+		terran2 = new JButton(new ImageIcon("images/terran2.gif"));
+		terran3 = new JButton(new ImageIcon("images/terran3.gif"));
+		protoss1 = new JButton(new ImageIcon("images/protoss.gif"));
+		protoss2 = new JButton(new ImageIcon("images/protoss2.gif"));
+		protoss3 = new JButton(new ImageIcon("images/protoss3.gif"));
+		zerg1 = new JButton(new ImageIcon("images/zerg1.gif"));
+		zerg2 = new JButton(new ImageIcon("images/zerg2.gif"));
+		zerg3 = new JButton(new ImageIcon("images/zerg3.gif"));
 		blackwin = new JLabel(new ImageIcon("images/blackwin.gif"));
 	}
 
@@ -114,7 +138,18 @@ public class Background extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		add(button3);
-		button3.setBounds(450, 650, 100, 50);
+		add(button5);
+		add(button6);
+		button3.setBounds(420, 650, 150, 50);
+		button4.setBounds(200, 800, 150, 50);
+		button5.setBounds(405, 730, 180, 50);
+		button6.setBounds(410, 810, 180, 50);
+		button3.setBorderPainted(false);
+		button3.setContentAreaFilled(false);
+		button5.setBorderPainted(false);
+		button5.setContentAreaFilled(false);
+		button6.setBorderPainted(false);
+		button6.setContentAreaFilled(false);
 		turn.setLocation(1600, 400);
 		turn.setSize(100, 100);
 		whitePlayer.setLocation(1460, 100);
@@ -133,7 +168,15 @@ public class Background extends JFrame implements ActionListener {
 		playerlabel.setSize(250, 280);
 		board.setLocation(1450, 600);
 		board.setSize(400, 350);
-		button4.setBounds(200, 800, 100, 50);
+		terran1.setBounds(200, 100, 200, 200);
+		terran2.setBounds(200, 350, 200, 200);
+		terran3.setBounds(200, 600, 200, 200);
+		protoss1.setBounds(500, 100, 200, 200);
+		protoss2.setBounds(500, 350, 200, 200);
+		protoss3.setBounds(500, 600, 200, 200);
+		zerg1.setBounds(800, 100, 200, 200);
+		zerg2.setBounds(800, 350, 200, 200);
+		zerg3.setBounds(800, 600, 200, 200);
 	}
 
 	private void addEventListener() {
@@ -141,6 +184,17 @@ public class Background extends JFrame implements ActionListener {
 		button2.addActionListener(this);
 		button3.addActionListener(this);
 		button4.addActionListener(this);
+		button5.addActionListener(this);
+		button6.addActionListener(this);
+		terran1.addActionListener(this);
+		terran2.addActionListener(this);
+		terran3.addActionListener(this);
+		protoss1.addActionListener(this);
+		protoss2.addActionListener(this);
+		protoss3.addActionListener(this);
+		zerg1.addActionListener(this);
+		zerg2.addActionListener(this);
+		zerg3.addActionListener(this);
 	}
 
 	private void addKeyListener() {
@@ -161,18 +215,17 @@ public class Background extends JFrame implements ActionListener {
 					cursor.down();
 					break;
 				case KeyEvent.VK_SPACE:
+					remove(blackPlayer);
 					if (blackWinner == false && whiteWinner == false) {
 						if (map[cursor.getX()][cursor.getY()] == 0) {
 							isClick = true;
 							if ((color % 2) == 0) {
-								System.out.println("백돌 차례 입니다.");
 								cursor.BlackStone();
 								map[cursor.getX()][cursor.getY()] = 1;
 								turn.setIcon(new ImageIcon("images/whiteStone.png"));
 								player.setIcon(whitePlayer.getIcon());
 								blackcount++;
 							} else {
-								System.out.println("흑돌 차례 입니다.");
 								cursor.WhiteStone();
 								map[cursor.getX()][cursor.getY()] = 2;
 								turn.setIcon(new ImageIcon("images/blackStone.png"));
@@ -196,24 +249,45 @@ public class Background extends JFrame implements ActionListener {
 
 	public void start() {
 		getContentPane().removeAll();
-		cursor = new Target(mContext);
 		setContentPane(backgroundMap);
-		setSize(1900, 1000);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		cursor = new Target(mContext);
+		setSize(1901, 1000);
 		setLocationRelativeTo(null);
 		add(cursor);
 		add(turn);
 		add(tag);
+		add(blackPlayer);
+		blackPlayer.setLocation(1550, 80);
+		blackPlayer.setSize(200,200);
 		add(player);
 		add(playerlabel);
 		add(board);
 		add(button4);
 		add(backgroundLeft);
 		add(backgroundRight);
-		remove(button3);
 		game = true;
 		addKeyListener();
 		this.requestFocus();
+		repaint();
+	}
+
+	public void characterSelect() {
+		getContentPane().removeAll();
+		setContentPane(background2);
+		setSize(1900, 1000);
+		setLocationRelativeTo(null);
+		add(terran1);
+		add(terran2);
+		add(terran3);
+		add(protoss1);
+		add(protoss2);
+		add(protoss3);
+		add(zerg1);
+		add(zerg2);
+		add(zerg3);
+		add(button3);
+		button3.setBounds(1600,800,150,50);
+		repaint();
 	}
 
 	public void blackWin() {
@@ -263,25 +337,100 @@ public class Background extends JFrame implements ActionListener {
 			reset();
 		} else if (selectedButton.getText().equals("종료")) {
 			System.exit(0);
-		} else if (selectedButton.getText().equals("시작")) {
+		} else if (selectedButton == button3) {
 			start();
 		} else if (selectedButton.getText().equals("무르기")) {
-			if(isClick) {				
+			if (isClick) {
 				if (color % 2 == 1) {
 					map[cursor.getBlackStone().getRealx()][cursor.getBlackStone().getRealy()] = 0;
 					remove(cursor.getBlackStone());
 					blackcount--;
+					turn.setIcon(new ImageIcon("images/blackStone.png"));
+					player.setIcon(blackPlayer.getIcon());
 					color++;
 				} else if (color % 2 == 0) {
 					map[cursor.getWhiteStone().getRealx()][cursor.getWhiteStone().getRealy()] = 0;
 					remove(cursor.getWhiteStone());
 					whitecount--;
+					turn.setIcon(new ImageIcon("images/whiteStone.png"));
+					player.setIcon(whitePlayer.getIcon());
 					color++;
 				}
+			} else {
+				System.out.println("무르기는 한번만 가능합니다");
 			}
 			repaint();
 			this.requestFocus();
 			isClick = false;
+		} else if (selectedButton == button5) {
+			characterSelect();
+		} else if (selectedButton == button6) {
+			System.exit(0);
+		} else if (selectedButton == terran1) {
+			if ((choicecount % 2) == 0) {
+				blackPlayer.setIcon(new ImageIcon("images/terran.gif"));
+			} else {
+				whitePlayer.setIcon(new ImageIcon("images/terran.gif"));
+			}
+			choicecount++;
+		} else if (selectedButton == terran2) {
+			if ((choicecount % 2) == 0) {
+				blackPlayer.setIcon(new ImageIcon("images/terran2.gif"));
+			} else {
+				whitePlayer.setIcon(new ImageIcon("images/terran2.gif"));
+			}
+			choicecount++;
+		} else if (selectedButton == terran3) {
+			if ((choicecount % 2) == 0) {
+				blackPlayer.setIcon(new ImageIcon("images/terran3.gif"));
+			} else {
+				whitePlayer.setIcon(new ImageIcon("images/terran3.gif"));
+			}
+			choicecount++;
+		} else if (selectedButton == protoss1) {
+			if ((choicecount % 2) == 0) {
+				blackPlayer.setIcon(new ImageIcon("images/protoss.gif"));
+			} else {
+				whitePlayer.setIcon(new ImageIcon("images/protoss.gif"));
+			}
+			choicecount++;
+		} else if (selectedButton == protoss2) {
+			if ((choicecount % 2) == 0) {
+				blackPlayer.setIcon(new ImageIcon("images/protoss2.gif"));
+			} else {
+				whitePlayer.setIcon(new ImageIcon("images/protoss2.gif"));
+			}
+			choicecount++;
+		} else if (selectedButton == protoss3) {
+			if ((choicecount % 2) == 0) {
+				blackPlayer.setIcon(new ImageIcon("images/protoss3.gif"));
+			} else {
+				whitePlayer.setIcon(new ImageIcon("images/protoss3.gif"));
+			}
+			choicecount++;
+		} else if (selectedButton == zerg1) {
+			if ((choicecount % 2) == 0) {
+				blackPlayer.setIcon(new ImageIcon("images/zerg1.gif"));
+			} else {
+				whitePlayer.setIcon(new ImageIcon("images/zerg1.gif"));
+			}
+			choicecount++;
+		} else if (selectedButton == zerg2) {
+			if ((choicecount % 2) == 0) {
+				blackPlayer.setIcon(new ImageIcon("images/zerg2.gif"));
+			} else {
+				whitePlayer.setIcon(new ImageIcon("images/zerg2.gif"));
+			}
+			choicecount++;
+		} else if (selectedButton == zerg3) {
+			System.out.println("작동");
+			System.out.println(choicecount);
+			if ((choicecount % 2) == 0) {
+				blackPlayer.setIcon(new ImageIcon("images/zerg3.gif"));
+			} else {
+				whitePlayer.setIcon(new ImageIcon("images/zerg3.gif"));
+			}
+			choicecount++;
 		}
 	}
 
