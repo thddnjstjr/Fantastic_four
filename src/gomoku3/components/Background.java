@@ -121,9 +121,9 @@ public class Background extends JFrame implements ActionListener {
 		player.setLocation(1550, 80);
 		player.setSize(200, 200);
 		backgroundLeft.setLocation(0, 0);
-		backgroundRight.setLocation(1400, 0);
-		backgroundLeft.setSize(450, 1000);
-		backgroundRight.setSize(500, 1000);
+		backgroundRight.setLocation(1440, 0);
+		backgroundLeft.setSize(443, 1000);
+		backgroundRight.setSize(470, 1000);
 		tag.setLocation(1500, 280);
 		tag.setSize(300, 300);
 		playerlabel.setLocation(1525, 20);
