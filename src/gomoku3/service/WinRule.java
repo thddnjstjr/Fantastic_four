@@ -116,34 +116,44 @@ public class WinRule implements Runnable {
 					for (int t = 0; t < 4; t++) {
 						if (map[j][i] != 0) {
 							if (map.length > i + block && 0 < i - block2 * 5) {
-								if(map[j + block][i + block] == 0 || map[j + block][i + block] == 2 || map[j + block2 * 5][i + block2 * 5] == 1) {
+								if (map[j + block][i + block] == 0 || map[j + block][i + block] == 2
+										|| map[j + block2 * 5][i + block2 * 5] == 1) {
 									blackDiagonal[0] = 0;
 								}
-								if(map[j + block][i - block] == 0 || map[j + block][i - block] == 2 || map[j + block2 * 5][i - block2 * 5] == 1) {
+								if (map[j + block][i - block] == 0 || map[j + block][i - block] == 2
+										|| map[j + block2 * 5][i - block2 * 5] == 1) {
 									blackDiagonal[1] = 0;
 								}
-								if(map[j - block][i + block] == 0 || map[j - block][i + block] == 2 || map[j - block2 * 5][i + block2 * 5] == 1) {
+								if (map[j - block][i + block] == 0 || map[j - block][i + block] == 2
+										|| map[j - block2 * 5][i + block2 * 5] == 1) {
 									blackDiagonal[2] = 0;
 								}
-								if(map[j - block][i - block] == 0 || map[j - block][i - block] == 2 || map[j - block2 * 5][i - block2 * 5] == 1) {
+								if (map[j - block][i - block] == 0 || map[j - block][i - block] == 2
+										|| map[j - block2 * 5][i - block2 * 5] == 1) {
 									blackDiagonal[3] = 0;
 								}
-								if(map[j + block][i + block] == 0 || map[j + block][i + block] == 1 || map[j + block2 * 5][i + block2 * 5] == 2) {
+								if (map[j + block][i + block] == 0 || map[j + block][i + block] == 1
+										|| map[j + block2 * 5][i + block2 * 5] == 2) {
 									whiteDiagonal[0] = 0;
 								}
-								if(map[j + block][i - block] == 0 || map[j + block][i - block] == 1 || map[j + block2 * 5][i - block2 * 5] == 2) {
+								if (map[j + block][i - block] == 0 || map[j + block][i - block] == 1
+										|| map[j + block2 * 5][i - block2 * 5] == 2) {
 									whiteDiagonal[1] = 0;
 								}
-								if(map[j - block][i + block] == 0 || map[j - block][i + block] == 1 || map[j - block2 * 5][i + block2 * 5] == 2) {
+								if (map[j - block][i + block] == 0 || map[j - block][i + block] == 1
+										|| map[j - block2 * 5][i + block2 * 5] == 2) {
 									whiteDiagonal[2] = 0;
-								
-								if(map[j - block][i - block] == 0 || map[j - block][i - block] == 1 || map[j - block2 * 5][i - block2 * 5] == 2) {
+								}
+								if (map[j - block][i - block] == 0 || map[j - block][i - block] == 1
+										|| map[j - block2 * 5][i - block2 * 5] == 2) {
 									whiteDiagonal[3] = 0;
 								}
+							}
+							if (map.length > i + block && 0 < i - block) {
 								if (map[j][i] == 1 && map[j + block][i + block] == 1) {
 									if (map[j - block][i - block] == 1) {
 										continue;
-									} 
+									}
 									blackDiagonal[0]++;
 								}
 								if (map[j][i] == 1 && map[j + block][i - block] == 1) {
@@ -188,20 +198,14 @@ public class WinRule implements Runnable {
 									}
 									whiteDiagonal[3]++;
 								}
+								block += 52;
 							}
-							block += 52;
 						}
-					}
 					}
 					block = 52;
 					if (blackDiagonal[0] == 4 || blackDiagonal[1] == 4 || blackDiagonal[2] == 4
 							|| blackDiagonal[3] == 4) {
 						System.out.println("흑돌 대각선 승리");
-						System.out.println(j + "" + i);
-						System.out.println("승리" + blackDiagonal[0]);
-						System.out.println("승리" + blackDiagonal[1]);
-						System.out.println("승리" + blackDiagonal[2]);
-						System.out.println("승리" + blackDiagonal[3]);
 						mContext.blackWin();
 						break Loop;
 					}
