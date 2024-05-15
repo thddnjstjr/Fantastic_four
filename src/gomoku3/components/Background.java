@@ -245,6 +245,7 @@ public class Background extends JFrame implements ActionListener {
 								player.setIcon(blackPlayer.getIcon());
 								whitecount++;
 							}
+							System.out.println(cursor.getX()+" , " +cursor.getY());
 							repaint();
 							color++;
 							break;
