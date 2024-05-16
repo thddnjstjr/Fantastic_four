@@ -147,7 +147,6 @@ public class Target extends JLabel implements Moveable {
 		this.mContext = mContext;
 		initData();
 		setInitLayout();
-
 	}
 
 	private void initData() {

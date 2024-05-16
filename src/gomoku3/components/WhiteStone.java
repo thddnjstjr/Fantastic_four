@@ -3,8 +3,8 @@ package gomoku3.components;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import gomoku4.components.Background;
-import gomoku4.components.Target;
+import gomoku3.components.Background;
+import gomoku3.components.Target;
 
 public class WhiteStone extends JLabel{
 	// mContext
@@ -15,7 +15,16 @@ public class WhiteStone extends JLabel{
 	// x , y 좌표값
 	private int x;
 	private int y;
-	
+	private int realx;
+	private int realy;
+
+	public int getRealx() {
+		return realx;
+	}
+
+	public int getRealy() {
+		return realy;
+	}
 	// 흑돌 백돌 이미지
 	private ImageIcon whiteStone;
 
