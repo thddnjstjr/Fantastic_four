@@ -26,7 +26,7 @@ public class Rule33 implements Runnable {
 	@Override
 	public void run() {
 		if (checkRule33()) {
-			System.out.println("33");
+			mContext.RullOfThreeThree();
 			return;
 		}
 	}

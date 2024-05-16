@@ -296,4 +296,13 @@ public class Background extends JFrame implements ActionListener {
 		}
 	}
 
+	public void RullOfThreeThree() {
+		System.out.println("33입니다.");
+		map[cursor.getBlackStone().getRealx()][cursor.getBlackStone().getRealy()] = 0;
+		remove(cursor.getBlackStone());
+		blackcount--;
+		color++;
+		repaint();
+	}
+
 }
