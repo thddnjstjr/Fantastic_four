@@ -340,7 +340,7 @@ public class Background extends JFrame implements ActionListener {
 	public void characterSelect() {
 		getContentPane().removeAll();
 		setContentPane(background2);
-		setSize(1900, 1000);
+		setSize(1899, 1000);
 		setLocationRelativeTo(null);
 		add(button7);
 		add(terran1);
