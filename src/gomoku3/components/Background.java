@@ -2,7 +2,6 @@ package gomoku3.components;
 
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -12,9 +11,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 
 import gomoku3.Gomoku;
-import gomoku3.service.Rule;
 import gomoku3.service.WinRule;
 
 public class Background extends JFrame implements ActionListener {
@@ -23,68 +22,70 @@ public class Background extends JFrame implements ActionListener {
 	final int LINE_WIDTH = 1900;
 
 	private final int[][] map = new int[LINE_NUM][LINE_NUM];
-	private final int BLACK_STONE = 1; // 배열에 입력된 값이 1인 경우 그자리에는 흑돌이 있음
-	private final int WHITE_STONE = 2; // 배열에 입력된 값이 2인 경우 그자리에는 백돌이 있음
 
-	private JLabel backgroundMap;
-
-	Target cursor;
 	private int x;
 	private int y;
 	private int color;
 	private int count;
-	private int remote;
 	private int blackcount;
+	private int blackwincount;
 	private int whitecount;
 	private int choicecount;
-	private boolean three;
 	private boolean blackWinner;
 	private boolean whiteWinner;
 	private boolean game;
-	boolean flag = false;
-	boolean isClick;
-	Gomoku gomoku = new Gomoku();
+	private boolean flag = false;
+	private boolean isClick;
 	private Background mContext = this;
-	JButton button1;
-	JButton button2;
-	JButton button3;
-	JButton button4;
-	JButton button5;
-	JButton button6;
-	JButton button7;
-	JButton terran1;
-	JButton terran2;
-	JButton terran3;
-	JButton zerg1;
-	JButton zerg2;
-	JButton zerg3;
-	JButton protoss1;
-	JButton protoss2;
-	JButton protoss3;
-	JLabel blackwin;
-	JLabel whitewin;
-	JLabel mainmenu;
-	JLabel turn;
-	JLabel tag;
-	JLabel whitePlayer;
-	JLabel blackPlayer;
-	JLabel player;
-	JLabel playerlabel;
-	JLabel backgroundLeft;
-	JLabel backgroundRight;
-	JLabel background2;
-	JLabel board;
-	JLabel white;
-	JLabel black;
-	JLabel blank;
-	JLabel blank2;
+	private JLabel backgroundMap;
+	private Gomoku gomoku = new Gomoku();
+	public Target cursor;
+	private JButton button1;
+	private JButton button2;
+	private JButton button3;
+	private JButton button4;
+	private JButton button5;
+	private JButton button6;
+	private JButton button7;
+	private JButton button8;
+	private JButton button9;
+	private JButton terran1;
+	private JButton terran2;
+	private JButton terran3;
+	private JButton zerg1;
+	private JButton zerg2;
+	private JButton zerg3;
+	private JButton protoss1;
+	private JButton protoss2;
+	private JButton protoss3;
+	private JLabel resultbackground;
+	private JLabel mainmenu;
+	private JLabel turn;
+	private JLabel tag;
+	private JLabel whitePlayer;
+	private JLabel blackPlayer;
+	private JLabel player;
+	private JLabel playerlabel;
+	private JLabel backgroundLeft;
+	private JLabel backgroundRight;
+	private JLabel background2;
+	private JLabel board;
+	private JLabel white;
+	private JLabel black;
+	private JLabel blank;
+	private JLabel blank2;
+	private JLabel win;
+	private JLayeredPane layeredPane;
+	private boolean[] races = new boolean[6]; // 종족 선택 넣기 0:블랙 테란 1: 블랙 토스 2: 블랙 저그 3: 화이트 테란 4: 화이트 토스 5: 화이트 저그
 
 	public Background() {
 		initData();
 		setInitLayout();
 		addEventListener();
 		resetimage();
-		new Thread(new WinRule(mContext)).start();
+		addKeyListener();
+		races[0] = true;
+		races[4] = true;
 	}
 
 	public int getCount() {
@@ -95,12 +96,20 @@ public class Background extends JFrame implements ActionListener {
 		return map;
 	}
 
-	public void setThree(boolean three) {
-		this.three = three;
-	}
-
 	public int getColor() {
 		return color;
+	}
+
+	public boolean isBlackWinner() {
+		return blackWinner;
+	}
+
+	public boolean isWhiteWinner() {
+		return whiteWinner;
+	}
+
+	public boolean[] getRaces() {
+		return races;
 	}
 
 	private void initData() {
@@ -110,7 +119,7 @@ public class Background extends JFrame implements ActionListener {
 		blank2 = new JLabel(new ImageIcon("images/blank.png"));
 		backgroundMap = new JLabel(new ImageIcon("images/omokbackground.png"));
 		background2 = new JLabel(new ImageIcon("images/background4.jpg"));
-		mainmenu = new JLabel(new ImageIcon("images/main.png"));
+		mainmenu = new JLabel(new ImageIcon("images/mainmenu.jpg"));
 		turn = new JLabel(new ImageIcon("images/blackStone.png"));
 		whitePlayer = new JLabel(new ImageIcon("images/protoss.gif"));
 		blackPlayer = new JLabel(new ImageIcon("images/terran.gif"));
@@ -120,13 +129,16 @@ public class Background extends JFrame implements ActionListener {
 		player = new JLabel(blackPlayer.getIcon());
 		board = new JLabel(new ImageIcon("images/board2.png"));
 		tag = new JLabel(new ImageIcon("images/tag.png"));
+		win = new JLabel(new ImageIcon("images/win.jpg"));
 		button1 = new JButton("다시 하기");
 		button2 = new JButton("종료");
 		button3 = new JButton(new ImageIcon("images/start.png"));
-		button4 = new JButton("무르기");
+		button4 = new JButton("무르기 요청");
 		button5 = new JButton(new ImageIcon("images/character.png"));
 		button6 = new JButton(new ImageIcon("images/quit.png"));
 		button7 = new JButton(new ImageIcon("images/mainmenu.png"));
+		button8 = new JButton(new ImageIcon("images/resultgo.png"));
+		button9 = new JButton(new ImageIcon("images/exit.png"));
 		terran1 = new JButton(new ImageIcon("images/terran.gif"));
 		terran2 = new JButton(new ImageIcon("images/terran2.gif"));
 		terran3 = new JButton(new ImageIcon("images/terran3.gif"));
@@ -136,10 +148,12 @@ public class Background extends JFrame implements ActionListener {
 		zerg1 = new JButton(new ImageIcon("images/zerg1.gif"));
 		zerg2 = new JButton(new ImageIcon("images/zerg2.gif"));
 		zerg3 = new JButton(new ImageIcon("images/zerg3.gif"));
-		blackwin = new JLabel(new ImageIcon("images/blackwin.gif"));
+		resultbackground = new JLabel(new ImageIcon("images/blackwin.gif"));
+		cursor = new Target(mContext);
+		layeredPane = new JLayeredPane();
 		setContentPane(mainmenu);
 		setTitle("우주오목전쟁");
-		setSize(1000, 1000);
+		setSize(1900, 1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
@@ -155,6 +169,8 @@ public class Background extends JFrame implements ActionListener {
 		button4.setBounds(200, 800, 150, 50);
 		button5.setBounds(310, 730, 400, 50);
 		button6.setBounds(410, 810, 180, 50);
+		button8.setBounds(580, 435, 620, 70);
+		button9.setBounds(580, 515, 620, 70);
 		button3.setBorderPainted(false);
 		button3.setContentAreaFilled(false);
 		button5.setBorderPainted(false);
@@ -163,6 +179,10 @@ public class Background extends JFrame implements ActionListener {
 		button6.setContentAreaFilled(false);
 		button7.setBorderPainted(false);
 		button7.setContentAreaFilled(false);
+		button8.setBorderPainted(false);
+		button8.setContentAreaFilled(false);
+		button9.setBorderPainted(false);
+		button9.setContentAreaFilled(false);
 		turn.setLocation(1600, 400);
 		turn.setSize(100, 100);
 		whitePlayer.setLocation(1460, 100);
@@ -181,14 +201,16 @@ public class Background extends JFrame implements ActionListener {
 		playerlabel.setSize(250, 280);
 		board.setLocation(1450, 600);
 		board.setSize(400, 350);
-		black.setLocation(1080,100);
-		white.setLocation(1430,100);
-		blank.setLocation(1100,180);
-		blank2.setLocation(1450,180);
-		white.setSize(300,100);
-		black.setSize(300,100);
-		blank.setSize(250,250);
-		blank2.setSize(250,250);
+		black.setLocation(1080, 100);
+		white.setLocation(1430, 100);
+		blank.setLocation(1100, 180);
+		blank2.setLocation(1450, 180);
+		white.setSize(300, 100);
+		black.setSize(300, 100);
+		blank.setSize(250, 250);
+		blank2.setSize(250, 250);
+		win.setSize(800, 300);
+		win.setLocation(500, 300);
 	}
 
 	private void addEventListener() {
@@ -199,6 +221,8 @@ public class Background extends JFrame implements ActionListener {
 		button5.addActionListener(this);
 		button6.addActionListener(this);
 		button7.addActionListener(this);
+		button8.addActionListener(this);
+		button9.addActionListener(this);
 		terran1.addActionListener(this);
 		terran2.addActionListener(this);
 		terran3.addActionListener(this);
@@ -209,7 +233,7 @@ public class Background extends JFrame implements ActionListener {
 		zerg2.addActionListener(this);
 		zerg3.addActionListener(this);
 	}
-	
+
 	private void addKeyListener() {
 		this.addKeyListener(new KeyAdapter() {
 			@Override
@@ -217,15 +241,19 @@ public class Background extends JFrame implements ActionListener {
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_LEFT:
 					cursor.left();
+					repaint();
 					break;
 				case KeyEvent.VK_RIGHT:
 					cursor.right();
+					repaint();
 					break;
 				case KeyEvent.VK_UP:
 					cursor.up();
+					repaint();
 					break;
 				case KeyEvent.VK_DOWN:
 					cursor.down();
+					repaint();
 					break;
 				case KeyEvent.VK_SPACE:
 					remove(blackPlayer);
@@ -245,7 +273,8 @@ public class Background extends JFrame implements ActionListener {
 								player.setIcon(blackPlayer.getIcon());
 								whitecount++;
 							}
-							System.out.println(cursor.getX()+" , "+cursor.getY());
+							System.out.println(cursor.getX() + " , " + cursor.getY());
+							System.out.println(cursor.getX() + " , " + cursor.getY());
 							repaint();
 							color++;
 							break;
@@ -258,6 +287,7 @@ public class Background extends JFrame implements ActionListener {
 			}
 		});
 	}
+
 	public void resetimage() {
 		terran1.setBounds(200, 100, 200, 200);
 		terran2.setBounds(200, 350, 200, 200);
@@ -269,29 +299,33 @@ public class Background extends JFrame implements ActionListener {
 		zerg2.setBounds(800, 350, 200, 200);
 		zerg3.setBounds(800, 600, 200, 200);
 	}
+
 	public void mainMenu() {
 		getContentPane().removeAll();
 		setContentPane(mainmenu);
-		setSize(1000,1000);
+		setSize(1900, 1000);
 		setLocationRelativeTo(null);
 		add(button3);
 		add(button5);
 		add(button6);
-		button3.setLocation(420,650);
+		button3.setLocation(420, 650);
 		repaint();
 	}
+
 	public void start() {
+		new Thread(new WinRule(mContext)).start();
 		getContentPane().removeAll();
 		setContentPane(backgroundMap);
-		cursor = new Target(mContext);
 		setSize(1901, 1000);
 		setLocationRelativeTo(null);
 		add(cursor);
+		cursor.setX(926);
+		cursor.setY(477);
 		add(turn);
 		add(tag);
 		add(blackPlayer);
 		blackPlayer.setLocation(1550, 80);
-		blackPlayer.setSize(200,200);
+		blackPlayer.setSize(200, 200);
 		add(player);
 		add(playerlabel);
 		add(board);
@@ -299,7 +333,6 @@ public class Background extends JFrame implements ActionListener {
 		add(backgroundLeft);
 		add(backgroundRight);
 		game = true;
-		addKeyListener();
 		this.requestFocus();
 		repaint();
 	}
@@ -324,20 +357,23 @@ public class Background extends JFrame implements ActionListener {
 		add(black);
 		add(blank);
 		add(blank2);
-		button3.setBounds(1330,500,150,50);
-		button7.setBounds(1265,570,300,100);
+		button3.setBounds(1330, 500, 150, 50);
+		button7.setBounds(1265, 570, 300, 100);
 		repaint();
 	}
 
 	public void blackWin() {
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map.length; j++) {
-				map[i][j] = 0;
-			}
-		}
+		add(win, 0);
+		add(button8, 0);
+		add(button9, 0);
+		repaint();
 		blackWinner = true;
+	}
+
+	public void whiteWin() {
+		whiteWinner = true;
 		getContentPane().removeAll();
-		setContentPane(blackwin);
+		setContentPane(resultbackground);
 		add(button1);
 		add(button2);
 		setSize(1000, 1000);
@@ -347,26 +383,48 @@ public class Background extends JFrame implements ActionListener {
 		repaint();
 	}
 
-	public void whiteWin() {
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map.length; j++) {
-				map[i][j] = 0;
+	public void result() {
+		game = false;
+		getContentPane().removeAll();
+		setContentPane(resultbackground);
+		if (blackWinner == true) {
+			if (races[0] == true) {
+				resultbackground.setIcon(new ImageIcon("images/terranwin.jpg"));
+			} else if (races[1] == true) {
+				resultbackground.setIcon(new ImageIcon("images/protosswin.jpg"));
+			} else if (races[2] == true) {
+				resultbackground.setIcon(new ImageIcon("images/zergwin.jpg"));
+			}
+		} else if (whiteWinner == true) {
+			if (races[3] == true) {
+				resultbackground.setIcon(new ImageIcon("images/whiteterran.png"));
+			} else if (races[4] == true) {
+				resultbackground.setIcon(new ImageIcon("images/whiteprotoss.png"));
+			} else if (races[5] == true) {
+				resultbackground.setIcon(new ImageIcon("images/whitezerg.png"));
 			}
 		}
-		whiteWinner = true;
-		getContentPane().removeAll();
-		setContentPane(blackwin);
 		add(button1);
 		add(button2);
-		setSize(1000, 1000);
+		setSize(1900, 1000);
 		setLocationRelativeTo(null);
-		button1.setBounds(370, 650, 100, 50);
-		button2.setBounds(530, 650, 100, 50);
+		button1.setBounds(1700, 800, 100, 50);
+		button2.setBounds(1500, 800, 100, 50);
 		repaint();
 	}
 
 	public void reset() {
-		gomoku.newGame();
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map.length; j++) {
+				map[i][j] = 0;
+			}
+		}
+		color = 0;
+		blackcount = 0;
+		whitecount = 0;
+		blackWinner = false;
+		whiteWinner = false;
+		mainMenu();
 	}
 
 	@Override
@@ -374,10 +432,12 @@ public class Background extends JFrame implements ActionListener {
 		JButton selectedButton = (JButton) e.getSource();
 		if (selectedButton.getText().equals("다시 하기")) {
 			reset();
-		} else if (selectedButton.getText().equals("종료")) {
+		} else if (selectedButton.getText().equals("종료") || selectedButton == button9) {
 			System.exit(0);
 		} else if (selectedButton == button3) {
 			start();
+		} else if (selectedButton == button8) {
+			result();
 		} else if (selectedButton.getText().equals("무르기")) {
 			if (isClick) {
 				if (color % 2 == 1) {
@@ -407,16 +467,30 @@ public class Background extends JFrame implements ActionListener {
 			System.exit(0);
 		} else if (selectedButton == button7) {
 			mainMenu();
-		}else if (selectedButton == terran1) {
+		} else if (selectedButton == terran1) {
 			if ((choicecount % 2) == 0) {
 				resetimage();
 				blackPlayer.setIcon(new ImageIcon("images/terran.gif"));
 				terran1.setLocation(1125, 205);
 				repaint();
+				for (int i = 0; i < races.length / 2; i++) {
+					if (i == 0) {
+						races[i] = true;
+					} else {
+						races[i] = false;
+					}
+				}
 			} else {
 				whitePlayer.setIcon(new ImageIcon("images/terran.gif"));
 				terran1.setLocation(1475, 205);
 				repaint();
+				for (int i = 3; i < races.length; i++) {
+					if (i == 3) {
+						races[i] = true;
+					} else {
+						races[i] = false;
+					}
+				}
 			}
 			choicecount++;
 		} else if (selectedButton == terran2) {
@@ -425,10 +499,24 @@ public class Background extends JFrame implements ActionListener {
 				blackPlayer.setIcon(new ImageIcon("images/terran2.gif"));
 				terran2.setLocation(1125, 205);
 				repaint();
+				for (int i = 0; i < races.length / 2; i++) {
+					if (i == 0) {
+						races[i] = true;
+					} else {
+						races[i] = false;
+					}
+				}
 			} else {
 				whitePlayer.setIcon(new ImageIcon("images/terran2.gif"));
 				terran2.setLocation(1475, 205);
 				repaint();
+				for (int i = 3; i < races.length; i++) {
+					if (i == 3) {
+						races[i] = true;
+					} else {
+						races[i] = false;
+					}
+				}
 			}
 			choicecount++;
 		} else if (selectedButton == terran3) {
@@ -437,10 +525,24 @@ public class Background extends JFrame implements ActionListener {
 				blackPlayer.setIcon(new ImageIcon("images/terran3.gif"));
 				terran3.setLocation(1125, 205);
 				repaint();
+				for (int i = 0; i < races.length / 2; i++) {
+					if (i == 0) {
+						races[i] = true;
+					} else {
+						races[i] = false;
+					}
+				}
 			} else {
 				whitePlayer.setIcon(new ImageIcon("images/terran3.gif"));
 				terran3.setLocation(1475, 205);
 				repaint();
+				for (int i = 3; i < races.length; i++) {
+					if (i == 3) {
+						races[i] = true;
+					} else {
+						races[i] = false;
+					}
+				}
 			}
 			choicecount++;
 		} else if (selectedButton == protoss1) {
@@ -449,10 +551,24 @@ public class Background extends JFrame implements ActionListener {
 				blackPlayer.setIcon(new ImageIcon("images/protoss.gif"));
 				protoss1.setLocation(1125, 205);
 				repaint();
+				for (int i = 0; i < races.length / 2; i++) {
+					if (i == 1) {
+						races[i] = true;
+					} else {
+						races[i] = false;
+					}
+				}
 			} else {
 				whitePlayer.setIcon(new ImageIcon("images/protoss.gif"));
 				protoss1.setLocation(1475, 205);
 				repaint();
+				for (int i = 3; i < races.length; i++) {
+					if (i == 4) {
+						races[i] = true;
+					} else {
+						races[i] = false;
+					}
+				}
 			}
 			choicecount++;
 		} else if (selectedButton == protoss2) {
@@ -461,10 +577,24 @@ public class Background extends JFrame implements ActionListener {
 				blackPlayer.setIcon(new ImageIcon("images/protoss2.gif"));
 				protoss2.setLocation(1125, 205);
 				repaint();
+				for (int i = 0; i < races.length / 2; i++) {
+					if (i == 1) {
+						races[i] = true;
+					} else {
+						races[i] = false;
+					}
+				}
 			} else {
 				whitePlayer.setIcon(new ImageIcon("images/protoss2.gif"));
 				protoss2.setLocation(1475, 205);
 				repaint();
+				for (int i = 3; i < races.length; i++) {
+					if (i == 4) {
+						races[i] = true;
+					} else {
+						races[i] = false;
+					}
+				}
 			}
 			choicecount++;
 		} else if (selectedButton == protoss3) {
@@ -473,10 +603,24 @@ public class Background extends JFrame implements ActionListener {
 				blackPlayer.setIcon(new ImageIcon("images/protoss3.gif"));
 				protoss3.setLocation(1125, 205);
 				repaint();
+				for (int i = 0; i < races.length / 2; i++) {
+					if (i == 1) {
+						races[i] = true;
+					} else {
+						races[i] = false;
+					}
+				}
 			} else {
 				whitePlayer.setIcon(new ImageIcon("images/protoss3.gif"));
 				protoss3.setLocation(1475, 205);
 				repaint();
+				for (int i = 3; i < races.length; i++) {
+					if (i == 4) {
+						races[i] = true;
+					} else {
+						races[i] = false;
+					}
+				}
 			}
 			choicecount++;
 		} else if (selectedButton == zerg1) {
@@ -485,10 +629,24 @@ public class Background extends JFrame implements ActionListener {
 				blackPlayer.setIcon(new ImageIcon("images/zerg1.gif"));
 				zerg1.setLocation(1125, 205);
 				repaint();
+				for (int i = 0; i < races.length / 2; i++) {
+					if (i == 2) {
+						races[i] = true;
+					} else {
+						races[i] = false;
+					}
+				}
 			} else {
 				whitePlayer.setIcon(new ImageIcon("images/zerg1.gif"));
 				zerg1.setLocation(1475, 205);
 				repaint();
+				for (int i = 3; i < races.length; i++) {
+					if (i == 5) {
+						races[i] = true;
+					} else {
+						races[i] = false;
+					}
+				}
 			}
 			choicecount++;
 		} else if (selectedButton == zerg2) {
@@ -497,10 +655,24 @@ public class Background extends JFrame implements ActionListener {
 				blackPlayer.setIcon(new ImageIcon("images/zerg2.gif"));
 				zerg2.setLocation(1125, 205);
 				repaint();
+				for (int i = 0; i < races.length / 2; i++) {
+					if (i == 2) {
+						races[i] = true;
+					} else {
+						races[i] = false;
+					}
+				}
 			} else {
 				whitePlayer.setIcon(new ImageIcon("images/zerg2.gif"));
 				zerg2.setLocation(1475, 205);
 				repaint();
+				for (int i = 3; i < races.length; i++) {
+					if (i == 5) {
+						races[i] = true;
+					} else {
+						races[i] = false;
+					}
+				}
 			}
 			choicecount++;
 		} else if (selectedButton == zerg3) {
@@ -509,10 +681,24 @@ public class Background extends JFrame implements ActionListener {
 				blackPlayer.setIcon(new ImageIcon("images/zerg3.gif"));
 				zerg3.setLocation(1125, 205);
 				repaint();
+				for (int i = 0; i < races.length / 2; i++) {
+					if (i == 2) {
+						races[i] = true;
+					} else {
+						races[i] = false;
+					}
+				}
 			} else {
 				whitePlayer.setIcon(new ImageIcon("images/zerg3.gif"));
 				zerg3.setLocation(1475, 205);
 				repaint();
+				for (int i = 3; i < races.length; i++) {
+					if (i == 5) {
+						races[i] = true;
+					} else {
+						races[i] = false;
+					}
+				}
 			}
 			choicecount++;
 		}

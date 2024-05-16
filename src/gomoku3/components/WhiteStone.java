@@ -70,7 +70,7 @@ public class WhiteStone extends JLabel{
 		}
 
 		public void initData() {
-			whiteStone = new ImageIcon("images/whiteStone.png");
+			whiteStone = new ImageIcon("images/whitestone.png");
 			x = mContext.cursor.getX() - 10;
 			y = mContext.cursor.getY() - 21;
 			color = 1; // color 값 받아와서 적용될 수 있게 수정.
