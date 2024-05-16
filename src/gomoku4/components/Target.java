@@ -36,7 +36,6 @@ public class Target extends JLabel implements Moveable {
 
 	CursorWay cursorWay;
 
-
 	public void setmContext(Background mContext) {
 		this.mContext = mContext;
 	}
@@ -136,6 +135,7 @@ public class Target extends JLabel implements Moveable {
 	public void setCursorWay(CursorWay cursorWay) {
 		this.cursorWay = cursorWay;
 	}
+
 	public WhiteStone getWhiteStone() {
 		return whiteStone;
 	}
@@ -143,6 +143,7 @@ public class Target extends JLabel implements Moveable {
 	public BlackStone getBlackStone() {
 		return blackStone;
 	}
+
 	public Target(Background mContext) {
 		this.mContext = mContext;
 		initData();
