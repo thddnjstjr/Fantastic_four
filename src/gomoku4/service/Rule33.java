@@ -41,12 +41,6 @@ public class Rule33 implements Runnable {
 		count += findleftUpDiagonal();
 		// ↙ ↗ 탐색
 		count += findleftDownDiagonal();
-		System.out.println("-------------");
-		System.out.println("x : " + findWidth());
-		System.out.println("y : " + findHeight());
-		System.out.println("dx : " + findleftUpDiagonal());
-		System.out.println("dy : " + findleftDownDiagonal());
-		System.out.println("count : " + count);
 		return count >= 2;
 	}
 
@@ -58,7 +52,7 @@ public class Rule33 implements Runnable {
 		int stone2 = 0;
 		int allstone = 0;
 		boolean check; // false 일 경우 연속되는지 확인
-		int blinkXminus = 1;
+		int blankXminus = 1;
 
 		// ← 탐색
 		check = false;
@@ -83,11 +77,11 @@ public class Rule33 implements Runnable {
 				if (!check) {
 					check = true;
 				} else {
-					blinkXminus++;
+					blankXminus++;
 					break left;
 				}
-				if (blinkXminus == 1) {
-					blinkXminus--;
+				if (blankXminus == 1) {
+					blankXminus--;
 				} else {
 					break left;
 				}
@@ -96,9 +90,9 @@ public class Rule33 implements Runnable {
 		}
 
 		// → 탐색
-		int blinkXplus = blinkXminus;
-		if (blinkXminus == 1) {
-			blinkXminus = 0;
+		int blankXplus = blankXminus;
+		if (blankXminus == 1) {
+			blankXminus = 0;
 		}
 		check = false;
 		blackX = startX;
@@ -122,11 +116,11 @@ public class Rule33 implements Runnable {
 				if (!check) {
 					check = true;
 				} else {
-					blinkXplus++;
+					blankXplus++;
 					break right;
 				}
-				if (blinkXplus == 1) {
-					blinkXplus--;
+				if (blankXplus == 1) {
+					blankXplus--;
 				} else {
 					break right;
 				}
@@ -139,8 +133,8 @@ public class Rule33 implements Runnable {
 			return 0;
 		}
 
-		int left = stone1 + (blinkXminus * BLOCK);
-		int right = stone2 + (blinkXplus * BLOCK);
+		int left = stone1 + (blankXminus * BLOCK);
+		int right = stone2 + (blankXplus * BLOCK);
 		blackX = startX; // 좌표 초기화
 		blackY = startY;
 
@@ -165,7 +159,7 @@ public class Rule33 implements Runnable {
 		int stone2 = 0;
 		int allstone = 0;
 		boolean check;
-		int blinkYminus = 1;
+		int blankYminus = 1;
 
 		// ↑ 탐색
 		check = false;
@@ -184,11 +178,11 @@ public class Rule33 implements Runnable {
 				if (!check) {
 					check = true;
 				} else {
-					blinkYminus++;
+					blankYminus++;
 					break top;
 				}
-				if (blinkYminus == 1) {
-					blinkYminus--;
+				if (blankYminus == 1) {
+					blankYminus--;
 				} else {
 					break top;
 				}
@@ -196,9 +190,9 @@ public class Rule33 implements Runnable {
 			blackY -= BLOCK;
 		}
 		// ↓ 탐색
-		int blinkYplus = blinkYminus;
-		if (blinkYminus == 1) {
-			blinkYminus = 0;
+		int blankYplus = blankYminus;
+		if (blankYminus == 1) {
+			blankYminus = 0;
 		}
 		check = false;
 		blackX = startX;
@@ -216,11 +210,11 @@ public class Rule33 implements Runnable {
 				if (!check) {
 					check = true;
 				} else {
-					blinkYplus++;
+					blankYplus++;
 					break bottom;
 				}
-				if (blinkYplus == 1) {
-					blinkYplus--;
+				if (blankYplus == 1) {
+					blankYplus--;
 				} else {
 					break bottom;
 				}
@@ -232,8 +226,8 @@ public class Rule33 implements Runnable {
 			return 0;
 		}
 
-		int top = (stone1 + (blinkYminus * BLOCK));
-		int bottom = (stone2 + (blinkYplus * BLOCK));
+		int top = (stone1 + (blankYminus * BLOCK));
+		int bottom = (stone2 + (blankYplus * BLOCK));
 		blackX = startX; // 좌표 초기화
 		blackY = startY;
 
@@ -256,65 +250,65 @@ public class Rule33 implements Runnable {
 		int stone2 = 0;
 		int allstone = 0;
 		boolean check; // false 일 경우 연속되는지 확인
-		int leftUpBlink = 1;
+		int leftUpblank = 1;
 
 		// ↖ 탐색
 		check = false;
 		int blackX = startX;
 		int blackY = startY;
-		leftUpDiagonal: while (true) {
+		leftUpDy: while (true) {
 			if (blackX - BLOCK < MIN_X || blackY - BLOCK < MIN_Y) {
-				break leftUpDiagonal;
+				break leftUpDy;
 			}
 			if (map[blackX - BLOCK][blackY - BLOCK] == 1) {
 				check = false;
 				stone1++;
 			} else if (map[blackX - BLOCK][blackY - BLOCK] == 2) {
-				break leftUpDiagonal;
+				break leftUpDy;
 			} else if (map[blackX - BLOCK][blackY - BLOCK] == 0) {
 				if (!check) {
 					check = true;
 				} else {
-					leftUpBlink++;
-					break leftUpDiagonal;
+					leftUpblank++;
+					break leftUpDy;
 				}
-				if (leftUpBlink == 1) {
-					leftUpBlink--;
+				if (leftUpblank == 1) {
+					leftUpblank--;
 				} else {
-					break leftUpDiagonal;
+					break leftUpDy;
 				}
 			}
 			blackX -= BLOCK;
 			blackY -= BLOCK;
 		}
 		// ↘ 탐색
-		int RightDownBlink = leftUpBlink;
-		if (leftUpBlink == 1) {
-			leftUpBlink = 0;
+		int RightDownblank = leftUpblank;
+		if (leftUpblank == 1) {
+			leftUpblank = 0;
 		}
 		check = false;
 		blackX = startX;
 		blackY = startY;
-		rightDownDiagonal: while (true) {
+		rightDownDy: while (true) {
 			if (blackX + BLOCK > MAX_X || blackY + BLOCK > MAX_Y) {
-				break rightDownDiagonal;
+				break rightDownDy;
 			}
 			if (map[blackX + BLOCK][blackY + BLOCK] == 1) {
 				check = false;
 				stone2++;
 			} else if (map[blackX + BLOCK][blackY + BLOCK] == 2) {
-				break rightDownDiagonal;
+				break rightDownDy;
 			} else if (map[blackX + BLOCK][blackY + BLOCK] == 0) {
 				if (!check) {
 					check = true;
 				} else {
-					RightDownBlink++;
-					break rightDownDiagonal;
+					RightDownblank++;
+					break rightDownDy;
 				}
-				if (RightDownBlink == 1) {
-					RightDownBlink--;
+				if (RightDownblank == 1) {
+					RightDownblank--;
 				} else {
-					break rightDownDiagonal;
+					break rightDownDy;
 				}
 			}
 			blackX += BLOCK;
@@ -325,8 +319,8 @@ public class Rule33 implements Runnable {
 			return 0;
 		}
 
-		int leftup = (stone1 + (leftUpBlink * BLOCK));
-		int rightdown = (stone2 + (RightDownBlink * BLOCK));
+		int leftup = (stone1 + (leftUpblank * BLOCK));
+		int rightdown = (stone2 + (RightDownblank * BLOCK));
 		blackX = startX; // 좌표 초기화
 		blackY = startY;
 
@@ -351,7 +345,7 @@ public class Rule33 implements Runnable {
 		int stone2 = 0;
 		int allstone = 0;
 		boolean check; // false 일 경우 연속되는지 확인
-		int leftDownBlink = 1;
+		int leftDownblank = 1;
 
 		int blackX = startX;
 		int blackY = startY;
@@ -370,11 +364,11 @@ public class Rule33 implements Runnable {
 				if (!check) {
 					check = true;
 				} else {
-					leftDownBlink++;
+					leftDownblank++;
 					break leftDownDy;
 				}
-				if (leftDownBlink == 1) {
-					leftDownBlink--;
+				if (leftDownblank == 1) {
+					leftDownblank--;
 				} else {
 					break leftDownDy;
 				}
@@ -384,9 +378,9 @@ public class Rule33 implements Runnable {
 		}
 
 		// ↗ 탐색
-		int RightUpBlink = leftDownBlink;
-		if (leftDownBlink == 1) {
-			leftDownBlink = 0;
+		int RightUpblank = leftDownblank;
+		if (leftDownblank == 1) {
+			leftDownblank = 0;
 		}
 		check = false;
 		blackX = startX;
@@ -404,11 +398,11 @@ public class Rule33 implements Runnable {
 				if (!check) {
 					check = true;
 				} else {
-					RightUpBlink++;
+					RightUpblank++;
 					break rightUpDy;
 				}
-				if (RightUpBlink == 1) {
-					RightUpBlink--;
+				if (RightUpblank == 1) {
+					RightUpblank--;
 				} else {
 					break rightUpDy;
 				}
@@ -420,8 +414,8 @@ public class Rule33 implements Runnable {
 		if (allstone != 2) {
 			return 0;
 		}
-		int leftdown = (stone1 + (leftDownBlink * BLOCK));
-		int rightup = (stone2 + (RightUpBlink * BLOCK));
+		int leftdown = (stone1 + (leftDownblank * BLOCK));
+		int rightup = (stone2 + (RightUpblank * BLOCK));
 		blackX = startX; // 좌표 초기화
 		blackY = startY;
 
