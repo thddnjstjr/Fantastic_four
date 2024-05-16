@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Stack;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import gomoku4.Gomoku;
+import gomoku4.service.Rule33;
 import gomoku4.service.WinRule;
 
 public class Background extends JFrame implements ActionListener {
@@ -28,18 +28,15 @@ public class Background extends JFrame implements ActionListener {
 	private JLabel backgroundMap;
 
 	Target cursor;
-	private int x;
-	private int y;
 	private int color;
 	private int count;
-	private int remote;
 	private int blackcount;
 	private int whitecount;
-	private boolean three;
 	private boolean blackWinner;
 	private boolean whiteWinner;
 	private boolean game;
 	boolean flag = false;
+	boolean isClick;
 	Gomoku gomoku = new Gomoku();
 	private Background mContext = this;
 	JButton button1;
@@ -58,7 +55,6 @@ public class Background extends JFrame implements ActionListener {
 	JLabel backgroundLeft;
 	JLabel backgroundRight;
 	JLabel board;
-	boolean isClick;
 
 	public Background() {
 		initData();
@@ -73,10 +69,6 @@ public class Background extends JFrame implements ActionListener {
 
 	public int[][] getMap() {
 		return map;
-	}
-
-	public void setThree(boolean three) {
-		this.three = three;
 	}
 
 	public int getColor() {
@@ -104,7 +96,6 @@ public class Background extends JFrame implements ActionListener {
 		button3 = new JButton("시작");
 		button4 = new JButton("무르기");
 		blackwin = new JLabel(new ImageIcon("images/blackwin.gif"));
-
 	}
 
 	private void setInitLayout() {
@@ -123,15 +114,16 @@ public class Background extends JFrame implements ActionListener {
 		player.setLocation(1550, 80);
 		player.setSize(200, 200);
 		backgroundLeft.setLocation(0, 0);
-		backgroundRight.setLocation(1400, 0);
-		backgroundLeft.setSize(450, 1000);
-		backgroundRight.setSize(500, 1000);
+		backgroundRight.setLocation(1440, 0);
+		backgroundLeft.setSize(443, 1000);
+		backgroundRight.setSize(470, 1000);
 		tag.setLocation(1500, 280);
 		tag.setSize(300, 300);
 		playerlabel.setLocation(1525, 20);
 		playerlabel.setSize(250, 280);
 		board.setLocation(1450, 600);
 		board.setSize(400, 350);
+		button4.setBounds(200, 800, 100, 50);
 	}
 
 	private void addEventListener() {
@@ -161,24 +153,28 @@ public class Background extends JFrame implements ActionListener {
 				case KeyEvent.VK_SPACE:
 					if (blackWinner == false && whiteWinner == false) {
 						if (map[cursor.getX()][cursor.getY()] == 0) {
-							isClick = true;
+							isClick = false;
 							if ((color % 2) == 0) {
-								System.out.println("백돌 차례 입니다.");
+//								System.out.println("백돌 차례 입니다.");
 								cursor.BlackStone();
 								map[cursor.getX()][cursor.getY()] = 1;
 								turn.setIcon(new ImageIcon("images/whiteStone.png"));
 								player.setIcon(whitePlayer.getIcon());
+								isClick = true;
+								new Thread(new Rule33(mContext, cursor.getBlackStone().getRealx(),
+										cursor.getBlackStone().getRealy())).start();
 								blackcount++;
 							} else {
-								System.out.println("흑돌 차례 입니다.");
+//								System.out.println("흑돌 차례 입니다.");
 								cursor.WhiteStone();
 								map[cursor.getX()][cursor.getY()] = 2;
 								turn.setIcon(new ImageIcon("images/blackStone.png"));
 								player.setIcon(blackPlayer.getIcon());
+								isClick = true;
 								whitecount++;
 							}
-							System.out.println(cursor.getX() + " ," + cursor.getY());
-							System.out.println(map[cursor.getX()][cursor.getY()]);
+//							System.out.println(cursor.getX() + " ," + cursor.getY());
+//							System.out.println(map[cursor.getX()][cursor.getY()]);
 							repaint();
 							color++;
 							break;
@@ -186,6 +182,7 @@ public class Background extends JFrame implements ActionListener {
 							System.out.println("같은자리에는 놓을수없습니다.");
 							return;
 						}
+
 					}
 				}
 			}
@@ -205,10 +202,9 @@ public class Background extends JFrame implements ActionListener {
 		add(player);
 		add(playerlabel);
 		add(board);
+		add(button4);
 		add(backgroundLeft);
 		add(backgroundRight);
-		button4.setBounds(200, 800, 100, 50);
-		backgroundLeft.add(button4);
 		remove(button3);
 		game = true;
 		addKeyListener();
@@ -221,7 +217,6 @@ public class Background extends JFrame implements ActionListener {
 				map[i][j] = 0;
 			}
 		}
-
 		blackWinner = true;
 		getContentPane().removeAll();
 		setContentPane(blackwin);
@@ -266,15 +261,17 @@ public class Background extends JFrame implements ActionListener {
 		} else if (selectedButton.getText().equals("시작")) {
 			start();
 		} else if (selectedButton.getText().equals("무르기")) {
-			if(isClick) {				
+			if (isClick) {
 				if (color % 2 == 1) {
-					map[cursor.getBlackStone().getX()][cursor.getBlackStone().getY()] = 0;
+					map[cursor.getBlackStone().getRealx()][cursor.getBlackStone().getRealy()] = 0;
 					remove(cursor.getBlackStone());
 					blackcount--;
+					color++;
 				} else if (color % 2 == 0) {
-					map[cursor.getWhiteStone().getX()][cursor.getWhiteStone().getY()] = 0;
+					map[cursor.getWhiteStone().getRealx()][cursor.getWhiteStone().getRealy()] = 0;
 					remove(cursor.getWhiteStone());
 					whitecount--;
+					color++;
 				}
 			}
 			repaint();
