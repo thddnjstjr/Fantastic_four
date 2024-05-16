@@ -16,6 +16,7 @@ public class WinRule implements Runnable {
 	private Background mContext;
 	int block = 52;
 	int block2 = 52;
+	int sixblock = 260;
 
 	public WinRule(Background mContext) {
 		this.mContext = mContext;
@@ -31,12 +32,12 @@ public class WinRule implements Runnable {
 						for (int t = 0; t < 4; t++) {
 							if (map[j + block][i] == 0 || map[j + block][i] == 2) {
 								blackX = 0;
-							} else if (map[j + block2 * 5][i] == 1) {
+							} else if (map[j + sixblock][i] == 1) {
 								continue;
 							}
 							if (map[j + block][i] == 0 || map[j + block][i] == 1) {
 								whiteX = 0;
-							} else if (map[j + block2 * 5][i] == 2) {
+							} else if (map[j + sixblock][i] == 2) {
 								continue;
 							}
 							if (map[j][i] == 1 && map[j + block][i] == 1) {
@@ -59,12 +60,12 @@ public class WinRule implements Runnable {
 						for (int t = 0; t < 4; t++) {
 							if (map[i][j + block] == 0 || map[j][j + block] == 2) {
 								blackX = 0;
-							} else if (map[i][j + block2 * 5] == 1) {
+							} else if (map[i][j + sixblock] == 1) {
 								continue;
 							}
 							if (map[i][j + block] == 0 || map[i][j + block] == 1) {
 								whiteX = 0;
-							} else if (map[i][j + block2 * 5] == 2) {
+							} else if (map[i][j + sixblock] == 2) {
 								continue;
 							}
 							if (map[i][j] == 1 && map[i][j + block] == 1) {
@@ -109,99 +110,62 @@ public class WinRule implements Runnable {
 						break Loop;
 					}
 					block = 52;
-					for (int y = 0; y < blackDiagonal.length; y++) {
-						blackDiagonal[y] = 0;
-						whiteDiagonal[y] = 0;
-					}
-					for (int t = 0; t < 4; t++) {
-						if (map[j][i] != 0) {
-							if (map.length > i + block && 0 < i - block2 * 5) {
-								if(map[j + block][i + block] == 0 || map[j + block][i + block] == 2 || map[j + block2 * 5][i + block2 * 5] == 1) {
-									blackDiagonal[0] = 0;
-								}
-								if(map[j + block][i - block] == 0 || map[j + block][i - block] == 2 || map[j + block2 * 5][i - block2 * 5] == 1) {
-									blackDiagonal[1] = 0;
-								}
-								if(map[j - block][i + block] == 0 || map[j - block][i + block] == 2 || map[j - block2 * 5][i + block2 * 5] == 1) {
-									blackDiagonal[2] = 0;
-								}
-								if(map[j - block][i - block] == 0 || map[j - block][i - block] == 2 || map[j - block2 * 5][i - block2 * 5] == 1) {
-									blackDiagonal[3] = 0;
-								}
-								if(map[j + block][i + block] == 0 || map[j + block][i + block] == 1 || map[j + block2 * 5][i + block2 * 5] == 2) {
-									whiteDiagonal[0] = 0;
-								}
-								if(map[j + block][i - block] == 0 || map[j + block][i - block] == 1 || map[j + block2 * 5][i - block2 * 5] == 2) {
-									whiteDiagonal[1] = 0;
-								}
-								if(map[j - block][i + block] == 0 || map[j - block][i + block] == 1 || map[j - block2 * 5][i + block2 * 5] == 2) {
-									whiteDiagonal[2] = 0;
-								
-								if(map[j - block][i - block] == 0 || map[j - block][i - block] == 1 || map[j - block2 * 5][i - block2 * 5] == 2) {
-									whiteDiagonal[3] = 0;
-								}
-								if (map[j][i] == 1 && map[j + block][i + block] == 1) {
-									if (map[j - block][i - block] == 1) {
-										continue;
-									} 
-									blackDiagonal[0]++;
-								}
-								if (map[j][i] == 1 && map[j + block][i - block] == 1) {
-									if (map[j - block][i + block] == 1) {
-										continue;
+					if (map[j][i] != 0) {
+						for (int t = 0; t < 4; t++) {
+							if (i < map.length / 2) {
+								if (i == 9) {
+									if (map[j][i] == 1 && map[j + block][i + block] == 1 && map[j + sixblock][i + sixblock] != 1) {
+										blackDiagonal[0]++;
 									}
+									if (map[j][i] == 1 && map[j - block][i + block] == 1 && map[j - sixblock][i + sixblock] != 1) {
+										blackDiagonal[2]++;
+									}
+									if (map[j][i] == 2 && map[j + block][i + block] == 2 && map[j + sixblock][i + sixblock] != 2) {
+										whiteDiagonal[0]++;
+									}
+									if (map[j][i] == 2 && map[j - block][i + block] == 2 && map[j - sixblock][i + sixblock] != 2) {
+										whiteDiagonal[2]++;
+									}
+								} else {
+									if (map[j][i] == 1 && map[j + block][i + block] == 1 && map[j - block2][i - block2] != 1 && map[j + sixblock][i + sixblock] != 1) {
+										blackDiagonal[0]++;
+									}
+									if (map[j][i] == 1 && map[j - block][i + block] == 1 && map[j + block2][i - block2] != 1 && map[j - sixblock][i + sixblock] != 1) {
+										blackDiagonal[2]++;
+									}
+									if (map[j][i] == 2 && map[j + block][i + block] == 2 && map[j - block2][i - block2] != 2 && map[j + sixblock][i + sixblock] != 2) {
+										whiteDiagonal[0]++;
+									}
+									if (map[j][i] == 2 && map[j - block][i + block] == 2 && map[j + block2][i - block2] != 2 && map[j - sixblock][i + sixblock] != 2) {
+										whiteDiagonal[2]++;
+									}
+								}
+							} else if (i >= map.length / 2) {
+								if (map[j][i] == 1 && map[j + block][i - block] == 1 && map[j - block2][i + block2] != 1 && map[j + sixblock][i - sixblock] != 1) {
 									blackDiagonal[1]++;
 								}
-								if (map[j][i] == 1 && map[j - block][i + block] == 1) {
-									if (map[j + block][i - block] == 1) {
-										continue;
-									}
-									blackDiagonal[2]++;
-								}
-								if (map[j][i] == 1 && map[j - block][i - block] == 1) {
-									if (map[j + block][i + block] == 1) {
-										continue;
-									}
+								if (map[j][i] == 1 && map[j - block][i - block] == 1 && map[j + block2][i + block2] != 1 && map[j - sixblock][i - sixblock] != 1) {
 									blackDiagonal[3]++;
 								}
-								if (map[j][i] == 2 && map[j + block][i + block] == 2) {
-									if (map[j - block][i - block] == 2) {
-										continue;
-									}
-									whiteDiagonal[0]++;
-								}
-								if (map[j][i] == 2 && map[j + block][i - block] == 2) {
-									if (map[j - block][i + block] == 2) {
-										continue;
-									}
+								if (map[j][i] == 2 && map[j + block][i - block] == 2 && map[j - block2][i + block2] != 2 && map[j + sixblock][i - sixblock] != 2) {
 									whiteDiagonal[1]++;
 								}
-								if (map[j][i] == 2 && map[j - block][i + block] == 2) {
-									if (map[j + block][i - block] == 2) {
-										continue;
-									}
-									whiteDiagonal[2]++;
-								}
-								if (map[j][i] == 2 && map[j - block][i - block] == 2) {
-									if (map[j + block][i + block] == 2) {
-										continue;
-									}
+								if (map[j][i] == 2 && map[j - block][i - block] == 2 && map[j + block2][i + block2] != 2 && map[j - sixblock][i - sixblock] != 2) {
 									whiteDiagonal[3]++;
 								}
 							}
 							block += 52;
 						}
 					}
-					}
 					block = 52;
 					if (blackDiagonal[0] == 4 || blackDiagonal[1] == 4 || blackDiagonal[2] == 4
 							|| blackDiagonal[3] == 4) {
+						System.out.println(j + " , " + i);
+						System.out.println(blackDiagonal[0]);
+						System.out.println(blackDiagonal[1]);
+						System.out.println(blackDiagonal[2]);
+						System.out.println(blackDiagonal[3]);
 						System.out.println("흑돌 대각선 승리");
-						System.out.println(j + "" + i);
-						System.out.println("승리" + blackDiagonal[0]);
-						System.out.println("승리" + blackDiagonal[1]);
-						System.out.println("승리" + blackDiagonal[2]);
-						System.out.println("승리" + blackDiagonal[3]);
 						mContext.blackWin();
 						break Loop;
 					}
@@ -210,6 +174,10 @@ public class WinRule implements Runnable {
 						System.out.println("백돌 대각선 승리");
 						mContext.whiteWin();
 						break Loop;
+					}
+					for (int y = 0; y < blackDiagonal.length; y++) {
+						blackDiagonal[y] = 0;
+						whiteDiagonal[y] = 0;
 					}
 					blackX = 0;
 					blackY = 0;
