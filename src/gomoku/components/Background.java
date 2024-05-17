@@ -1,5 +1,5 @@
 
-package gomoku3.components;
+package gomoku.components;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -16,9 +16,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import gomoku3.service.Rule33;
-import gomoku3.service.Timer;
-import gomoku3.service.WinRule;
+import gomoku.service.Rule33;
+import gomoku.service.Timer;
+import gomoku.service.WinRule;
 
 public class Background extends JFrame implements ActionListener {
 
@@ -367,9 +367,8 @@ public class Background extends JFrame implements ActionListener {
 								cursor.BlackStone(); // 흑돌 객체가 생성됨
 								map[cursor.getX()][cursor.getY()] = 1; // 해당 좌표에 흑돌이 생성되었음으로 1을 넣어줌
 								turn.setIcon(new ImageIcon("images/whiteStone.png")); // 흑돌의 차례가 넘어감으로 현재 턴의 색깔을 백돌로 바꿔줌
-								new Thread(new Rule33(mContext, cursor.getBlackSton().getRealx(), // 33룰은 흑돌에게만 적용 흑돌이
-																									// 놓일때마다 쓰레드 생성
-										cursor.getBlackSton().getRealy())).start();
+								new Thread(new Rule33(mContext, cursor.getBlackStone().getRealx(), 
+										cursor.getBlackStone().getRealy())).start();
 								player.setIcon(whitePlayer.getIcon()); // 마찬가지로 현재 플레이어 캐릭터를 백돌 캐릭터로 바꿔줌
 								blackcount++; // 흑돌의 갯수가 1개 증가
 							} else { // 홀수일때는 백돌의 턴이 됨

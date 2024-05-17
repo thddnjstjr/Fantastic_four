@@ -828,7 +828,7 @@ public class Background extends JFrame implements ActionListener {
 		if (game == true) { // 게임 시작했을때 문구 표시 종료시 없어짐
 			g.drawString("이번 턴은", 1590, 440);
 			g.drawString("플레이어", 1590, 90);
-			g.drawString("총 돌의 갯수", 1580, 730);
+			g.drawString("총 돌의 갯수", 1570, 730);
 			g.drawString("흑", 1570, 790);
 			g.drawString("백", 1720, 790);
 			g.drawString("" + blackcount, 1575, 830);
