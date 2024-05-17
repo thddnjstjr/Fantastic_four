@@ -82,13 +82,10 @@ public class Background extends JFrame implements ActionListener {
 	private JLabel blank;
 	private JLabel blank2;
 	private JLabel win;
-<<<<<<< HEAD
 	private JLayeredPane layeredPane;
 	private CountdownTimer countdownTimer;
-=======
 	private JLabel gamename;
 	private Timer timer;
->>>>>>> 3b1962d3b354fc0e92edb4c795643e6f3b61eed6
 	private boolean[] races = new boolean[6]; // 종족 선택 넣기 0:블랙 테란 1: 블랙 토스 2: 블랙 저그 3: 화이트 테란 4: 화이트 토스 5: 화이트 저그
 
 	public Background() {
@@ -124,7 +121,6 @@ public class Background extends JFrame implements ActionListener {
 	public boolean[] getRaces() {
 		return races;
 	}
-	
 
 	public boolean isTime() {
 		return time;
@@ -174,8 +170,7 @@ public class Background extends JFrame implements ActionListener {
 		setContentPane(mainmenu);
 		setTitle("우주오목전쟁");
 		setSize(1900, 1000);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
-
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
 
@@ -309,7 +304,7 @@ public class Background extends JFrame implements ActionListener {
 							break;
 						} else {
 							System.out.println(map[cursor.getX()][cursor.getY()]);
-							 System.out.println("같은자리에는 놓을수없습니다.");
+							System.out.println("같은자리에는 놓을수없습니다.");
 							return;
 						}
 					}
@@ -490,7 +485,7 @@ public class Background extends JFrame implements ActionListener {
 					color++;
 				}
 			} else {
-				
+
 			}
 			repaint();
 			this.requestFocus();
@@ -742,8 +737,8 @@ public class Background extends JFrame implements ActionListener {
 	public void paint(Graphics g) {
 		super.paint(g);
 		Font font = new Font("Kostar", Font.BOLD, 35);
-		Font font2 = new Font("Kostar",Font.BOLD,45);
- 		g.setFont(font);
+		Font font2 = new Font("Kostar", Font.BOLD, 45);
+		g.setFont(font);
 		if (game == true) {
 			g.drawString("이번 턴은", 1590, 440);
 			g.drawString("플레이어", 1590, 90);
@@ -753,13 +748,14 @@ public class Background extends JFrame implements ActionListener {
 			g.drawString("" + blackcount, 1575, 830);
 			g.drawString("" + whitecount, 1725, 830);
 		}
-		if(result == true) {
+		if (result == true) {
 			g.setColor(Color.white);
-			g.drawString("흑돌 승리 횟수 : " + blackwin,160, 400);
-			g.drawString("백돌 승리 횟수 : " + whitewin,160, 500);
-			g.drawString("돌 놓인 횟수 : " + total ,160, 600);
+			g.drawString("흑돌 승리 횟수 : " + blackwin, 160, 400);
+			g.drawString("백돌 승리 횟수 : " + whitewin, 160, 500);
+			g.drawString("돌 놓인 횟수 : " + total, 160, 600);
 			g.setFont(font2);
-		g.drawString("경기 시간 : "+(timer.getrTime()/1000) / 60 +"분 "+timer.getrTime()/1000 % 60 +"초",160,300);
+			g.drawString("경기 시간 : " + (timer.getrTime() / 1000) / 60 + "분 " + timer.getrTime() / 1000 % 60 + "초", 160,
+					300);
 		}
 	}
 

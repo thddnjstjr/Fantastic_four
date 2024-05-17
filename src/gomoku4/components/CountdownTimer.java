@@ -1,25 +1,32 @@
-package gomoku.components;
+package gomoku4.components;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.Timer;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class CountdownTimer extends JLabel implements Runnable {
+public class CountdownTimer extends JLabel implements Runnable{
 
 	private String[] count = { "black.png", "1.png", "2.png", "black.png" };
 	private int index = 0;
 
 	public CountdownTimer() {
-
+		initData();
+		setInitLayout();
+	}
+	
+	@Override
+	public void run() {
+		
 	}
 
 	private void initData() {
 		// 초기 이미지 설정
 		setIcon(new ImageIcon("images/" + count[0]));
 		setSize(500, 500);
-		setLocation(500, 500);
+		setLocation(100, 300);
 		setVisible(true);
 	}
 
@@ -42,9 +49,5 @@ public class CountdownTimer extends JLabel implements Runnable {
 		timer.start();
 	}
 
-	@Override
-	public void run() {
-		initData();
-		setInitLayout();
-	}
+
 }

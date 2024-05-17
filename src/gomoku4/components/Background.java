@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Timer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -38,6 +37,7 @@ public class Background extends JFrame implements ActionListener {
 	private boolean game;
 	boolean flag = false;
 	boolean isClick;
+	boolean rule33;
 	Gomoku gomoku = new Gomoku();
 	private Background mContext = this;
 	JButton button1;
@@ -57,8 +57,7 @@ public class Background extends JFrame implements ActionListener {
 	JLabel backgroundRight;
 	JLabel board;
 	JLabel rule33board;
-	boolean rule33;
-	Timer timer;
+	CountdownTimer countdowntimer;
 
 	public Background() {
 		initData();
@@ -132,8 +131,6 @@ public class Background extends JFrame implements ActionListener {
 		rule33board.setSize(600, 300);
 		rule33board.setLocation(400, 300);
 	}
-	
-	
 
 	private void addEventListener() {
 		button1.addActionListener(this);
@@ -217,6 +214,7 @@ public class Background extends JFrame implements ActionListener {
 		remove(button3);
 		game = true;
 		addKeyListener();
+
 		this.requestFocus();
 	}
 
@@ -304,7 +302,7 @@ public class Background extends JFrame implements ActionListener {
 			g.drawString("" + whitecount, 1735, 830);
 		}
 		if (rule33) {
-			add(rule33board, 0	);
+			add(rule33board, 0);
 			repaint();
 			g.drawString("흑돌은 33에 돌을 둘수 없습니다.", 500, 500);
 		}
