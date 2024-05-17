@@ -1,3 +1,4 @@
+
 package gomoku3.components;
 
 import java.awt.Color;
@@ -52,7 +53,7 @@ public class Background extends JFrame implements ActionListener {
 	private JButton button7; // 메인메뉴로 가기 버튼
 	private JButton button8; // 결과창가기 버튼
 	private JButton terran1; // 마린
-	private JButton terran2; // 발키리
+	private JButton terran2; // 발키리 
 	private JButton terran3; // 탱크
 	private JButton zerg1; // 인페스트 테란
 	private JButton zerg2; // 저글링

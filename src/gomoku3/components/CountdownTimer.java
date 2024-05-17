@@ -8,7 +8,8 @@ import java.awt.event.ActionListener;
 
 public class CountdownTimer extends JLabel implements Runnable{
 
-    private String[] count = { "black.png", "1.png", "2.png", "black.png" };
+    private String[] count = { "20.png","19.png","18.png","17.png","16.png","15.png","14.png","13.png","12.png","11.png","10.png",
+    		"9.png","8.png","7.png", "6.png", "5.png", "4.png", "3.png","2.png","1.png","0.png", };
     private int index = 0;
     private Background mconText;
     public CountdownTimer(Background mconText) {
@@ -24,7 +25,7 @@ public class CountdownTimer extends JLabel implements Runnable{
     }
 
     private void setInitLayout() {
-        // Timer 설정: 5000ms(5초)마다 actionPerformed 메소드 호출
+        // Timer 설정: 1000ms(1초)마다 actionPerformed 메소드 호출
         Timer timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
