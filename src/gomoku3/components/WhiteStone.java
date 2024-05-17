@@ -25,7 +25,6 @@ public class WhiteStone extends JLabel{
 	public int getRealy() {
 		return realy;
 	}
-	
 	// 흑돌 백돌 이미지
 	private ImageIcon whiteStone;
 

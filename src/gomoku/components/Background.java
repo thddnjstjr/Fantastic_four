@@ -27,7 +27,6 @@ public class Background extends JFrame implements ActionListener {
 	private final int WHITE_STONE = 2; // 배열에 입력된 값이 2인 경우 그자리에는 백돌이 있음
 
 	private JLabel backgroundMap;
-
 	Target cursor;
 	private int x;
 	private int y;
@@ -45,6 +44,7 @@ public class Background extends JFrame implements ActionListener {
 	boolean isClick;
 	Gomoku gomoku = new Gomoku();
 	private Background mContext = this;
+	private CountdownTimer countdownTimer;
 	JButton button1;
 	JButton button2;
 	JButton button3;
@@ -108,9 +108,9 @@ public class Background extends JFrame implements ActionListener {
 		black = new JLabel(new ImageIcon("images/black.png"));
 		blank = new JLabel(new ImageIcon("images/blank.png"));
 		blank2 = new JLabel(new ImageIcon("images/blank.png"));
-		backgroundMap = new JLabel(new ImageIcon("images/omokbackground.png"));
-		background2 = new JLabel(new ImageIcon("images/background4.jpg"));
-		mainmenu = new JLabel(new ImageIcon("images/main.png"));
+		backgroundMap = new JLabel(new ImageIcon("images/"));
+		background2 = new JLabel(new ImageIcon("images/"));
+		mainmenu = new JLabel(new ImageIcon("images/"));
 		turn = new JLabel(new ImageIcon("images/blackStone.png"));
 		whitePlayer = new JLabel(new ImageIcon("images/protoss.gif"));
 		blackPlayer = new JLabel(new ImageIcon("images/terran.gif"));
@@ -141,6 +141,7 @@ public class Background extends JFrame implements ActionListener {
 		setTitle("우주오목전쟁");
 		setSize(1000, 1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 	}
 
 	private void setInitLayout() {
@@ -163,6 +164,9 @@ public class Background extends JFrame implements ActionListener {
 		button6.setContentAreaFilled(false);
 		button7.setBorderPainted(false);
 		button7.setContentAreaFilled(false);
+		add(countdownTimer);
+        countdownTimer.setBounds(500, 500, 100, 100); // Set bounds for the countdown timer
+		
 		turn.setLocation(1600, 400);
 		turn.setSize(100, 100);
 		whitePlayer.setLocation(1460, 100);
@@ -189,6 +193,7 @@ public class Background extends JFrame implements ActionListener {
 		black.setSize(300,100);
 		blank.setSize(250,250);
 		blank2.setSize(250,250);
+		
 	}
 
 	private void addEventListener() {
@@ -300,6 +305,7 @@ public class Background extends JFrame implements ActionListener {
 		add(backgroundRight);
 		game = true;
 		addKeyListener();
+		new Thread(countdownTimer =  new CountdownTimer()).start();
 		this.requestFocus();
 		repaint();
 	}

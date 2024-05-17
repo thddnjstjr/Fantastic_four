@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
+import gomoku.components.CountdownTimer;
 import gomoku3.Gomoku;
 import gomoku3.service.WinRule;
 
@@ -76,6 +77,7 @@ public class Background extends JFrame implements ActionListener {
 	private JLabel blank2;
 	private JLabel win;
 	private JLayeredPane layeredPane;
+	private CountdownTimer countdownTimer;
 	private boolean[] races = new boolean[6]; // 종족 선택 넣기 0:블랙 테란 1: 블랙 토스 2: 블랙 저그 3: 화이트 테란 4: 화이트 토스 5: 화이트 저그
 
 	public Background() {
@@ -119,6 +121,7 @@ public class Background extends JFrame implements ActionListener {
 		blank2 = new JLabel(new ImageIcon("images/blank.png"));
 		backgroundMap = new JLabel(new ImageIcon("images/omokbackground.png"));
 		background2 = new JLabel(new ImageIcon("images/background4.jpg"));
+		countdownTimer = new CountdownTimer();
 		mainmenu = new JLabel(new ImageIcon("images/mainmenu.jpg"));
 		turn = new JLabel(new ImageIcon("images/blackStone.png"));
 		whitePlayer = new JLabel(new ImageIcon("images/protoss.gif"));
@@ -154,7 +157,9 @@ public class Background extends JFrame implements ActionListener {
 		setContentPane(mainmenu);
 		setTitle("우주오목전쟁");
 		setSize(1900, 1000);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
+
+
 	}
 
 	private void setInitLayout() {

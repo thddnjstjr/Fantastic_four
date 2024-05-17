@@ -2,43 +2,50 @@ package gomoku.components;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class CountdownTimer extends JLabel implements Runnable {
+public class CountdownTimer extends JLabel implements Runnable{
 
-    private Background mContext;
-    private String[] count = { "1.png", "2.png" };
+    private String[] count = { "black.png", "1.png", "2.png", "black.png" };
+    private int index = 0;
 
-    public CountdownTimer(Background mContext) {
-        this.mContext = mContext;
+    public CountdownTimer() {
+       
     }
-
-    @Override
-    public void run() {
-        initData();
-        setInitLayout();
-    }
-
     private void initData() {
         // 초기 이미지 설정
         setIcon(new ImageIcon("images/" + count[0]));
-        setSize(100, 100);
-        setLocation(100, 200);
-        mContext.add(this); // 이 레이블을 배경에 추가
+        setSize(500, 500);
+        setLocation(500, 500);
+        setVisible(true);
     }
 
     private void setInitLayout() {
-        // count 배열 내 이미지 반복
-        for (int i = 0; i < count.length; i++) {
-            try {
-                // 이미지 변경
-                setIcon(new ImageIcon("images/" + count[i]));
-                // 5초간 슬립
-                Thread.sleep(5000); 
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        // Timer 설정: 5000ms(5초)마다 actionPerformed 메소드 호출
+        Timer timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // count 배열 내 이미지 반복
+                index++;
+                if (index < count.length) {
+                    setIcon(new ImageIcon("images/" + count[index]));
+                } else {
+                    // 타이머 중지
+                    ((Timer)e.getSource()).stop();
+                }
             }
-        }
+        });
+        timer.setInitialDelay(0); // 처음에 즉시 시작
+        timer.start();
     }
-    
-    
+   
+
+
+	@Override
+	public void run() {
+		 initData();
+	        setInitLayout();
+	}
 }

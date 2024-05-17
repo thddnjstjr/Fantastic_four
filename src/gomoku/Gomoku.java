@@ -10,6 +10,7 @@ public class Gomoku {
 	public static void main(String[] args) {
 		gomoku = new Background[100];
 		gomoku[game] = new Background();
+		
 	}
 
 	public void newGame() {
