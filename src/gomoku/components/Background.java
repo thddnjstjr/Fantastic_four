@@ -14,7 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import gomoku3.Gomoku;
-import gomoku3.service.Rule;
 import gomoku3.service.WinRule;
 
 public class Background extends JFrame implements ActionListener {

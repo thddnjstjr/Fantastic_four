@@ -1,7 +1,6 @@
 package gomoku3.components;
 
 import java.awt.Color;
-import java.awt.Event;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -10,15 +9,12 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import gomoku3.components.CountdownTimer;
-import gomoku3.Gomoku;
 import gomoku3.service.Rule33;
 import gomoku3.service.Timer;
 import gomoku3.service.WinRule;
@@ -85,7 +81,7 @@ public class Background extends JFrame implements ActionListener {
 	private JLabel gamename; // 게임 타이틀 제목
 	private Timer timer; // 타이머 객체 생성하기 위해 만든 멤버변수
 	private boolean[] races = new boolean[6]; // 종족 선택 넣기 0:블랙 테란 1: 블랙 토스 2: 블랙 저그 3: 화이트 테란 4: 화이트 토스 5: 화이트 저그
-
+	private CountdownTimer countdownTimer;
 	public Background() {
 		initData();
 		setInitLayout();
@@ -130,7 +126,6 @@ public class Background extends JFrame implements ActionListener {
 		backgroundMap = new JLabel(new ImageIcon("images/omokbackground.png"));
 		selectBackground = new JLabel(new ImageIcon("images/background4.jpg"));
 		background2 = new JLabel(new ImageIcon("images/background4.jpg"));
-		countdownTimer = new CountdownTimer();
 		mainmenu = new JLabel(new ImageIcon("images/mainmenu.jpg"));
 		turn = new JLabel(new ImageIcon("images/blackStone.png"));
 		whitePlayer = new JLabel(new ImageIcon("images/protoss.gif"));
@@ -428,6 +423,7 @@ public class Background extends JFrame implements ActionListener {
 		game = true; // true 일때부터 게임 시작
 		new Thread(new WinRule(mContext)).start(); // 게임 승리룰 쓰레드 작동
 		new Thread(timer = new Timer(mContext)).start(); // 타이머 쓰레드 작동
+		new Thread(countdownTimer = new CountdownTimer(mContext)).start();
 		getContentPane().removeAll(); // 모든 컴포넌트 초기화
 		setContentPane(backgroundMap); // 오목판을 배경으로 설정
 		setSize(1901, 1000);
