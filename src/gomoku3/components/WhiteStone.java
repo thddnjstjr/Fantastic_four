@@ -64,6 +64,8 @@ public class WhiteStone extends JLabel{
 	public WhiteStone(Background mContext) {
 		this.mContext = mContext;
 		this.cursor = mContext.cursor;
+		realx = mContext.cursor.getX();
+		realy = mContext.cursor.getY();
 		initData();
 		setInitLayout();
 		// new Thread().start(); 스톤 실행시 쓰레드로 동작하도록 구현
