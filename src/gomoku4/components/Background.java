@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Timer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -55,6 +56,8 @@ public class Background extends JFrame implements ActionListener {
 	JLabel backgroundLeft;
 	JLabel backgroundRight;
 	JLabel board;
+	boolean rule33;
+	Timer timer;
 
 	public Background() {
 		initData();
@@ -96,6 +99,7 @@ public class Background extends JFrame implements ActionListener {
 		button3 = new JButton("시작");
 		button4 = new JButton("무르기");
 		blackwin = new JLabel(new ImageIcon("images/blackwin.gif"));
+		timer = new Timer();
 	}
 
 	private void setInitLayout() {
@@ -159,10 +163,10 @@ public class Background extends JFrame implements ActionListener {
 								cursor.BlackStone();
 								map[cursor.getX()][cursor.getY()] = 1;
 								turn.setIcon(new ImageIcon("images/whiteStone.png"));
-								player.setIcon(whitePlayer.getIcon());
-								isClick = true;
 								new Thread(new Rule33(mContext, cursor.getBlackStone().getRealx(),
 										cursor.getBlackStone().getRealy())).start();
+								player.setIcon(whitePlayer.getIcon());
+								isClick = true;
 								blackcount++;
 							} else {
 //								System.out.println("흑돌 차례 입니다.");
@@ -294,15 +298,26 @@ public class Background extends JFrame implements ActionListener {
 			g.drawString("" + blackcount, 1580, 830);
 			g.drawString("" + whitecount, 1735, 830);
 		}
+		if (rule33) {
+			g.drawString("흑돌은 33에 돌을 둘수 없습니다.", 500, 500);
+		}
 	}
 
 	public void RullOfThreeThree() {
-		System.out.println("33입니다.");
+		rule33 = true;
 		map[cursor.getBlackStone().getRealx()][cursor.getBlackStone().getRealy()] = 0;
 		remove(cursor.getBlackStone());
 		blackcount--;
 		color++;
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		repaint();
+		rule33 = false;
+
 	}
 
 }
