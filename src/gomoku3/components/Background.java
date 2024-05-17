@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import gomoku3.components.CountdownTimer;
 import gomoku3.Gomoku;
 import gomoku3.service.Rule33;
 import gomoku3.service.Timer;
@@ -46,6 +47,7 @@ public class Background extends JFrame implements ActionListener {
 	private Background mContext = this; // 다른 클래스들에게 이 클래스의 정보를 넘겨주기위해 만든 멤버변수
 	public Target cursor; // 커서 객체 생성을 위해 만든 멤버변수
 	private JLabel backgroundMap; // 오목판
+	private JLabel background2; // 캐릭터 선택창 배경
 	private JButton button1; // 다시하기 버튼
 	private JButton button2; // 종료하기 버튼
 	private JButton button3; // 시작하기 버튼
@@ -127,6 +129,8 @@ public class Background extends JFrame implements ActionListener {
 		blank2 = new JLabel(new ImageIcon("images/blank.png"));
 		backgroundMap = new JLabel(new ImageIcon("images/omokbackground.png"));
 		selectBackground = new JLabel(new ImageIcon("images/background4.jpg"));
+		background2 = new JLabel(new ImageIcon("images/background4.jpg"));
+		countdownTimer = new CountdownTimer();
 		mainmenu = new JLabel(new ImageIcon("images/mainmenu.jpg"));
 		turn = new JLabel(new ImageIcon("images/blackStone.png"));
 		whitePlayer = new JLabel(new ImageIcon("images/protoss.gif"));
@@ -160,7 +164,9 @@ public class Background extends JFrame implements ActionListener {
 		setContentPane(mainmenu); // 처음에는 메인메뉴를 배경으로 설정
 		setTitle("오목크래프트");
 		setSize(1900, 1000);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
+
+
 	}
 
 	private void setInitLayout() {
