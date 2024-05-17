@@ -1,5 +1,6 @@
 package gomoku3.components;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,7 @@ import javax.swing.JLayeredPane;
 
 import gomoku.components.CountdownTimer;
 import gomoku3.Gomoku;
+import gomoku3.service.Timer;
 import gomoku3.service.WinRule;
 
 public class Background extends JFrame implements ActionListener {
@@ -29,14 +31,18 @@ public class Background extends JFrame implements ActionListener {
 	private int color;
 	private int count;
 	private int blackcount;
-	private int blackwincount;
 	private int whitecount;
 	private int choicecount;
+	private int blackwin;
+	private int whitewin;
+	private int total;
 	private boolean blackWinner;
 	private boolean whiteWinner;
 	private boolean game;
 	private boolean flag = false;
 	private boolean isClick;
+	private boolean result;
+	private boolean time;
 	private Background mContext = this;
 	private JLabel backgroundMap;
 	private Gomoku gomoku = new Gomoku();
@@ -76,8 +82,13 @@ public class Background extends JFrame implements ActionListener {
 	private JLabel blank;
 	private JLabel blank2;
 	private JLabel win;
+<<<<<<< HEAD
 	private JLayeredPane layeredPane;
 	private CountdownTimer countdownTimer;
+=======
+	private JLabel gamename;
+	private Timer timer;
+>>>>>>> 3b1962d3b354fc0e92edb4c795643e6f3b61eed6
 	private boolean[] races = new boolean[6]; // 종족 선택 넣기 0:블랙 테란 1: 블랙 토스 2: 블랙 저그 3: 화이트 테란 4: 화이트 토스 5: 화이트 저그
 
 	public Background() {
@@ -113,8 +124,15 @@ public class Background extends JFrame implements ActionListener {
 	public boolean[] getRaces() {
 		return races;
 	}
+	
+
+	public boolean isTime() {
+		return time;
+	}
 
 	private void initData() {
+		total = blackcount + whitecount;
+		gamename = new JLabel(new ImageIcon("images/gamename.png"));
 		white = new JLabel(new ImageIcon("images/white.png"));
 		black = new JLabel(new ImageIcon("images/black.png"));
 		blank = new JLabel(new ImageIcon("images/blank.png"));
@@ -130,18 +148,18 @@ public class Background extends JFrame implements ActionListener {
 		backgroundRight = new JLabel(new ImageIcon("images/backgroundRight.jpg"));
 		playerlabel = new JLabel(new ImageIcon("images/player.png"));
 		player = new JLabel(blackPlayer.getIcon());
-		board = new JLabel(new ImageIcon("images/board2.png"));
+		board = new JLabel(new ImageIcon("images/scoreboard.jpg"));
 		tag = new JLabel(new ImageIcon("images/tag.png"));
 		win = new JLabel(new ImageIcon("images/win.jpg"));
-		button1 = new JButton("다시 하기");
-		button2 = new JButton("종료");
+		button1 = new JButton(new ImageIcon("images/restart.png"));
+		button2 = new JButton(new ImageIcon("images/exitbutton.png"));
 		button3 = new JButton(new ImageIcon("images/start.png"));
-		button4 = new JButton("무르기 요청");
+		button4 = new JButton(new ImageIcon("images/back.png"));
 		button5 = new JButton(new ImageIcon("images/character.png"));
 		button6 = new JButton(new ImageIcon("images/quit.png"));
 		button7 = new JButton(new ImageIcon("images/mainmenu.png"));
-		button8 = new JButton(new ImageIcon("images/resultgo.png"));
-		button9 = new JButton(new ImageIcon("images/exit.png"));
+		button8 = new JButton(new ImageIcon("images/result.png"));
+		button9 = new JButton(new ImageIcon("images/exitbutton.png"));
 		terran1 = new JButton(new ImageIcon("images/terran.gif"));
 		terran2 = new JButton(new ImageIcon("images/terran2.gif"));
 		terran3 = new JButton(new ImageIcon("images/terran3.gif"));
@@ -153,7 +171,6 @@ public class Background extends JFrame implements ActionListener {
 		zerg3 = new JButton(new ImageIcon("images/zerg3.gif"));
 		resultbackground = new JLabel(new ImageIcon("images/blackwin.gif"));
 		cursor = new Target(mContext);
-		layeredPane = new JLayeredPane();
 		setContentPane(mainmenu);
 		setTitle("우주오목전쟁");
 		setSize(1900, 1000);
@@ -170,14 +187,21 @@ public class Background extends JFrame implements ActionListener {
 		add(button3);
 		add(button5);
 		add(button6);
+		add(gamename);
 		button3.setBounds(420, 650, 150, 50);
-		button4.setBounds(200, 800, 150, 50);
+		button4.setBounds(100, 800, 300, 100);
 		button5.setBounds(310, 730, 400, 50);
 		button6.setBounds(410, 810, 180, 50);
 		button8.setBounds(580, 435, 620, 70);
-		button9.setBounds(580, 515, 620, 70);
+		button9.setBounds(580, 525, 620, 70);
+		button1.setBorderPainted(false);
+		button1.setContentAreaFilled(false);
+		button2.setBorderPainted(false);
+		button2.setContentAreaFilled(false);
 		button3.setBorderPainted(false);
 		button3.setContentAreaFilled(false);
+		button4.setBorderPainted(false);
+		button4.setContentAreaFilled(false);
 		button5.setBorderPainted(false);
 		button5.setContentAreaFilled(false);
 		button6.setBorderPainted(false);
@@ -216,6 +240,8 @@ public class Background extends JFrame implements ActionListener {
 		blank2.setSize(250, 250);
 		win.setSize(800, 300);
 		win.setLocation(500, 300);
+		gamename.setLocation(350, 80);
+		gamename.setSize(1300, 150);
 	}
 
 	private void addEventListener() {
@@ -278,13 +304,12 @@ public class Background extends JFrame implements ActionListener {
 								player.setIcon(blackPlayer.getIcon());
 								whitecount++;
 							}
-							System.out.println(cursor.getX() + " , " + cursor.getY());
-							System.out.println(cursor.getX() + " , " + cursor.getY());
 							repaint();
 							color++;
 							break;
 						} else {
-							System.out.println("같은자리에는 놓을수없습니다.");
+							System.out.println(map[cursor.getX()][cursor.getY()]);
+							 System.out.println("같은자리에는 놓을수없습니다.");
 							return;
 						}
 					}
@@ -310,6 +335,7 @@ public class Background extends JFrame implements ActionListener {
 		setContentPane(mainmenu);
 		setSize(1900, 1000);
 		setLocationRelativeTo(null);
+		add(gamename);
 		add(button3);
 		add(button5);
 		add(button6);
@@ -318,7 +344,10 @@ public class Background extends JFrame implements ActionListener {
 	}
 
 	public void start() {
+		time = true;
+		game = true;
 		new Thread(new WinRule(mContext)).start();
+		new Thread(timer = new Timer(mContext)).start();
 		getContentPane().removeAll();
 		setContentPane(backgroundMap);
 		setSize(1901, 1000);
@@ -337,7 +366,6 @@ public class Background extends JFrame implements ActionListener {
 		add(button4);
 		add(backgroundLeft);
 		add(backgroundRight);
-		game = true;
 		this.requestFocus();
 		repaint();
 	}
@@ -372,24 +400,24 @@ public class Background extends JFrame implements ActionListener {
 		add(button8, 0);
 		add(button9, 0);
 		repaint();
+		time = false;
 		blackWinner = true;
+		blackwin++;
 	}
 
 	public void whiteWin() {
-		whiteWinner = true;
-		getContentPane().removeAll();
-		setContentPane(resultbackground);
-		add(button1);
-		add(button2);
-		setSize(1000, 1000);
-		setLocationRelativeTo(null);
-		button1.setBounds(370, 650, 100, 50);
-		button2.setBounds(530, 650, 100, 50);
+		add(win, 0);
+		add(button8, 0);
+		add(button9, 0);
 		repaint();
+		whiteWinner = true;
+		whitewin++;
 	}
 
 	public void result() {
+		timer.getrTime();
 		game = false;
+		result = true;
 		getContentPane().removeAll();
 		setContentPane(resultbackground);
 		if (blackWinner == true) {
@@ -402,19 +430,19 @@ public class Background extends JFrame implements ActionListener {
 			}
 		} else if (whiteWinner == true) {
 			if (races[3] == true) {
-				resultbackground.setIcon(new ImageIcon("images/whiteterran.png"));
+				resultbackground.setIcon(new ImageIcon("images/terranwin.jpg"));
 			} else if (races[4] == true) {
-				resultbackground.setIcon(new ImageIcon("images/whiteprotoss.png"));
+				resultbackground.setIcon(new ImageIcon("images/protosswin.jpg"));
 			} else if (races[5] == true) {
-				resultbackground.setIcon(new ImageIcon("images/whitezerg.png"));
+				resultbackground.setIcon(new ImageIcon("images/zergwin.jpg"));
 			}
 		}
 		add(button1);
 		add(button2);
 		setSize(1900, 1000);
 		setLocationRelativeTo(null);
-		button1.setBounds(1700, 800, 100, 50);
-		button2.setBounds(1500, 800, 100, 50);
+		button1.setBounds(1250, 804, 210, 80);
+		button2.setBounds(1500, 800, 200, 80);
 		repaint();
 	}
 
@@ -429,21 +457,22 @@ public class Background extends JFrame implements ActionListener {
 		whitecount = 0;
 		blackWinner = false;
 		whiteWinner = false;
+		result = false;
 		mainMenu();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton selectedButton = (JButton) e.getSource();
-		if (selectedButton.getText().equals("다시 하기")) {
+		if (selectedButton == button1) {
 			reset();
-		} else if (selectedButton.getText().equals("종료") || selectedButton == button9) {
+		} else if (selectedButton == button2 || selectedButton == button9) {
 			System.exit(0);
 		} else if (selectedButton == button3) {
 			start();
 		} else if (selectedButton == button8) {
 			result();
-		} else if (selectedButton.getText().equals("무르기")) {
+		} else if (selectedButton == button4) {
 			if (isClick) {
 				if (color % 2 == 1) {
 					map[cursor.getBlackStone().getRealx()][cursor.getBlackStone().getRealy()] = 0;
@@ -461,7 +490,7 @@ public class Background extends JFrame implements ActionListener {
 					color++;
 				}
 			} else {
-				System.out.println("무르기는 한번만 가능합니다");
+				
 			}
 			repaint();
 			this.requestFocus();
@@ -712,16 +741,25 @@ public class Background extends JFrame implements ActionListener {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		Font font = new Font("배찌체", Font.BOLD, 30);
-		g.setFont(font);
+		Font font = new Font("Kostar", Font.BOLD, 35);
+		Font font2 = new Font("Kostar",Font.BOLD,45);
+ 		g.setFont(font);
 		if (game == true) {
-			g.drawString("이번 턴은", 1610, 440);
-			g.drawString("플레이어", 1610, 90);
-			g.drawString("놓인돌 갯수", 1610, 750);
-			g.drawString("흑", 1580, 790);
-			g.drawString("백", 1730, 790);
-			g.drawString("" + blackcount, 1580, 830);
-			g.drawString("" + whitecount, 1735, 830);
+			g.drawString("이번 턴은", 1590, 440);
+			g.drawString("플레이어", 1590, 90);
+			g.drawString("놓인돌 갯수", 1580, 730);
+			g.drawString("흑", 1570, 790);
+			g.drawString("백", 1720, 790);
+			g.drawString("" + blackcount, 1575, 830);
+			g.drawString("" + whitecount, 1725, 830);
+		}
+		if(result == true) {
+			g.setColor(Color.white);
+			g.drawString("흑돌 승리 횟수 : " + blackwin,160, 400);
+			g.drawString("백돌 승리 횟수 : " + whitewin,160, 500);
+			g.drawString("돌 놓인 횟수 : " + total ,160, 600);
+			g.setFont(font2);
+		g.drawString("경기 시간 : "+(timer.getrTime()/1000) / 60 +"분 "+timer.getrTime()/1000 % 60 +"초",160,300);
 		}
 	}
 
