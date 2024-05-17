@@ -82,13 +82,10 @@ public class Background extends JFrame implements ActionListener {
 	private JLabel blank;
 	private JLabel blank2;
 	private JLabel win;
-<<<<<<< HEAD
 	private JLayeredPane layeredPane;
 	private CountdownTimer countdownTimer;
-=======
 	private JLabel gamename;
 	private Timer timer;
->>>>>>> 3b1962d3b354fc0e92edb4c795643e6f3b61eed6
 	private boolean[] races = new boolean[6]; // 종족 선택 넣기 0:블랙 테란 1: 블랙 토스 2: 블랙 저그 3: 화이트 테란 4: 화이트 토스 5: 화이트 저그
 
 	public Background() {
