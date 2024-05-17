@@ -1,26 +1,34 @@
 package gomoku3.service;
 
 import gomoku3.components.Background;
-import gomoku3.components.Target;
 
 // thread로 실행
-public class Rule33 {
+public class Rule33 implements Runnable {
 
 	Background mContext;
-	Target target;
-	private static int board[][];
 	private static int x; // row
 	private static int y; // col
-	private static int[][] b; // 현재돌 1:흑, 2:백 currentPlayer = 1
-	private static int[][] w; // 상대방 돌 otherPlayer = 2
-	private static int xx;
-	private static int yy;
-	private static boolean check;
+	private static int[][] map; // 현재돌 1:흑, 2:백 currentPlayer = 1
+	private static boolean check; // false 일 경우 연속되는지 확인
+	private final static int BLOCK = 52; // 바둑판 눈금 한 칸
+	private final static int MAX_X = 1394; // 바둑판 오른쪽 끝 눈금 X좌표
+	private final static int MIN_X = 458; // 바둑판 왼쪽 끝 눈금 X좌표
+	private final static int MAX_Y = 946; // 바둑판 하단 끝 눈금 Y좌표
+	private final static int MIN_Y = 19; // 바둑판 상단 끝 눈금 Y좌표
 
-	public Rule33(Background mContext) {
+	public Rule33(Background mContext, int x, int y) {
 		this.mContext = mContext;
-		this.board = mContext.getMap();
-		//target = mContext.getTarget();
+		this.map = mContext.getMap();
+		this.x = x;
+		this.y = y;
+	}
+
+	@Override
+	public void run() {
+		if (checkRule33()) {
+			mContext.RullOfThreeThree();
+			return;
+		}
 	}
 
 	public boolean checkRule33() {
@@ -33,94 +41,91 @@ public class Rule33 {
 		count += findleftUpDiagonal();
 		// ↙ ↗ 탐색
 		count += findleftDownDiagonal();
-		System.out.println("count : " + count);
-		if (count >= 2) {
-			return true;
-		} else {
-			return false;
-		}
+		return count >= 2;
 	}
 
 	// ← → 탐색
 	private static int findWidth() {
+		int startX = x;
+		int startY = y;
 		int stone1 = 0;
 		int stone2 = 0;
 		int allstone = 0;
-		// int[][] b = mContext
-		int w = 0;
-		int blinkXminus = 1;
-		int blinkXplus = blinkXminus;
+		boolean check; // false 일 경우 연속되는지 확인
+		int blankXminus = 1;
 
 		// ← 탐색
-		xx = x - 52;
 		check = false;
+		int blackX = startX;
+		int blackY = startY;
 		left: while (true) {
 			// 좌표 끝 도달시
-			if (xx < 0)
+			if (blackX - BLOCK < MIN_X) {
 				break left;
-
-			// 같은돌 만나는 경우
-			// check 를 false 로 둠으로 연속으로 만나는지 체크
-			// if (board[xx][y] == b) {
+			}
+			// 같은 돌 만나는 경우
+			if (map[blackX - BLOCK][blackY] == 1) {
 				check = false;
 				stone1++;
 			}
-
 			// 다른 돌 만나는 경우 탐색 중지
-			if (board[xx][y] == w)
-				// break left;
-
-			if (board[xx][y] == 0) {
-				if (check == false) {
+			else if (map[blackX - BLOCK][blackY] == 2) {
+				break left;
+			}
+			// 빈 공간 만나는 경우
+			else if (map[blackX - BLOCK][blackY] == 0) {
+				if (!check) {
 					check = true;
 				} else {
-					blinkXminus++;
-					// break left;
+					blankXminus++;
+					break left;
+				}
+				if (blankXminus == 1) {
+					blankXminus--;
+				} else {
+					break left;
 				}
 			}
-
-			if (blinkXminus == 1) {
-				blinkXminus--;
-			} else {
-				// break left;
-			}
-			xx--;
-		//}
+			blackX -= BLOCK;
+		}
 
 		// → 탐색
-		xx = x + 52;
+		int blankXplus = blankXminus;
+		if (blankXminus == 1) {
+			blankXminus = 0;
+		}
 		check = false;
+		blackX = startX;
+		blackY = startY;
 		right: while (true) {
 			// 좌표 끝 도달시
-			if (xx >= 1000)
+			if (blackX + BLOCK > MAX_X) {
 				break right;
-
-			// 같은돌 만나는 경우
-			// check 를 false 로 둠으로 연속으로 만나는지 체크
-			//if (board[xx][y] == b) {
+			}
+			// 같은 돌 만나는 경우
+			if (map[blackX + BLOCK][blackY] == 1) {
 				check = false;
 				stone2++;
-			//}
-
+			}
 			// 다른 돌 만나는 경우 탐색 중지
-			if (board[xx][y] == w)
+			else if (map[blackX + BLOCK][blackY] == 2) {
 				break right;
-
-			if (board[xx][y] == 0) {
-				if (check == false) {
+			}
+			// 빈 공간 만나는 경우
+			else if (map[blackX + BLOCK][blackY] == 0) {
+				if (!check) {
 					check = true;
 				} else {
-					blinkXplus++;
+					blankXplus++;
+					break right;
+				}
+				if (blankXplus == 1) {
+					blankXplus--;
+				} else {
 					break right;
 				}
 			}
-
-			if (blinkXplus == 1) {
-				blinkXplus--;
-			} else {
-				break right;
-			}
-			xx++;
+			blackX += BLOCK;
 		}
 
 		allstone = stone1 + stone2;
@@ -128,15 +133,19 @@ public class Rule33 {
 			return 0;
 		}
 
-		int left = (stone1 + (blinkXminus * 52));
-		int right = (stone2 + (blinkXplus * 52));
+		int left = stone1 + (blankXminus * BLOCK);
+		int right = stone2 + (blankXplus * BLOCK);
+		blackX = startX; // 좌표 초기화
+		blackY = startY;
 
-		if (x - left <= 0 || x + right >= 1000) { // 벽끝
+		if (blackX - left < MIN_X || blackX + right > MAX_X) {
 			return 0;
-		} else { // 상대돌로 막힌경우 - 열린33이 아님
-			if (board[x - left - 52][y] == w || board[x + right + 52][y] == w) {
+		} else {
+			// 상대 돌로 막힌 경우
+			if (map[blackX - left - BLOCK][blackY] == 2 || map[blackX + right + BLOCK][blackY] == 2) {
 				return 0;
-			} else { // 열린 33일때 1 값 리턴
+			} else {
+				// 열린 33일 때 1 반환
 				return 1;
 			}
 		}
@@ -144,98 +153,88 @@ public class Rule33 {
 
 	// ↑ ↓ 탐색
 	private static int findHeight() {
+		int startX = x;
+		int startY = y;
 		int stone1 = 0;
 		int stone2 = 0;
 		int allstone = 0;
-		int b = 1;
-		int w = 2;
-		int blinkYminus = 1;
-		int blinkYplus = blinkYminus;
+		boolean check;
+		int blankYminus = 1;
 
 		// ↑ 탐색
-		yy = y - 52;
 		check = false;
+		int blackX = startX;
+		int blackY = startY;
 		top: while (true) {
-			// 좌표 끝 도달시
-			if (yy < 0)
+			if (blackY - BLOCK < MIN_Y) {
 				break top;
-
-			// 같은돌 만나는 경우
-			// check 를 false 로 둠으로 연속으로 만나는지 체크
-			if (board[x][yy] == b) {
+			}
+			if (map[blackX][blackY - BLOCK] == 1) {
 				check = false;
 				stone1++;
-			}
-
-			// 다른 돌 만나는 경우 탐색 중지
-			if (board[x][yy] == w)
+			} else if (map[blackX][blackY - BLOCK] == 2) {
 				break top;
-
-			if (board[x][yy] == 0) {
-				if (check == false) {
+			} else if (map[blackX][blackY - BLOCK] == 0) {
+				if (!check) {
 					check = true;
 				} else {
-					blinkYminus++;
+					blankYminus++;
+					break top;
+				}
+				if (blankYminus == 1) {
+					blankYminus--;
+				} else {
 					break top;
 				}
 			}
-
-			if (blinkYminus == 1) {
-				blinkYminus--;
-			} else {
-				break top;
-			}
-			yy--;
+			blackY -= BLOCK;
 		}
-
 		// ↓ 탐색
-		yy = y + 52;
+		int blankYplus = blankYminus;
+		if (blankYminus == 1) {
+			blankYminus = 0;
+		}
 		check = false;
+		blackX = startX;
+		blackY = startY;
 		bottom: while (true) {
-			// 좌표 끝 도달시
-			if (yy > 1000)
+			if (blackY + BLOCK > MAX_Y) {
 				break bottom;
-
-			// 같은돌 만나는 경우
-			// check 를 false 로 둠으로 연속으로 만나는지 체크
-			if (board[x][yy] == b) {
+			}
+			if (map[blackX][blackY + BLOCK] == 1) {
 				check = false;
 				stone2++;
-			}
-
-			// 다른 돌 만나는 경우 탐색 중지
-			if (board[x][yy] == w)
+			} else if (map[blackX][blackY + BLOCK] == 2) {
 				break bottom;
-
-			if (board[x][yy] == 0) {
-				if (check == false) {
+			} else if (map[blackX][blackY + BLOCK] == 0) {
+				if (!check) {
 					check = true;
 				} else {
-					blinkYplus++;
+					blankYplus++;
+					break bottom;
+				}
+				if (blankYplus == 1) {
+					blankYplus--;
+				} else {
 					break bottom;
 				}
 			}
-
-			if (blinkYplus == 1) {
-				blinkYplus--;
-			} else {
-				break bottom;
-			}
-			yy++;
+			blackY += BLOCK;
 		}
-
 		allstone = stone1 + stone2;
 		if (allstone != 2) {
 			return 0;
 		}
 
-		int top = (stone1 + (blinkYminus * 52));
-		int bottom = (stone2 + (blinkYplus * 52));
+		int top = (stone1 + (blankYminus * BLOCK));
+		int bottom = (stone2 + (blankYplus * BLOCK));
+		blackX = startX; // 좌표 초기화
+		blackY = startY;
 
-		if (y - top <= 0 || y + bottom >= 1000) {
+		if (blackY - top < MIN_Y || blackY + bottom > MAX_Y) {
 			return 0;
 		} else {
-			if (board[x][y - top - 52] == w || board[x][y + bottom + 52] == w) {
+			if (map[blackX][blackY - top - BLOCK] == 2 || map[blackX][blackY + bottom + BLOCK] == 2) {
 				return 0;
 			} else {
 				return 1;
@@ -245,93 +244,92 @@ public class Rule33 {
 
 	// ↖ ↘ 탐색
 	public static int findleftUpDiagonal() {
+		int startX = x;
+		int startY = y;
 		int stone1 = 0;
 		int stone2 = 0;
 		int allstone = 0;
-		int b = 1;
-		int w = 2;
-		int blinkleftUpDiagonal = 1;
-		int blinkRightDownDiagonal = blinkleftUpDiagonal;
+		boolean check; // false 일 경우 연속되는지 확인
+		int leftUpblank = 1;
 
-		xx = x - 52;
-		yy = y - 52;
-		check = false;
 		// ↖ 탐색
-		leftUpDiagonal: while (true) {
-			if (xx < 0 || y < 0) {
-				break leftUpDiagonal;
-			}
-			if (board[xx][yy] == b) {
-				check = false;
-				stone1++;
-			}
-
-			if (board[xx][yy] == w) {
-				break leftUpDiagonal;
-			}
-			if (board[xx][yy] == 0) {
-				if (check = false) {
-					check = true;
-				} else {
-					blinkleftUpDiagonal++;
-					break leftUpDiagonal;
-				}
-
-				if (blinkleftUpDiagonal == 1) {
-					blinkleftUpDiagonal--;
-				} else {
-					break leftUpDiagonal;
-				}
-			}
-			xx--;
-			yy--;
-		}
-
-		// ↘ 탐색
-		xx = x + 52;
-		yy = y + 52;
 		check = false;
-		rightDownDiagonal: while (true) {
-			if (xx > 1000 || y > 1000) {
-				break rightDownDiagonal;
+		int blackX = startX;
+		int blackY = startY;
+		leftUpDy: while (true) {
+			if (blackX - BLOCK < MIN_X || blackY - BLOCK < MIN_Y) {
+				break leftUpDy;
 			}
-			if (board[xx][yy] == b) {
+			if (map[blackX - BLOCK][blackY - BLOCK] == 1) {
 				check = false;
 				stone1++;
-			}
-
-			if (board[xx][yy] == w) {
-				break rightDownDiagonal;
-			}
-			if (board[xx][yy] == 0) {
-				if (check == false) {
+			} else if (map[blackX - BLOCK][blackY - BLOCK] == 2) {
+				break leftUpDy;
+			} else if (map[blackX - BLOCK][blackY - BLOCK] == 0) {
+				if (!check) {
 					check = true;
 				} else {
-					blinkRightDownDiagonal++;
-					break rightDownDiagonal;
+					leftUpblank++;
+					break leftUpDy;
 				}
-
-				if (blinkRightDownDiagonal == 1) {
-					blinkRightDownDiagonal--;
+				if (leftUpblank == 1) {
+					leftUpblank--;
 				} else {
-					break rightDownDiagonal;
+					break leftUpDy;
 				}
 			}
-			xx++;
-			yy++;
+			blackX -= BLOCK;
+			blackY -= BLOCK;
+		}
+		// ↘ 탐색
+		int RightDownblank = leftUpblank;
+		if (leftUpblank == 1) {
+			leftUpblank = 0;
+		}
+		check = false;
+		blackX = startX;
+		blackY = startY;
+		rightDownDy: while (true) {
+			if (blackX + BLOCK > MAX_X || blackY + BLOCK > MAX_Y) {
+				break rightDownDy;
+			}
+			if (map[blackX + BLOCK][blackY + BLOCK] == 1) {
+				check = false;
+				stone2++;
+			} else if (map[blackX + BLOCK][blackY + BLOCK] == 2) {
+				break rightDownDy;
+			} else if (map[blackX + BLOCK][blackY + BLOCK] == 0) {
+				if (!check) {
+					check = true;
+				} else {
+					RightDownblank++;
+					break rightDownDy;
+				}
+				if (RightDownblank == 1) {
+					RightDownblank--;
+				} else {
+					break rightDownDy;
+				}
+			}
+			blackX += BLOCK;
+			blackY += BLOCK;
 		}
 		allstone = stone1 + stone2;
 		if (allstone != 2) {
 			return 0;
 		}
 
-		int leftup = (stone1 + (blinkleftUpDiagonal * 52));
-		int rightdown = (stone2 + (blinkRightDownDiagonal * 52));
+		int leftup = (stone1 + (leftUpblank * BLOCK));
+		int rightdown = (stone2 + (RightDownblank * BLOCK));
+		blackX = startX; // 좌표 초기화
+		blackY = startY;
 
-		if (y - leftup < 0 || x - leftup < 0 || y + rightdown > 1000 || x + rightdown > 1000) {
+		if (blackX - leftup < MIN_X || blackX + rightdown > MAX_X || blackY - leftup < MIN_Y
+				|| blackY + rightdown > MAX_Y) {
 			return 0;
 		} else {
-			if (board[x - leftup - 52][y - leftup - 52] == w || board[x + rightdown + 52][y + rightdown + 52] == w) {
+			if (map[blackX - leftup - BLOCK][blackY - leftup - BLOCK] == 2
+					|| map[blackX + rightdown + BLOCK][blackY + rightdown + BLOCK] == 2) {
 				return 0;
 			} else {
 				return 1;
@@ -341,93 +339,92 @@ public class Rule33 {
 
 	// ↙ ↗ 탐색
 	public static int findleftDownDiagonal() {
+		int startX = x;
+		int startY = y;
 		int stone1 = 0;
 		int stone2 = 0;
 		int allstone = 0;
-		int b = 1;
-		int w = 2;
-		int blinkleftDownDiagonal = 1;
-		int blinkRightUpDiagonal = blinkleftDownDiagonal;
+		boolean check; // false 일 경우 연속되는지 확인
+		int leftDownblank = 1;
 
-		xx = x - 52;
-		yy = y + 52;
-		check = false;
+		int blackX = startX;
+		int blackY = startY;
 		// ↙ 탐색
-		leftDownDiagonal: while (true) {
-			if (xx < 0 || yy >= 1000) {
-				break leftDownDiagonal;
+		check = false;
+		leftDownDy: while (true) {
+			if (blackX - BLOCK < MIN_X || blackY + BLOCK > MAX_Y) {
+				break leftDownDy;
 			}
-			if (board[xx][yy] == b) {
+			if (map[blackX - BLOCK][blackY + BLOCK] == 1) {
 				check = false;
 				stone1++;
-			}
-
-			if (board[xx][yy] == w) {
-				break leftDownDiagonal;
-			}
-			if (board[xx][yy] == 0) {
-				if (check == false) {
+			} else if (map[blackX - BLOCK][blackY + BLOCK] == 2) {
+				break leftDownDy;
+			} else if (map[blackX - BLOCK][blackY + BLOCK] == 0) {
+				if (!check) {
 					check = true;
 				} else {
-					blinkleftDownDiagonal++;
-					break leftDownDiagonal;
+					leftDownblank++;
+					break leftDownDy;
 				}
-
-				if (blinkleftDownDiagonal == 1) {
-					blinkleftDownDiagonal--;
+				if (leftDownblank == 1) {
+					leftDownblank--;
 				} else {
-					break leftDownDiagonal;
+					break leftDownDy;
 				}
 			}
-			xx--;
-			yy++;
+			blackX -= BLOCK;
+			blackY += BLOCK;
 		}
 
 		// ↗ 탐색
-		xx = x + 52;
-		yy = y - 52;
+		int RightUpblank = leftDownblank;
+		if (leftDownblank == 1) {
+			leftDownblank = 0;
+		}
 		check = false;
-		rightUpDiagonal: while (true) {
-			if (xx >= 0 || yy < 0) {
-				break rightUpDiagonal;
+		blackX = startX;
+		blackY = startY;
+		rightUpDy: while (true) {
+			if (blackX + BLOCK > MAX_X || blackY - BLOCK < MIN_Y) {
+				break rightUpDy;
 			}
-			if (board[xx][yy] == b) {
+			if (map[blackX + BLOCK][blackY - BLOCK] == 1) {
 				check = false;
-				stone1++;
-			}
-
-			if (board[xx][yy] == w) {
-				break rightUpDiagonal;
-			}
-			if (board[xx][yy] == 0) {
-				if (check == false) {
+				stone2++;
+			} else if (map[blackX + BLOCK][blackY - BLOCK] == 2) {
+				break rightUpDy;
+			} else if (map[blackX + BLOCK][blackY - BLOCK] == 0) {
+				if (!check) {
 					check = true;
 				} else {
-					blinkRightUpDiagonal++;
-					break rightUpDiagonal;
+					RightUpblank++;
+					break rightUpDy;
 				}
-
-				if (blinkRightUpDiagonal == 1) {
-					blinkRightUpDiagonal--;
+				if (RightUpblank == 1) {
+					RightUpblank--;
 				} else {
-					break rightUpDiagonal;
+					break rightUpDy;
 				}
 			}
-			xx++;
-			yy++;
+			blackX += BLOCK;
+			blackY -= BLOCK;
 		}
 		allstone = stone1 + stone2;
 		if (allstone != 2) {
 			return 0;
 		}
+		int leftdown = (stone1 + (leftDownblank * BLOCK));
+		int rightup = (stone2 + (RightUpblank * BLOCK));
+		blackX = startX; // 좌표 초기화
+		blackY = startY;
 
-		int leftdown = (stone1 + (blinkleftDownDiagonal * 52));
-		int rightup = (stone2 + (blinkRightUpDiagonal * 52));
-
-		if (y - leftdown < 0 || x - leftdown < 0 || y + rightup > 1000 || x + rightup > 1000) {
+		if (blackX - leftdown < MIN_X || blackX + rightup > MAX_X || blackY + leftdown > MAX_Y
+				|| blackY - rightup < MIN_Y) {
 			return 0;
 		} else {
-			if (board[x - leftdown - 52][y + leftdown + 52] == w || board[x + rightup + 52][y - rightup - 52] == w) {
+			if (map[blackX - leftdown - BLOCK][blackY + leftdown + BLOCK] == 2
+					|| map[blackX + rightup + BLOCK][blackY - rightup - BLOCK] == 2) {
 				return 0;
 			} else {
 				return 1;
