@@ -19,4 +19,5 @@ public class Gomoku {
 		game++;
 		gomoku[game] = new Background();
 	}
+	
 }
