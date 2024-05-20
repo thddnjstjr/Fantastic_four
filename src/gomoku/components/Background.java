@@ -48,7 +48,7 @@ public class Background extends JFrame implements ActionListener {
 	public Target cursor; // 커서 객체 생성을 위해 만든 멤버변수
 	private JLabel backgroundMap; // 오목판
 	private JLabel background2; // 캐릭터 선택창 배경
-	private JLabel timerBackground;
+	private JLabel timerBackground; // 타이머 백그라운드
 	private JButton button1; // 다시하기 버튼
 	private JButton button2; // 종료하기 버튼
 	private JButton button3; // 시작하기 버튼
@@ -382,12 +382,9 @@ public class Background extends JFrame implements ActionListener {
 								cursor.BlackStone(); // 흑돌 객체가 생성됨
 								map[cursor.getX()][cursor.getY()] = 1; // 해당 좌표에 흑돌이 생성되었음으로 1을 넣어줌
 								turn.setIcon(new ImageIcon("images/whiteStone.png")); // 흑돌의 차례가 넘어감으로 현재 턴의 색깔을 백돌로 바꿔줌
-<<<<<<< HEAD
 								new Thread(new Rule33(mContext, cursor.getBlackStone().getRealx(), // 33룰은 흑돌에게만 적용 흑돌이
 																									// 놓일때마다 쓰레드 생성
-=======
 								new Thread(new Rule33(mContext, cursor.getBlackStone().getRealx(), 
->>>>>>> 87befaeddcdfd97c83694b2bcde92acbf88ce6df
 										cursor.getBlackStone().getRealy())).start();
 								player.setIcon(whitePlayer.getIcon()); // 마찬가지로 현재 플레이어 캐릭터를 백돌 캐릭터로 바꿔줌
 								blackcount++; // 흑돌의 갯수가 1개 증가

@@ -41,7 +41,6 @@ public class Background extends JFrame implements ActionListener {
 	private boolean history; // 무르기 에서 돌이 최소1개놓았을때 발동되거나 돌을 1번만 무를수있게 해주는 역할
 	private boolean result; // 지금 화면이 결과 화면이면 true 그 외에는 false
 	private boolean time; // true 일때부터 false 일때까지 시간을 잰다
-	private boolean rule33; // 33룰이 발동되었을경우 true 아닐경우 false
 	private Background mContext = this; // 다른 클래스들에게 이 클래스의 정보를 넘겨주기위해 만든 멤버변수
 	public Target cursor; // 커서 객체 생성을 위해 만든 멤버변수
 	private JLabel backgroundMAP; // 오목판
@@ -82,10 +81,13 @@ public class Background extends JFrame implements ActionListener {
 	private JLabel blank2;// 캐릭터 선택창 테두리
 	private JLabel win; // 승리했을때 나오는 화면
 	private JLabel gamename; // 게임 타이틀 제목
+	private JLabel timerBackground; // 타이머 백그라운드
 	private Timer timer; // 타이머 객체 생성하기 위해 만든 멤버변수
 	private boolean[] races = new boolean[6]; // 종족 선택 넣기 0:블랙 테란 1: 블랙 토스 2: 블랙 저그 3: 화이트 테란 4: 화이트 토스 5: 화이트 저그
 	private CountdownTimer countdownTimer; // 타이머 클래스
 	private WinRule winRule; // 승리조건 클래스
+	private JLabel rule33board;
+	private Rule33 rule33;
 	
 	
 
@@ -122,6 +124,10 @@ public class Background extends JFrame implements ActionListener {
 
 	public boolean isTime() {
 		return time;
+	}
+
+	public boolean isGame() {
+		return game;
 	}
 
 	private void initData() {
@@ -162,8 +168,10 @@ public class Background extends JFrame implements ActionListener {
 		zerg1 = new JButton(new ImageIcon("images/zerg1.gif"));
 		zerg2 = new JButton(new ImageIcon("images/zerg2.gif"));
 		zerg3 = new JButton(new ImageIcon("images/zerg3.gif"));
+		timerBackground = new JLabel(new ImageIcon("images/timebackground1.png"));
 		resultbackground = new JLabel(new ImageIcon("images/blackwin.gif"));
 		cursor = new Target(mContext);
+		rule33board = new JLabel(new ImageIcon("images/rule33background.png"));
 		setContentPane(mainmenu); // 처음에는 메인메뉴를 배경으로 설정
 		setTitle("오목크래프트");
 		setSize(1900, 1000);
@@ -236,6 +244,10 @@ public class Background extends JFrame implements ActionListener {
 		win.setLocation(500, 300);
 		gamename.setLocation(350, 80);
 		gamename.setSize(1300, 150);
+		rule33board.setSize(700, 200);
+		rule33board.setLocation(600, 300);
+		timerBackground.setSize(370,370);
+		timerBackground.setLocation(40,70);
 	}
 
 	private void addEventListener() {
@@ -412,7 +424,7 @@ public class Background extends JFrame implements ActionListener {
 								cursor.BlackStone(); // 흑돌 객체가 생성됨
 								MAP[cursor.getX()][cursor.getY()] = 1; // 해당 좌표에 흑돌이 생성되었음으로 1을 넣어줌
 								turn.setIcon(new ImageIcon("images/whiteStone.png")); // 흑돌의 차례가 넘어감으로 현재 턴의 색깔을 백돌로 바꿔줌
-								new Thread(new Rule33(mContext, cursor.getBlackStone().getRealx(), // 33룰은 흑돌에게만 적용 흑돌이
+								new Thread(rule33 = new Rule33(mContext, cursor.getBlackStone().getRealx(), // 33룰은 흑돌에게만 적용 흑돌이
 																									// 놓일때마다 쓰레드 생성
 										cursor.getBlackStone().getRealy())).start();
 								player.setIcon(whitePlayer.getIcon()); // 마찬가지로 현재 플레이어 캐릭터를 백돌 캐릭터로 바꿔줌
@@ -424,9 +436,12 @@ public class Background extends JFrame implements ActionListener {
 								player.setIcon(blackPlayer.getIcon()); // 현재 플레이어 캐릭터를 흑돌 캐릭터로 바꿔줌
 								whitecount++; // 백돌의 갯수가 1개 증가
 							}
-							repaint();
 							System.out.println(cursor.getX() + " , " +cursor.getY());
 							color++; // 턴 바꾸기
+							if(rule33.checkRule33() == false) {
+								countdownTimer.reset();
+							}
+							repaint();
 							break;
 						} else { // 해당 자리에 이미 돌이 있으면 경고 문구 표시하고 return
 							System.out.println(MAP[cursor.getX()][cursor.getY()]);
@@ -487,6 +502,7 @@ public class Background extends JFrame implements ActionListener {
 		add(playerlabel);
 		add(board);
 		add(button4);
+		add(timerBackground);
 		add(backgroundLeft);
 		add(backgroundRight);
 		this.requestFocus(); // 키액션 리스너를 다시 작동하게 만듬 (중요!!!!)
@@ -527,6 +543,7 @@ public class Background extends JFrame implements ActionListener {
 		time = false; // 시간 측정 종료
 		blackWinner = true;
 		blackwin++;
+		game = false; // 게임이 끝났음을 알림
 	}
 
 	public void whiteWin() { // 백돌이 이겼을때 백 승리 적립
@@ -538,11 +555,11 @@ public class Background extends JFrame implements ActionListener {
 		time = false;
 		whiteWinner = true;
 		whitewin++;
+		game = false; // 게임이 끝났음을 알림
 	}
 
 	public void result() { // 결과 화면
 		timer.getrTime(); // 게임 시간 출력
-		game = false; // 게임이 끝났음을 알림
 		result = true; // 현재 화면이 결과창임을 알림
 		total = blackcount + whitecount; // 흑돌 + 백돌 총 갯수
 		getContentPane().removeAll();
@@ -908,9 +925,6 @@ public class Background extends JFrame implements ActionListener {
 			g.drawString("백", 1720, 790);
 			g.drawString("" + blackcount, 1575, 830);
 			g.drawString("" + whitecount, 1725, 830);
-			if (rule33) {
-				g.drawString("흑돌은 33에 돌을 둘수 없습니다.", 500, 500);
-			}
 		}
 		if (result == true) { // 결과창에서 뜨는 문구 마찬가지로 종료시 없어짐
 			g.setColor(Color.white);
@@ -936,9 +950,9 @@ public class Background extends JFrame implements ActionListener {
 	}
 
 	public void RullOfThreeThree() { // 33룰이 작동될경우 돌을 지우고 경고문구 출력
-		rule33 = true;
 		MAP[cursor.getBlackStone().getRealx()][cursor.getBlackStone().getRealy()] = 0;
 		remove(cursor.getBlackStone());
+		add(rule33board, 0);
 		blackcount--;
 		color++;
 		turn.setIcon(new ImageIcon("images/blackStone.png"));
@@ -947,8 +961,8 @@ public class Background extends JFrame implements ActionListener {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		remove(rule33board);
 		repaint();
-		rule33 = false;
 	}
 
 }
