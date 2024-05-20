@@ -3,8 +3,8 @@ package gomoku.components;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import gomoku3.interfaces.CursorWay;
-import gomoku3.interfaces.Moveable;
+import gomoku.interfaces.CursorWay;
+import gomoku.interfaces.Moveable;
 
 public class Target extends JLabel implements Moveable {
 
@@ -17,6 +17,8 @@ public class Target extends JLabel implements Moveable {
 	final int MAX_Y = 945; // 바둑판 하단 끝 눈금 Y좌표
 	final int MIN_Y = 20; // 바둑판 상단 끝 눈금 Y좌표
 
+	private int blackcount;
+	private int whitecount;
 	private int x;
 	private int y;
 	private ImageIcon cursorImg;
@@ -35,6 +37,7 @@ public class Target extends JLabel implements Moveable {
 	private boolean bottomWallCrash;
 
 	CursorWay cursorWay;
+
 
 	public void setmContext(Background mContext) {
 		this.mContext = mContext;
@@ -135,7 +138,6 @@ public class Target extends JLabel implements Moveable {
 	public void setCursorWay(CursorWay cursorWay) {
 		this.cursorWay = cursorWay;
 	}
-
 	public WhiteStone getWhiteStone() {
 		return whiteStone;
 	}
@@ -143,12 +145,10 @@ public class Target extends JLabel implements Moveable {
 	public BlackStone getBlackStone() {
 		return blackStone;
 	}
-
 	public Target(Background mContext) {
 		this.mContext = mContext;
 		initData();
 		setInitLayout();
-
 	}
 
 	private void initData() {
@@ -270,9 +270,23 @@ public class Target extends JLabel implements Moveable {
 		whiteStone = new WhiteStone(mContext);
 		mContext.add(whiteStone);
 	}
+	
+	public void WhiteStone(int zero) {
+		whiteStone = new WhiteStone(mContext);
+		mContext.add(whiteStone,zero);
+	}
 
 	public void BlackStone() {
 		blackStone = new BlackStone(mContext);
 		mContext.add(blackStone);
+	}
+	
+	public void BlackStone(int zero) {
+		blackStone = new BlackStone(mContext);
+		mContext.add(blackStone,zero);
+	}
+	
+	public BlackStone getBlackSton() {
+		return this.blackStone;
 	}
 }

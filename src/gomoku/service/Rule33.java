@@ -18,7 +18,7 @@ public class Rule33 implements Runnable {
 
 	public Rule33(Background mContext, int x, int y) {
 		this.mContext = mContext;
-		this.map = mContext.getMap();
+		this.map = mContext.getMAP();
 		this.x = x;
 		this.y = y;
 	}
