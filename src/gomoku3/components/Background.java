@@ -27,7 +27,7 @@ public class Background extends JFrame implements ActionListener {
 	final int LINE_WIDTH = 1900; // 바둑판 x축 크기
 	final int LINE_HEIGHT = 1900; // 바둑판 y축 크기
 
-	private final int[][] map = new int[LINE_WIDTH][LINE_HEIGHT]; // 바둑판 맵 좌표
+	private final int[][] MAP = new int[LINE_WIDTH][LINE_HEIGHT]; // 바둑판 맵 좌표
 
 	private int x;
 	private int y;
@@ -105,8 +105,12 @@ public class Background extends JFrame implements ActionListener {
 	private boolean rule33; // 33룰이 발동되었을경우 true 아닐경우 false
 	private Background mContext = this; // 다른 클래스들에게 이 클래스의 정보를 넘겨주기위해 만든 멤버변수
 	public Target cursor; // 커서 객체 생성을 위해 만든 멤버변수
+<<<<<<< HEAD
 	private JLabel backgroundMap1; // 오목판
 	private JLabel background2; // 캐릭터 선택창 배경
+=======
+	private JLabel backgroundMAP; // 오목판
+>>>>>>> 472f815cc3b6b675d3914fff9309d03a2d2eaceb
 	private JButton button1; // 다시하기 버튼
 	private JButton button2; // 종료하기 버튼
 	private JButton button3; // 시작하기 버튼
@@ -157,8 +161,8 @@ public class Background extends JFrame implements ActionListener {
 		races[4] = true; // 백돌의 기본 종족은 프로토스 캐릭터는 질럿으로 고정
 	}
 
-	public int[][] getMap() {
-		return map;
+	public int[][] getMAP() {
+		return MAP;
 	}
 
 	public int getColor() {
@@ -187,9 +191,8 @@ public class Background extends JFrame implements ActionListener {
 		black = new JLabel(new ImageIcon("images/black.png"));
 		blank = new JLabel(new ImageIcon("images/blank.png"));
 		blank2 = new JLabel(new ImageIcon("images/blank.png"));
-		backgroundMap = new JLabel(new ImageIcon("images/omokbackground.png"));
+		backgroundMAP = new JLabel(new ImageIcon("images/omokbackground.png"));
 		selectBackground = new JLabel(new ImageIcon("images/background4.jpg"));
-		background2 = new JLabel(new ImageIcon("images/background4.jpg"));
 		mainmenu = new JLabel(new ImageIcon("images/mainmenu.jpg"));
 		turn = new JLabel(new ImageIcon("images/blackStone.png"));
 		whitePlayer = new JLabel(new ImageIcon("images/protoss.gif"));
@@ -309,7 +312,7 @@ public class Background extends JFrame implements ActionListener {
 		zerg3.addActionListener(this);
 	}
 
-	private void addMouseEvent() {
+	private void addMouseEvent() { // 마우스 올렸을때 이벤트
 		button1.addMouseListener(new MouseAdapter() {
 			public void mouseEntered(MouseEvent e) {
 				button1.setIcon(new ImageIcon("images/yellowrestart.png"));
@@ -431,11 +434,11 @@ public class Background extends JFrame implements ActionListener {
 					remove(blackPlayer);
 					if (blackWinner == false && whiteWinner == false && game == true) { // 게임이 시작하지 않았거나 게임이 끝났을때는
 																						// 작동하지않도록 설계
-						if (map[cursor.getX()][cursor.getY()] == 0) { // 해당 좌표에 돌이 놓인게 없으면 작동하도록 설계
+						if (MAP[cursor.getX()][cursor.getY()] == 0) { // 해당 좌표에 돌이 놓인게 없으면 작동하도록 설계
 							history = true; // 돌이 처음 놓일때 최소1개가 있기 때문에 무르기가 작동이되도록 설계
 							if ((color % 2) == 0) { // color의 기본값은 0으로 초기화되어있으므로 처음 턴은 흑돌이 되도록 설계
 								cursor.BlackStone(); // 흑돌 객체가 생성됨
-								map[cursor.getX()][cursor.getY()] = 1; // 해당 좌표에 흑돌이 생성되었음으로 1을 넣어줌
+								MAP[cursor.getX()][cursor.getY()] = 1; // 해당 좌표에 흑돌이 생성되었음으로 1을 넣어줌
 								turn.setIcon(new ImageIcon("images/whiteStone.png")); // 흑돌의 차례가 넘어감으로 현재 턴의 색깔을 백돌로 바꿔줌
 								new Thread(new Rule33(mContext, cursor.getBlackSton().getRealx(), // 33룰은 흑돌에게만 적용 흑돌이
 																									// 놓일때마다 쓰레드 생성
@@ -444,7 +447,7 @@ public class Background extends JFrame implements ActionListener {
 								blackcount++; // 흑돌의 갯수가 1개 증가
 							} else { // 홀수일때는 백돌의 턴이 됨
 								cursor.WhiteStone(); // 백돌 객체 생성
-								map[cursor.getX()][cursor.getY()] = 2; // 해당 좌표에 백돌(2)를 넣어줌
+								MAP[cursor.getX()][cursor.getY()] = 2; // 해당 좌표에 백돌(2)를 넣어줌
 								turn.setIcon(new ImageIcon("images/blackStone.png")); // 현재 턴 돌 색깔을 흑돌로 바꿔줌
 								player.setIcon(blackPlayer.getIcon()); // 현재 플레이어 캐릭터를 흑돌 캐릭터로 바꿔줌
 								whitecount++; // 백돌의 갯수가 1개 증가
@@ -453,7 +456,7 @@ public class Background extends JFrame implements ActionListener {
 							color++; // 턴 바꾸기
 							break;
 						} else { // 해당 자리에 이미 돌이 있으면 경고 문구 표시하고 return
-							System.out.println(map[cursor.getX()][cursor.getY()]);
+							System.out.println(MAP[cursor.getX()][cursor.getY()]);
 							System.out.println("같은자리에는 놓을수없습니다.");
 							return;
 						}
@@ -496,7 +499,7 @@ public class Background extends JFrame implements ActionListener {
 		new Thread(timer = new Timer(mContext)).start(); // 타이머 쓰레드 작동
 		new Thread(countdownTimer = new CountdownTimer(mContext)).start();
 		getContentPane().removeAll(); // 모든 컴포넌트 초기화
-		setContentPane(backgroundMap); // 오목판을 배경으로 설정
+		setContentPane(backgroundMAP); // 오목판을 배경으로 설정
 		setSize(1901, 1000);
 		setLocationRelativeTo(null);
 		add(cursor); // 커서 추가
@@ -598,9 +601,9 @@ public class Background extends JFrame implements ActionListener {
 	}
 
 	public void reset() { // 다시하기를 선택시 승리횟수 제외 모든것을 초기화
-		for (int i = 0; i < map.length; i++) { // 모든 좌표값에서 돌을 제거
-			for (int j = 0; j < map.length; j++) {
-				map[i][j] = 0;
+		for (int i = 0; i < MAP.length; i++) { // 모든 좌표값에서 돌을 제거
+			for (int j = 0; j < MAP.length; j++) {
+				MAP[i][j] = 0;
 			}
 		}
 		color = 0;
@@ -628,14 +631,14 @@ public class Background extends JFrame implements ActionListener {
 		} else if (selectedButton == button4) {
 			if (history) {
 				if (color % 2 == 1) {
-					map[cursor.getBlackStone().getRealx()][cursor.getBlackStone().getRealy()] = 0;
+					MAP[cursor.getBlackStone().getRealx()][cursor.getBlackStone().getRealy()] = 0;
 					remove(cursor.getBlackStone()); // 무르기가 작동될때 바로 전에 놓인 돌이 삭제됨
 					blackcount--;
 					turn.setIcon(new ImageIcon("images/blackStone.png")); // 다시 흑돌 턴으로 변경
 					player.setIcon(blackPlayer.getIcon());
 					color++;
 				} else if (color % 2 == 0) {
-					map[cursor.getWhiteStone().getRealx()][cursor.getWhiteStone().getRealy()] = 0;
+					MAP[cursor.getWhiteStone().getRealx()][cursor.getWhiteStone().getRealy()] = 0;
 					remove(cursor.getWhiteStone());
 					whitecount--;
 					turn.setIcon(new ImageIcon("images/whiteStone.png"));
@@ -904,7 +907,7 @@ public class Background extends JFrame implements ActionListener {
 >>>>>>> d7654d43ab5cf8268fd651c91a50d6db2dc3e9f5
 			g.drawString("이번 턴은", 1590, 440);
 			g.drawString("플레이어", 1590, 90);
-			g.drawString("총 돌의 갯수", 1580, 730);
+			g.drawString("총 돌의 갯수", 1570, 730);
 			g.drawString("흑", 1570, 790);
 			g.drawString("백", 1720, 790);
 			g.drawString("" + blackcount, 1575, 830);
@@ -930,7 +933,7 @@ public class Background extends JFrame implements ActionListener {
 
 	public void RullOfThreeThree() { // 33룰이 작동될경우 돌을 지우고 경고문구 출력
 		rule33 = true;
-		map[cursor.getBlackStone().getRealx()][cursor.getBlackStone().getRealy()] = 0;
+		MAP[cursor.getBlackStone().getRealx()][cursor.getBlackStone().getRealy()] = 0;
 		remove(cursor.getBlackStone());
 		blackcount--;
 		color++;
