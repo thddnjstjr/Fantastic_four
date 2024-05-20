@@ -88,6 +88,7 @@ public class Background extends JFrame implements ActionListener {
 	private WinRule winRule; // 승리조건 클래스
 	
 	
+
 	public Background() {
 		initData();
 		setInitLayout();

@@ -54,7 +54,7 @@ public class Background extends JFrame implements ActionListener {
 	private JButton button7; // 메인메뉴로 가기 버튼
 	private JButton button8; // 결과창가기 버튼
 	private JButton terran1; // 마린
-	private JButton terran2; // 발키리 
+	private JButton terran2; // 발키리
 	private JButton terran3; // 탱크
 	private JButton zerg1; // 인페스트 테란
 	private JButton zerg2; // 저글링
@@ -83,6 +83,7 @@ public class Background extends JFrame implements ActionListener {
 	private Timer timer; // 타이머 객체 생성하기 위해 만든 멤버변수
 	private boolean[] races = new boolean[6]; // 종족 선택 넣기 0:블랙 테란 1: 블랙 토스 2: 블랙 저그 3: 화이트 테란 4: 화이트 토스 5: 화이트 저그
 	private CountdownTimer countdownTimer;
+
 	public Background() {
 		initData();
 		setInitLayout();
@@ -160,8 +161,7 @@ public class Background extends JFrame implements ActionListener {
 		setContentPane(mainmenu); // 처음에는 메인메뉴를 배경으로 설정
 		setTitle("오목크래프트");
 		setSize(1900, 1000);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
-
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
 
@@ -252,6 +252,7 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button1.setIcon(new ImageIcon("images/yellowrestart.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button1.setIcon(new ImageIcon("images/restart.png"));
@@ -260,15 +261,16 @@ public class Background extends JFrame implements ActionListener {
 		button2.addMouseListener(new MouseAdapter() {
 			public void mouseEntered(MouseEvent e) {
 				button2.setIcon(new ImageIcon("images/yellowexitbutton.png"));
-				if(result == true) {
-				button2.setSize(180,55);
+				if (result == true) {
+					button2.setSize(180, 55);
 				}
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button2.setIcon(new ImageIcon("images/exitbutton.png"));
-				if(result == true) {
-				button2.setSize(200,70);
+				if (result == true) {
+					button2.setSize(200, 70);
 				}
 			}
 		});
@@ -277,6 +279,7 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button3.setIcon(new ImageIcon("images/yellowstart.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button3.setIcon(new ImageIcon("images/start.png"));
@@ -287,6 +290,7 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button4.setIcon(new ImageIcon("images/yellowback.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button4.setIcon(new ImageIcon("images/back.png"));
@@ -297,6 +301,7 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button5.setIcon(new ImageIcon("images/yellowcharacter.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button5.setIcon(new ImageIcon("images/character.png"));
@@ -307,6 +312,7 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button6.setIcon(new ImageIcon("images/yellowquit.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button6.setIcon(new ImageIcon("images/quit.png"));
@@ -317,6 +323,7 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button7.setIcon(new ImageIcon("images/yellowmain.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button7.setIcon(new ImageIcon("images/mainmenu.png"));
@@ -328,6 +335,7 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button8.setIcon(new ImageIcon("images/yellowresult.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button8.setIcon(new ImageIcon("images/result.png"));

@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Timer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -38,6 +37,7 @@ public class Background extends JFrame implements ActionListener {
 	private boolean game;
 	boolean flag = false;
 	boolean isClick;
+	boolean rule33;
 	Gomoku gomoku = new Gomoku();
 	private Background mContext = this;
 	JButton button1;
@@ -56,8 +56,8 @@ public class Background extends JFrame implements ActionListener {
 	JLabel backgroundLeft;
 	JLabel backgroundRight;
 	JLabel board;
-	boolean rule33;
-	Timer timer;
+	JLabel rule33board;
+	CountdownTimer countdowntimer;
 
 	public Background() {
 		initData();
@@ -99,7 +99,7 @@ public class Background extends JFrame implements ActionListener {
 		button3 = new JButton("시작");
 		button4 = new JButton("무르기");
 		blackwin = new JLabel(new ImageIcon("images/blackwin.gif"));
-		timer = new Timer();
+		rule33board = new JLabel(new ImageIcon("images/rule33background.png"));
 	}
 
 	private void setInitLayout() {
@@ -128,6 +128,8 @@ public class Background extends JFrame implements ActionListener {
 		board.setLocation(1450, 600);
 		board.setSize(400, 350);
 		button4.setBounds(200, 800, 100, 50);
+		rule33board.setSize(700, 200);
+		rule33board.setLocation(600, 300);
 	}
 
 	private void addEventListener() {
@@ -212,6 +214,7 @@ public class Background extends JFrame implements ActionListener {
 		remove(button3);
 		game = true;
 		addKeyListener();
+
 		this.requestFocus();
 	}
 
@@ -298,15 +301,13 @@ public class Background extends JFrame implements ActionListener {
 			g.drawString("" + blackcount, 1580, 830);
 			g.drawString("" + whitecount, 1735, 830);
 		}
-		if (rule33) {
-			g.drawString("흑돌은 33에 돌을 둘수 없습니다.", 500, 500);
-		}
+
 	}
 
 	public void RullOfThreeThree() {
-		rule33 = true;
 		map[cursor.getBlackStone().getRealx()][cursor.getBlackStone().getRealy()] = 0;
 		remove(cursor.getBlackStone());
+		add(rule33board, 0);
 		blackcount--;
 		color++;
 		try {
@@ -315,9 +316,8 @@ public class Background extends JFrame implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		remove(rule33board);
 		repaint();
-		rule33 = false;
-
 	}
 
 }

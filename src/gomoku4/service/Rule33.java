@@ -46,13 +46,13 @@ public class Rule33 implements Runnable {
 
 	// ← → 탐색
 	private static int findWidth() {
-		int startX = x;
-		int startY = y;
-		int stone1 = 0;
-		int stone2 = 0;
-		int allstone = 0;
+		int startX = x; // 현재 돌에서 받는 x 좌표 값
+		int startY = y; // 현재 돌에서 받는 y 좌표 값
+		int stone1 = 0; // 같은 돌을 만나는 지 확인을 위한 변수
+		int stone2 = 0; // 같은 돌을 만나는 지 확인을 위한 변수
+		int allstone = 0; // 같은돌을 두번이상 만나는지 확인하는 변수
 		boolean check; // false 일 경우 연속되는지 확인
-		int blankXminus = 1;
+		int blankXminus = 1; // 빈 공간의 값
 
 		// ← 탐색
 		check = false;
