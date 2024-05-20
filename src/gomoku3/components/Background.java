@@ -15,9 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 
-import gomoku3.Gomoku;
 import gomoku3.service.Rule33;
 import gomoku3.service.Timer;
 import gomoku3.service.WinRule;
@@ -29,66 +27,6 @@ public class Background extends JFrame implements ActionListener {
 
 	private final int[][] MAP = new int[LINE_WIDTH][LINE_HEIGHT]; // 바둑판 맵 좌표
 
-	private int x;
-	private int y;
-	private int color;
-	private int count;
-	private int blackcount;
-	private int whitecount;
-	private int choicecount;
-	private int blackwin;
-	private int whitewin;
-	private int total;
-	private boolean blackWinner;
-	private boolean whiteWinner;
-	private boolean game;
-	private boolean flag = false;
-	private boolean isClick;
-	private boolean result;
-	private boolean time;
-	private Background mContext = this;
-	private JLabel backgroundMap;
-	private Gomoku gomoku = new Gomoku();
-	public Target cursor;
-	private JButton button1;
-	private JButton button2;
-	private JButton button3;
-	private JButton button4;
-	private JButton button5;
-	private JButton button6;
-	private JButton button7;
-	private JButton button8;
-	private JButton button9;
-	private JButton terran1;
-	private JButton terran2;
-	private JButton terran3;
-	private JButton zerg1;
-	private JButton zerg2;
-	private JButton zerg3;
-	private JButton protoss1;
-	private JButton protoss2;
-	private JButton protoss3;
-	private JLabel resultbackground;
-	private JLabel mainmenu;
-	private JLabel turn;
-	private JLabel tag;
-	private JLabel whitePlayer;
-	private JLabel blackPlayer;
-	private JLabel player;
-	private JLabel playerlabel;
-	private JLabel backgroundLeft;
-	private JLabel backgroundRight;
-	private JLabel background2;
-	private JLabel board;
-	private JLabel white;
-	private JLabel black;
-	private JLabel blank;
-	private JLabel blank2;
-	private JLabel win;
-	private JLayeredPane layeredPane;
-	private CountdownTimer countdownTimer;
-	private JLabel gamename;
-	private Timer timer;
 	private int color; // 턴이 흑돌인지 백돌인지 구별
 	private int blackcount; // 흑돌의 갯수
 	private int whitecount; // 백돌의 갯수
@@ -105,12 +43,7 @@ public class Background extends JFrame implements ActionListener {
 	private boolean rule33; // 33룰이 발동되었을경우 true 아닐경우 false
 	private Background mContext = this; // 다른 클래스들에게 이 클래스의 정보를 넘겨주기위해 만든 멤버변수
 	public Target cursor; // 커서 객체 생성을 위해 만든 멤버변수
-<<<<<<< HEAD
-	private JLabel backgroundMap1; // 오목판
-	private JLabel background2; // 캐릭터 선택창 배경
-=======
 	private JLabel backgroundMAP; // 오목판
->>>>>>> 472f815cc3b6b675d3914fff9309d03a2d2eaceb
 	private JButton button1; // 다시하기 버튼
 	private JButton button2; // 종료하기 버튼
 	private JButton button3; // 시작하기 버튼
@@ -900,11 +833,7 @@ public class Background extends JFrame implements ActionListener {
 		Font font = new Font("Kostar", Font.BOLD, 35);
 		Font font2 = new Font("Kostar", Font.BOLD, 45);
 		g.setFont(font);
-<<<<<<< HEAD
-		if (game == true) {
-=======
 		if (game == true) { // 게임 시작했을때 문구 표시 종료시 없어짐
->>>>>>> d7654d43ab5cf8268fd651c91a50d6db2dc3e9f5
 			g.drawString("이번 턴은", 1590, 440);
 			g.drawString("플레이어", 1590, 90);
 			g.drawString("총 돌의 갯수", 1570, 730);
@@ -916,11 +845,7 @@ public class Background extends JFrame implements ActionListener {
 				g.drawString("흑돌은 33에 돌을 둘수 없습니다.", 500, 500);
 			}
 		}
-<<<<<<< HEAD
-		if (result == true) {
-=======
 		if (result == true) { // 결과창에서 뜨는 문구 마찬가지로 종료시 없어짐
->>>>>>> d7654d43ab5cf8268fd651c91a50d6db2dc3e9f5
 			g.setColor(Color.white);
 			g.drawString("흑돌 승리 횟수 : " + blackwin, 160, 400);
 			g.drawString("백돌 승리 횟수 : " + whitewin, 160, 500);
