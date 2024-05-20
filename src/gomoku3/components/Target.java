@@ -17,6 +17,8 @@ public class Target extends JLabel implements Moveable {
 	final int MAX_Y = 945; // 바둑판 하단 끝 눈금 Y좌표
 	final int MIN_Y = 20; // 바둑판 상단 끝 눈금 Y좌표
 
+	private int blackcount;
+	private int whitecount;
 	private int x;
 	private int y;
 	private ImageIcon cursorImg;
@@ -268,10 +270,20 @@ public class Target extends JLabel implements Moveable {
 		whiteStone = new WhiteStone(mContext);
 		mContext.add(whiteStone);
 	}
+	
+	public void WhiteStone(int zero) {
+		whiteStone = new WhiteStone(mContext);
+		mContext.add(whiteStone,zero);
+	}
 
 	public void BlackStone() {
 		blackStone = new BlackStone(mContext);
 		mContext.add(blackStone);
+	}
+	
+	public void BlackStone(int zero) {
+		blackStone = new BlackStone(mContext);
+		mContext.add(blackStone,zero);
 	}
 	
 	public BlackStone getBlackSton() {

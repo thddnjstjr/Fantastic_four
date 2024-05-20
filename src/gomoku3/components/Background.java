@@ -34,6 +34,7 @@ public class Background extends JFrame implements ActionListener {
 	private int blackwin; // 흑돌 승리 횟수
 	private int whitewin; // 백돌 승리 횟수
 	private int total; // 흑돌 백돌 총 합 갯수
+	private boolean replay; // 다시보기 여부
 	private boolean blackWinner; // 흑이 이겼으면 true 기본은 false
 	private boolean whiteWinner; // 백이 이겼으면 true 기본은 false
 	private boolean game; // 게임이 시작했으면 true 게임이 종료되거나 시작하지않았으면 false
@@ -52,8 +53,10 @@ public class Background extends JFrame implements ActionListener {
 	private JButton button6; // 나가기 버튼
 	private JButton button7; // 메인메뉴로 가기 버튼
 	private JButton button8; // 결과창가기 버튼
+	private JButton button9; // 다시보기 버튼
+	private JButton button10; // 다시보기 종료 버튼
 	private JButton terran1; // 마린
-	private JButton terran2; // 발키리 
+	private JButton terran2; // 발키리
 	private JButton terran3; // 탱크
 	private JButton zerg1; // 인페스트 테란
 	private JButton zerg2; // 저글링
@@ -81,7 +84,10 @@ public class Background extends JFrame implements ActionListener {
 	private JLabel gamename; // 게임 타이틀 제목
 	private Timer timer; // 타이머 객체 생성하기 위해 만든 멤버변수
 	private boolean[] races = new boolean[6]; // 종족 선택 넣기 0:블랙 테란 1: 블랙 토스 2: 블랙 저그 3: 화이트 테란 4: 화이트 토스 5: 화이트 저그
-	private CountdownTimer countdownTimer;
+	private CountdownTimer countdownTimer; // 타이머 클래스
+	private WinRule winRule; // 승리조건 클래스
+	
+	
 	public Background() {
 		initData();
 		setInitLayout();
@@ -144,6 +150,8 @@ public class Background extends JFrame implements ActionListener {
 		button6 = new JButton(new ImageIcon("images/quit.png"));
 		button7 = new JButton(new ImageIcon("images/mainmenu.png"));
 		button8 = new JButton(new ImageIcon("images/result.png"));
+		button9 = new JButton(new ImageIcon("images/replay.png"));
+		button10 = new JButton(new ImageIcon("images/replayexit.png"));
 		terran1 = new JButton(new ImageIcon("images/terran.gif"));
 		terran2 = new JButton(new ImageIcon("images/terran2.gif"));
 		terran3 = new JButton(new ImageIcon("images/terran3.gif"));
@@ -158,8 +166,7 @@ public class Background extends JFrame implements ActionListener {
 		setContentPane(mainmenu); // 처음에는 메인메뉴를 배경으로 설정
 		setTitle("오목크래프트");
 		setSize(1900, 1000);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
-
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
 
@@ -177,6 +184,7 @@ public class Background extends JFrame implements ActionListener {
 		button5.setBounds(310, 730, 400, 50);
 		button6.setBounds(410, 810, 180, 50);
 		button8.setBounds(580, 435, 620, 70);
+		button10.setBounds(1470, 600, 250, 95);
 		button1.setBorderPainted(false);
 		button1.setContentAreaFilled(false);
 		button2.setBorderPainted(false);
@@ -193,6 +201,10 @@ public class Background extends JFrame implements ActionListener {
 		button7.setContentAreaFilled(false);
 		button8.setBorderPainted(false);
 		button8.setContentAreaFilled(false);
+		button9.setBorderPainted(false);
+		button9.setContentAreaFilled(false);
+		button10.setBorderPainted(false);
+		button10.setContentAreaFilled(false);
 		turn.setLocation(1600, 400);
 		turn.setSize(100, 100);
 		whitePlayer.setLocation(1460, 100);
@@ -234,6 +246,8 @@ public class Background extends JFrame implements ActionListener {
 		button6.addActionListener(this);
 		button7.addActionListener(this);
 		button8.addActionListener(this);
+		button9.addActionListener(this);
+		button10.addActionListener(this);
 		terran1.addActionListener(this);
 		terran2.addActionListener(this);
 		terran3.addActionListener(this);
@@ -250,6 +264,7 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button1.setIcon(new ImageIcon("images/yellowrestart.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button1.setIcon(new ImageIcon("images/restart.png"));
@@ -258,15 +273,16 @@ public class Background extends JFrame implements ActionListener {
 		button2.addMouseListener(new MouseAdapter() {
 			public void mouseEntered(MouseEvent e) {
 				button2.setIcon(new ImageIcon("images/yellowexitbutton.png"));
-				if(result == true) {
-				button2.setSize(180,55);
+				if (result == true) {
+					button2.setSize(180, 55);
 				}
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button2.setIcon(new ImageIcon("images/exitbutton.png"));
-				if(result == true) {
-				button2.setSize(200,70);
+				if (result == true) {
+					button2.setSize(200, 70);
 				}
 			}
 		});
@@ -275,6 +291,7 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button3.setIcon(new ImageIcon("images/yellowstart.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button3.setIcon(new ImageIcon("images/start.png"));
@@ -285,6 +302,7 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button4.setIcon(new ImageIcon("images/yellowback.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button4.setIcon(new ImageIcon("images/back.png"));
@@ -295,6 +313,7 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button5.setIcon(new ImageIcon("images/yellowcharacter.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button5.setIcon(new ImageIcon("images/character.png"));
@@ -305,6 +324,7 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button6.setIcon(new ImageIcon("images/yellowquit.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button6.setIcon(new ImageIcon("images/quit.png"));
@@ -315,6 +335,7 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button7.setIcon(new ImageIcon("images/yellowmain.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button7.setIcon(new ImageIcon("images/mainmenu.png"));
@@ -326,9 +347,34 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button8.setIcon(new ImageIcon("images/yellowresult.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button8.setIcon(new ImageIcon("images/result.png"));
+				super.mouseExited(e);
+			}
+		});
+		button9.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				button9.setIcon(new ImageIcon("images/yellowreplay.png"));
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				button9.setIcon(new ImageIcon("images/replay.png"));
+				super.mouseExited(e);
+			}
+		});
+		button10.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				button10.setIcon(new ImageIcon("images/yellowreplayexit.png"));
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				button10.setIcon(new ImageIcon("images/replayexit.png"));
 				super.mouseExited(e);
 			}
 		});
@@ -365,9 +411,9 @@ public class Background extends JFrame implements ActionListener {
 								cursor.BlackStone(); // 흑돌 객체가 생성됨
 								MAP[cursor.getX()][cursor.getY()] = 1; // 해당 좌표에 흑돌이 생성되었음으로 1을 넣어줌
 								turn.setIcon(new ImageIcon("images/whiteStone.png")); // 흑돌의 차례가 넘어감으로 현재 턴의 색깔을 백돌로 바꿔줌
-								new Thread(new Rule33(mContext, cursor.getBlackSton().getRealx(), // 33룰은 흑돌에게만 적용 흑돌이
+								new Thread(new Rule33(mContext, cursor.getBlackStone().getRealx(), // 33룰은 흑돌에게만 적용 흑돌이
 																									// 놓일때마다 쓰레드 생성
-										cursor.getBlackSton().getRealy())).start();
+										cursor.getBlackStone().getRealy())).start();
 								player.setIcon(whitePlayer.getIcon()); // 마찬가지로 현재 플레이어 캐릭터를 백돌 캐릭터로 바꿔줌
 								blackcount++; // 흑돌의 갯수가 1개 증가
 							} else { // 홀수일때는 백돌의 턴이 됨
@@ -378,6 +424,7 @@ public class Background extends JFrame implements ActionListener {
 								whitecount++; // 백돌의 갯수가 1개 증가
 							}
 							repaint();
+							System.out.println(cursor.getX() + " , " +cursor.getY());
 							color++; // 턴 바꾸기
 							break;
 						} else { // 해당 자리에 이미 돌이 있으면 경고 문구 표시하고 return
@@ -420,7 +467,7 @@ public class Background extends JFrame implements ActionListener {
 	public void start() { // 게임화면(오목)
 		time = true; // true 일때부터 시간 측정
 		game = true; // true 일때부터 게임 시작
-		new Thread(new WinRule(mContext)).start(); // 게임 승리룰 쓰레드 작동
+		new Thread(winRule = new WinRule(mContext)).start(); // 게임 승리룰 쓰레드 작동
 		new Thread(timer = new Timer(mContext)).start(); // 타이머 쓰레드 작동
 		new Thread(countdownTimer = new CountdownTimer(mContext)).start();
 		getContentPane().removeAll(); // 모든 컴포넌트 초기화
@@ -518,10 +565,12 @@ public class Background extends JFrame implements ActionListener {
 		}
 		add(button1);
 		add(button2);
+		add(button9);
 		setSize(1900, 1000);
 		setLocationRelativeTo(null);
-		button1.setBounds(1250, 804, 210, 80);
-		button2.setBounds(1500, 808, 200, 70);
+		button9.setBounds(950, 788, 250, 95);
+		button1.setBounds(1240, 806, 210, 80);
+		button2.setBounds(1490, 808, 200, 70);
 		repaint();
 	}
 
@@ -552,6 +601,31 @@ public class Background extends JFrame implements ActionListener {
 		} else if (selectedButton == button3) {
 			start();
 		} else if (selectedButton == button8) {
+			result();
+		} else if (selectedButton == button9) { // 다시보기 구현
+			replay = true;
+			add(backgroundMAP,0);
+			for(int i = 0; i < MAP.length; i++) {
+				for(int j = 0; j< MAP.length; j++) {
+					if(MAP[j][i] != 0) {
+					if(MAP[j][i] == 1) {
+						cursor.setX(j);
+						cursor.setY(i);
+						cursor.BlackStone(0);
+					}
+					if(MAP[j][i] == 2) {
+						cursor.setX(j);
+						cursor.setY(i);
+						cursor.WhiteStone(0);
+					}
+					}
+				}
+			}
+			button1.setLocation(1485, 710);
+			add(button10);
+			repaint();
+		} else if (selectedButton == button10) {
+			replay = false;
 			result();
 		} else if (selectedButton == button4) {
 			if (history) {
@@ -839,12 +913,24 @@ public class Background extends JFrame implements ActionListener {
 		}
 		if (result == true) { // 결과창에서 뜨는 문구 마찬가지로 종료시 없어짐
 			g.setColor(Color.white);
-			g.drawString("흑돌 승리 횟수 : " + blackwin, 160, 400);
-			g.drawString("백돌 승리 횟수 : " + whitewin, 160, 500);
-			g.drawString("돌 놓인 횟수 : " + total, 160, 600);
+			g.drawString("흑돌 승리 횟수 : " + blackwin, 40, 400);
+			g.drawString("백돌 승리 횟수 : " + whitewin, 40, 500);
+			g.drawString("돌 놓인 횟수 : " + total, 40, 600);
 			g.setFont(font2);
-			g.drawString("경기 시간 : " + (timer.getrTime() / 1000) / 60 + "분 " + timer.getrTime() / 1000 % 60 + "초", 160,
+			g.drawString("경기 시간 : " + (timer.getrTime() / 1000) / 60 + "분 " + timer.getrTime() / 1000 % 60 + "초", 40,
 					300);
+		}
+		if (replay == true) { // 다시보기를 켜면 뜨는 문구
+			g.setColor(Color.RED);
+			if(blackWinner == true) {
+				System.out.println(winRule.getWinBlackX());
+				g.drawLine(winRule.getWinBlackX() + 23,winRule.getWinBlackY() + 35, 
+				winRule.getWinBlackXEnd() + 23, winRule.getWinBlackYEnd() + 35);
+			}
+			if(whiteWinner == true) {
+				g.drawLine(winRule.getWinWhiteX() + 23,winRule.getWinWhiteY() + 35, 
+						winRule.getWinWhiteXEnd() + 23, winRule.getWinWhiteYEnd() + 35);
+			}
 		}
 	}
 
