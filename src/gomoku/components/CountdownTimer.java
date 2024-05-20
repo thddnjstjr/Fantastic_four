@@ -8,9 +8,9 @@ import java.awt.event.ActionListener;
 
 public class CountdownTimer extends JLabel implements Runnable {
 
-	private String[] count = { "black.png", "20.png", "19.png", "18.png", "17.png", "16.png", "15.png", "14.png",
-			"13.png", "12.png", "11.png", "10.png", "9.png", "8.png", "7.png", "6.png", "5.png", "4.png", "3.png",
-			"2.png", "1.png", "0.png", };
+	private String[] count = {  "30.png", "29.png", "28.png", "27.png", "26.png", "25.png", "24.png", "23.png", "22.png",
+			"21.png", "20.png" ,"19.png", "18.png", "17.png", "16.png", "15.png", "14.png", "13.png", "12.png", "11.png", 
+			"10.png", "9.png","8.png", "7.png", "6.png", "5.png", "4.png", "3.png", "2.png", "1.png", "0.png"};
 	private int index = 0;
 	private Background mconText;
 
@@ -22,7 +22,7 @@ public class CountdownTimer extends JLabel implements Runnable {
 		// 초기 이미지 설정
 		setIcon(new ImageIcon("images/" + count[0]));
 		setSize(500, 500);
-		setLocation(100, 200);
+		setLocation(100, 1);
 		setVisible(true);
 		mconText.add(this);
 	}

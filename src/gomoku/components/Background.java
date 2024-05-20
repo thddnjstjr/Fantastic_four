@@ -1,5 +1,5 @@
 
-package gomoku3.components;
+package gomoku.components;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -16,9 +16,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import gomoku3.service.Rule33;
-import gomoku3.service.Timer;
-import gomoku3.service.WinRule;
+import gomoku.service.Rule33;
+import gomoku.service.Timer;
 
 public class Background extends JFrame implements ActionListener {
 
@@ -45,6 +44,7 @@ public class Background extends JFrame implements ActionListener {
 	public Target cursor; // 커서 객체 생성을 위해 만든 멤버변수
 	private JLabel backgroundMap; // 오목판
 	private JLabel background2; // 캐릭터 선택창 배경
+	private JLabel timerBackground;
 	private JButton button1; // 다시하기 버튼
 	private JButton button2; // 종료하기 버튼
 	private JButton button3; // 시작하기 버튼
@@ -54,7 +54,7 @@ public class Background extends JFrame implements ActionListener {
 	private JButton button7; // 메인메뉴로 가기 버튼
 	private JButton button8; // 결과창가기 버튼
 	private JButton terran1; // 마린
-	private JButton terran2; // 발키리 
+	private JButton terran2; // 발키리
 	private JButton terran3; // 탱크
 	private JButton zerg1; // 인페스트 테란
 	private JButton zerg2; // 저글링
@@ -83,6 +83,7 @@ public class Background extends JFrame implements ActionListener {
 	private Timer timer; // 타이머 객체 생성하기 위해 만든 멤버변수
 	private boolean[] races = new boolean[6]; // 종족 선택 넣기 0:블랙 테란 1: 블랙 토스 2: 블랙 저그 3: 화이트 테란 4: 화이트 토스 5: 화이트 저그
 	private CountdownTimer countdownTimer;
+
 	public Background() {
 		initData();
 		setInitLayout();
@@ -156,12 +157,12 @@ public class Background extends JFrame implements ActionListener {
 		zerg2 = new JButton(new ImageIcon("images/zerg2.gif"));
 		zerg3 = new JButton(new ImageIcon("images/zerg3.gif"));
 		resultbackground = new JLabel(new ImageIcon("images/blackwin.gif"));
+		timerBackground = new JLabel(new ImageIcon("images/timebackground1.png"));
 		cursor = new Target(mContext);
 		setContentPane(mainmenu); // 처음에는 메인메뉴를 배경으로 설정
 		setTitle("오목크래프트");
 		setSize(1900, 1000);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
-
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
 
@@ -207,6 +208,8 @@ public class Background extends JFrame implements ActionListener {
 		backgroundRight.setLocation(1440, 0);
 		backgroundLeft.setSize(443, 1000);
 		backgroundRight.setSize(470, 1000);
+		timerBackground.setSize(370,370);
+		timerBackground.setLocation(40,70);
 		tag.setLocation(1500, 280);
 		tag.setSize(300, 300);
 		playerlabel.setLocation(1525, 20);
@@ -252,6 +255,7 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button1.setIcon(new ImageIcon("images/yellowrestart.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button1.setIcon(new ImageIcon("images/restart.png"));
@@ -260,15 +264,16 @@ public class Background extends JFrame implements ActionListener {
 		button2.addMouseListener(new MouseAdapter() {
 			public void mouseEntered(MouseEvent e) {
 				button2.setIcon(new ImageIcon("images/yellowexitbutton.png"));
-				if(result == true) {
-				button2.setSize(180,55);
+				if (result == true) {
+					button2.setSize(180, 55);
 				}
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button2.setIcon(new ImageIcon("images/exitbutton.png"));
-				if(result == true) {
-				button2.setSize(200,70);
+				if (result == true) {
+					button2.setSize(200, 70);
 				}
 			}
 		});
@@ -277,6 +282,7 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button3.setIcon(new ImageIcon("images/yellowstart.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button3.setIcon(new ImageIcon("images/start.png"));
@@ -287,6 +293,7 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button4.setIcon(new ImageIcon("images/yellowback.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button4.setIcon(new ImageIcon("images/back.png"));
@@ -297,6 +304,7 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button5.setIcon(new ImageIcon("images/yellowcharacter.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button5.setIcon(new ImageIcon("images/character.png"));
@@ -307,6 +315,7 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button6.setIcon(new ImageIcon("images/yellowquit.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button6.setIcon(new ImageIcon("images/quit.png"));
@@ -317,6 +326,7 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button7.setIcon(new ImageIcon("images/yellowmain.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button7.setIcon(new ImageIcon("images/mainmenu.png"));
@@ -328,6 +338,7 @@ public class Background extends JFrame implements ActionListener {
 			public void mouseEntered(MouseEvent e) {
 				button8.setIcon(new ImageIcon("images/yellowresult.png"));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				button8.setIcon(new ImageIcon("images/result.png"));
@@ -367,9 +378,9 @@ public class Background extends JFrame implements ActionListener {
 								cursor.BlackStone(); // 흑돌 객체가 생성됨
 								map[cursor.getX()][cursor.getY()] = 1; // 해당 좌표에 흑돌이 생성되었음으로 1을 넣어줌
 								turn.setIcon(new ImageIcon("images/whiteStone.png")); // 흑돌의 차례가 넘어감으로 현재 턴의 색깔을 백돌로 바꿔줌
-								new Thread(new Rule33(mContext, cursor.getBlackSton().getRealx(), // 33룰은 흑돌에게만 적용 흑돌이
+								new Thread(new Rule33(mContext, cursor.getBlackStone().getRealx(), // 33룰은 흑돌에게만 적용 흑돌이
 																									// 놓일때마다 쓰레드 생성
-										cursor.getBlackSton().getRealy())).start();
+										cursor.getBlackStone().getRealy())).start();
 								player.setIcon(whitePlayer.getIcon()); // 마찬가지로 현재 플레이어 캐릭터를 백돌 캐릭터로 바꿔줌
 								blackcount++; // 흑돌의 갯수가 1개 증가
 							} else { // 홀수일때는 백돌의 턴이 됨
@@ -420,12 +431,12 @@ public class Background extends JFrame implements ActionListener {
 	}
 
 	public void start() { // 게임화면(오목)
+		getContentPane().removeAll(); // 모든 컴포넌트 초기화
 		time = true; // true 일때부터 시간 측정
 		game = true; // true 일때부터 게임 시작
-		new Thread(new WinRule(mContext)).start(); // 게임 승리룰 쓰레드 작동
-		new Thread(timer = new Timer(mContext)).start(); // 타이머 쓰레드 작동
+		new Thread(new gomoku.service.WinRule(mContext)).start(); // 게임 승리룰 쓰레드 작동
+		new Thread(timer = new gomoku.service.Timer(mContext)).start(); // 타이머 쓰레드 작동
 		new Thread(countdownTimer = new CountdownTimer(mContext)).start();
-		getContentPane().removeAll(); // 모든 컴포넌트 초기화
 		setContentPane(backgroundMap); // 오목판을 배경으로 설정
 		setSize(1901, 1000);
 		setLocationRelativeTo(null);
@@ -440,6 +451,7 @@ public class Background extends JFrame implements ActionListener {
 		add(player);
 		add(playerlabel);
 		add(board);
+		add(timerBackground);
 		add(button4);
 		add(backgroundLeft);
 		add(backgroundRight);

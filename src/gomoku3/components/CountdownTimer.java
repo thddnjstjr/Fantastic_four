@@ -18,7 +18,7 @@ public class CountdownTimer extends JLabel implements Runnable{
     private void initData() {
         // 초기 이미지 설정
         setIcon(new ImageIcon("images/" + count[0]));
-        setSize(500, 500);
+        setSize(300, 300);
         setLocation(100, 200);
         setVisible(true);
         mconText.add(this);
