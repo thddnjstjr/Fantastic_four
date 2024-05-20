@@ -4,10 +4,10 @@ import gomoku3.components.Background;
 
 public class WinRule implements Runnable {
 	// 멤버변수
-	int blackX; // 흑돌의 가로 스택(연속된 흑돌의 갯수)
-	int blackY; // 흑돌의 세로 스택
-	int whiteX; // 백돌의 가로 스택
-	int whiteY; // 백돌의 세로 스택
+	int blackx; // 흑돌의 가로 스택(연속된 흑돌의 갯수)
+	int blacky; // 흑돌의 세로 스택
+	int whitex; // 백돌의 가로 스택
+	int whitey; // 백돌의 세로 스택
 	int[] blackDiagonal = new int[4]; // 흑돌의 대각선 스택
 	int[] whiteDiagonal = new int[4]; // 백돌의 대각선 스택
 	int[][] map; // map 좌표
@@ -15,10 +15,49 @@ public class WinRule implements Runnable {
 	int block = 52; // map[j][i]를 전부 탐색해서 흑돌이나 백돌이 있으면 그 좌표기준으로 52 /104 / 156/ 반경으로 탐색할 예정
 	int block2 = 52; // 바둑판 한칸 크기
 	int sixblock = 260; // 흑돌이나 백돌이 있는 좌표 기준으로 6번째칸에 같은돌이있으면 오목이 안됨
-
+	int winBlackX; // 승리한 돌 x좌표 시작점
+	int winBlackY; // 승리한 돌 y좌표 시작점
+	int winBlackXEnd; // 승리한 돌 x좌표 끝점
+	int winBlackYEnd; // 승리한 돌 y좌표 끝점
+	int winWhiteX; // 승리한 돌 x좌표 시작점
+	int winWhiteY; // 승리한 돌 y좌표 시작점
+	int winWhiteXEnd; // 승리한 돌 x좌표 끝점
+	int winWhiteYEnd; // 승리한 돌 y좌표 끝점
 	public WinRule(Background mContext) { 
 		this.mContext = mContext; 
-		this.map = mContext.getMap(); // Background 에서 map 좌표 가져옴
+		this.map = mContext.getMAP(); // Background 에서 map 좌표 가져옴
+	}
+	
+	public int getWinBlackX() {
+		return winBlackX;
+	}
+
+	public int getWinBlackY() {
+		return winBlackY;
+	}
+
+	public int getWinBlackXEnd() {
+		return winBlackXEnd;
+	}
+
+	public int getWinBlackYEnd() {
+		return winBlackYEnd;
+	}
+
+	public int getWinWhiteX() {
+		return winWhiteX;
+	}
+
+	public int getWinWhiteY() {
+		return winWhiteY;
+	}
+
+	public int getWinWhiteXEnd() {
+		return winWhiteXEnd;
+	}
+
+	public int getWinWhiteYEnd() {
+		return winWhiteYEnd;
 	}
 
 	@Override
@@ -29,12 +68,12 @@ public class WinRule implements Runnable {
 					if (map[j][i] != 0) { // 만약 map[j][i] 좌표에 흑돌이나 백돌이 있다면 ([j]는 x [i]는 y 좌표)
 						for (int t = 0; t < 4; t++) { // 그 좌표의 5번째칸까지 확인한다
 							if (map[j + block][i] == 0 || map[j + block][i] == 2) { // 만약 [j] 좌표에서 +block만큼의 거리에 돌이 없거나 백돌이 있다면
-								blackX = 0; // 흑돌 가로스택을 초기화한다
+								blackx = 0; // 흑돌 가로스택을 초기화한다
 							} else if (map[j][i] == 1 && map[j + sixblock][i] == 1) { // 만약 그 좌표의 + 6번째 칸에 흑돌이있다면 반복문을 건너뛴다
 								continue;
 							}
 							if (map[j + block][i] == 0 || map[j + block][i] == 1) { // 만약 [j] 좌표에서 +block만큼의 거리에 돌이 없거나 흑돌이 있다면
-								whiteX = 0; // 백돌 가로스택을 초기화한다
+								whitex = 0; // 백돌 가로스택을 초기화한다
 							} else if (map[j][i] == 2 && map[j + sixblock][i] == 2) { // 만약 그 좌표의 + 6번째 칸에 백돌이있다면 반복문을 건너뛴다
 								continue;
 							}
@@ -42,13 +81,25 @@ public class WinRule implements Runnable {
 								if (map[j - block2][i] == 1) { // 만약 왼쪽 한칸만큼의 거리에 흑돌이있다면 반복문 건너뜀 (무조건 왼쪽 끝에서부터 판단하도록 설계)
 									continue;
 								}
-								blackX++;
+								winBlackX = j; // 다시보기에서 이겼을때 시작점을 알기위해서 값 저장
+								winBlackY = i;
+								blackx++;
+								if(blackx == 4) {
+									winBlackXEnd = j + block; // 다시보기에서 이겼을때 끝점을 알기위해서 값 저장
+									winBlackYEnd = i;
+								}
 							}
 							if (map[j][i] == 2 && map[j + block][i] == 2) { // 만약 백돌이있는 좌표에서 +block만큼의 [j]거리에 백돌이 있다면 +1스택
 								if (map[j - block2][i] == 2) { // 만약 왼쪽 한칸만큼의 거리에 흑돌이있다면 반복문 건너뜀 (무조건 왼쪽 끝에서부터 판단하도록 설계)
 									continue;
 								}
-								whiteX++;
+								winWhiteX = j;
+								winWhiteY = i;
+								whitex++;
+								if(whitex == 4) {
+									winWhiteXEnd = j + block;
+									winWhiteYEnd = i;
+								}
 							}
 							block += 52; // 반복문이 한번 돌때마다 block을 52(한칸)씩 추가함 총 4번 반복하도록 설계하여 5개의 돌이 이어지는지 확인
 						}
@@ -57,50 +108,74 @@ public class WinRule implements Runnable {
 					if (map[i][j] != 0) { // 세로스택도 같은원리로 확인하기위해 안쪽반복문인 j를 y좌표로 옮김
 						for (int t = 0; t < 4; t++) {
 							if (map[i][j + block] == 0 || map[j][j + block] == 2) { // 가로스택과 같은 원리
-								blackX = 0;
+								blackx = 0;
 							} else if (map[i][j] == 1 && map[i][j + sixblock] == 1) {
 								continue;
 							}
 							if (map[i][j + block] == 0 || map[i][j + block] == 1) {
-								whiteX = 0;
+								whitex = 0;
 							} else if (map[i][j] == 2 && map[i][j + sixblock] == 2) {
 								continue;
 							}
 							if (map[i][j] == 1 && map[i][j + block] == 1) {
 								if (j == 9) {
-									blackY++;
+									winBlackX = i;
+									winBlackY = j;
+									blacky++;
+									if(blacky == 4) {
+										winBlackYEnd = j + block;
+										winBlackXEnd = i;
+									}
 								} else if (map[i][j - block2] == 1) {
 									continue;
 								} else {
-									blackY++;
+									winBlackX = i;
+									winBlackY = j;
+									blacky++;
+									if(blacky == 4) {
+										winBlackYEnd = j + block;
+										winBlackXEnd = i;
+									}
 								}
 							}
 							if (map[i][j] == 2 && map[i][j + block] == 2) {
 								if (j == 9) {
-									whiteY++;
+									winWhiteX = i;
+									winWhiteY = j;
+									whitey++;
+									if(whitey == 4) {
+										winWhiteYEnd = j + block;
+										winWhiteXEnd = i;
+									}
 								} else if (map[i][j - block2] == 2) {
 									continue;
 								} else {
-									whiteY++;
+									winWhiteX = i;
+									winWhiteY = j;
+									whitey++;
+									if(whitey == 4) {
+										winWhiteYEnd = j + block;
+										winWhiteXEnd = i;
+									}
 								}
 							}
 							block += 52;
 						}
 					}
-					if (blackX == 4) { // 만약 흑돌의 가로스택이 4스택이면 5개의돌이 서로 이어져있는것을 확인할수있다.
+					if (blackx == 4) { // 만약 흑돌의 가로스택이 4스택이면 5개의돌이 서로 이어져있는것을 확인할수있다.
 						// System.out.println("흑돌가로승리하셨습니다");
 						mContext.blackWin();
 						break Loop;
-					} else if (whiteX == 4) {
+					} else if (whitex == 4) {
 						// System.out.println("백돌가로승리하셨습니다");
 						mContext.whiteWin();
 						break Loop;
 					}
-					if (blackY == 4) {
+					if (blacky == 4) {
 						//System.out.println("흑돌세로승리하셨습니다");
 						mContext.blackWin();
 						break Loop;
-					} else if (whiteY == 4) {
+					} else if (whitey == 4) {
 						// System.out.println("백돌세로승리하셨습니다");
 						mContext.whiteWin();
 						break Loop;
@@ -112,42 +187,114 @@ public class WinRule implements Runnable {
 								if (i == 9) { // y좌표가 9일때는 해당 좌표보다 밑에있는 돌은 없기때문에 밑에는 보지않는다
 									if (map[j][i] == 1 && map[j + block][i + block] == 1 && map[j + sixblock][i + sixblock] != 1) { // 만약 map[j][i]좌표에 흑돌이있을때 그 좌표에서 x로 +block y로 +block (오른쪽 아래 방향)에 흑돌이있고 여섯번째칸에 흑돌이없다면 대각선스택 +1
 										blackDiagonal[0]++; // 대각선은 4방향이기때문에 4개의 배열을 생성해서 각각의 결과를 담는다
+										winBlackX = j; 
+										winBlackY = i;
+										if(blackDiagonal[0] == 4) {
+											winBlackXEnd = j + block;
+											winBlackYEnd = i + block;
+										}
 									}
 									if (map[j][i] == 1 && map[j - block][i + block] == 1 && map[j - sixblock][i + sixblock] != 1) { // 위와 동일한 매커니즘으로 x로 -block y로 +block (왼쪽 아래 방향)
 										blackDiagonal[2]++;
+										winBlackX = j; 
+										winBlackY = i;
+										if(blackDiagonal[2] == 4) {
+											winBlackXEnd = j - block;
+											winBlackYEnd = i + block;
+										}
 									}
 									if (map[j][i] == 2 && map[j + block][i + block] == 2 && map[j + sixblock][i + sixblock] != 2) {
 										whiteDiagonal[0]++;
+										winWhiteX = j; 
+										winWhiteY = i;
+										if(whiteDiagonal[0] == 4) {
+											winWhiteXEnd = j + block;
+											winWhiteYEnd = i + block;
+										}
 									}
 									if (map[j][i] == 2 && map[j - block][i + block] == 2 && map[j - sixblock][i + sixblock] != 2) {
 										whiteDiagonal[2]++;
+										winWhiteX = j; 
+										winWhiteY = i;
+										if(whiteDiagonal[2] == 4) {
+											winWhiteXEnd = j - block;
+											winWhiteYEnd = i + block;
+										}
 									}
 								} else {
 									if (map[j][i] == 1 && map[j + block][i + block] == 1 && map[j - block2][i - block2] != 1 && map[j + sixblock][i + sixblock] != 1) { // 탐색방향 반대방향쪽 한칸에 똑같은 돌이있는지 탐색 추가
 										blackDiagonal[0]++;
+										winBlackX = j; 
+										winBlackY = i;
+										if(blackDiagonal[0] == 4) {
+											winBlackXEnd = j + block;
+											winBlackYEnd = i + block;
+										}
 									}
 									if (map[j][i] == 1 && map[j - block][i + block] == 1 && map[j + block2][i - block2] != 1 && map[j - sixblock][i + sixblock] != 1) {
 										blackDiagonal[2]++;
+										winBlackX = j; 
+										winBlackY = i;
+										if(blackDiagonal[2] == 4) {
+											winBlackXEnd = j - block;
+											winBlackYEnd = i + block;
+										}
 									}
 									if (map[j][i] == 2 && map[j + block][i + block] == 2 && map[j - block2][i - block2] != 2 && map[j + sixblock][i + sixblock] != 2) {
 										whiteDiagonal[0]++;
+										winWhiteX = j; 
+										winWhiteY = i;
+										if(whiteDiagonal[0] == 4) {
+											winWhiteXEnd = j + block;
+											winWhiteYEnd = i + block;
+										}
 									}
 									if (map[j][i] == 2 && map[j - block][i + block] == 2 && map[j + block2][i - block2] != 2 && map[j - sixblock][i + sixblock] != 2) {
 										whiteDiagonal[2]++;
+										winWhiteX = j; 
+										winWhiteY = i;
+										if(whiteDiagonal[2] == 4) {
+											winWhiteXEnd = j - block;
+											winWhiteYEnd = i + block;
+										}
 									}
 								}
 							} else if (i >= map.length / 2) { // y좌표가 맵 절반보다 크다면 밑에서 위로 탐색하는 방식
 								if (map[j][i] == 1 && map[j + block][i - block] == 1 && map[j - block2][i + block2] != 1 && map[j + sixblock][i - sixblock] != 1) {
 									blackDiagonal[1]++;
+									winBlackX = j; 
+									winBlackY = i;
+									if(blackDiagonal[1] == 4) {
+										winBlackXEnd = j + block;
+										winBlackYEnd = i - block;
+									}
 								}
 								if (map[j][i] == 1 && map[j - block][i - block] == 1 && map[j + block2][i + block2] != 1 && map[j - sixblock][i - sixblock] != 1) {
 									blackDiagonal[3]++;
+									winBlackX = j; 
+									winBlackY = i;
+									if(blackDiagonal[3] == 4) {
+										winBlackXEnd = j - block;
+										winBlackYEnd = i - block;
+									}
 								}
 								if (map[j][i] == 2 && map[j + block][i - block] == 2 && map[j - block2][i + block2] != 2 && map[j + sixblock][i - sixblock] != 2) {
 									whiteDiagonal[1]++;
+									winWhiteX = j; 
+									winWhiteY = i;
+									if(whiteDiagonal[1] == 4) {
+										winWhiteXEnd = j + block;
+										winWhiteYEnd = i - block;
+									}
 								}
 								if (map[j][i] == 2 && map[j - block][i - block] == 2 && map[j + block2][i + block2] != 2 && map[j - sixblock][i - sixblock] != 2) {
 									whiteDiagonal[3]++;
+									winWhiteX = j; 
+									winWhiteY = i;
+									if(whiteDiagonal[3] == 4) {
+										winWhiteXEnd = j - block;
+										winWhiteYEnd = i - block;
+									}
 								}
 							}
 							block += 52;
@@ -170,10 +317,10 @@ public class WinRule implements Runnable {
 						blackDiagonal[y] = 0;
 						whiteDiagonal[y] = 0;
 					}
-					blackX = 0; // j가 한바퀴 돌때마다 가로스택과 세로스택을 초기화
-					blackY = 0;
-					whiteX = 0;
-					whiteY = 0;
+					blackx = 0; // j가 한바퀴 돌때마다 가로스택과 세로스택을 초기화
+					blacky = 0;
+					whitex = 0;
+					whitey = 0;
 				}
 			}
 		}

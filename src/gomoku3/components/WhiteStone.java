@@ -3,9 +3,6 @@ package gomoku3.components;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import gomoku3.components.Background;
-import gomoku3.components.Target;
-
 public class WhiteStone extends JLabel{
 	// mContext
 	final int BLOCK = 50;

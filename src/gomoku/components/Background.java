@@ -18,6 +18,10 @@ import javax.swing.JLabel;
 
 import gomoku.service.Rule33;
 import gomoku.service.Timer;
+<<<<<<< HEAD
+=======
+import gomoku.service.WinRule;
+>>>>>>> 87befaeddcdfd97c83694b2bcde92acbf88ce6df
 
 public class Background extends JFrame implements ActionListener {
 
@@ -378,8 +382,12 @@ public class Background extends JFrame implements ActionListener {
 								cursor.BlackStone(); // 흑돌 객체가 생성됨
 								map[cursor.getX()][cursor.getY()] = 1; // 해당 좌표에 흑돌이 생성되었음으로 1을 넣어줌
 								turn.setIcon(new ImageIcon("images/whiteStone.png")); // 흑돌의 차례가 넘어감으로 현재 턴의 색깔을 백돌로 바꿔줌
+<<<<<<< HEAD
 								new Thread(new Rule33(mContext, cursor.getBlackStone().getRealx(), // 33룰은 흑돌에게만 적용 흑돌이
 																									// 놓일때마다 쓰레드 생성
+=======
+								new Thread(new Rule33(mContext, cursor.getBlackStone().getRealx(), 
+>>>>>>> 87befaeddcdfd97c83694b2bcde92acbf88ce6df
 										cursor.getBlackStone().getRealy())).start();
 								player.setIcon(whitePlayer.getIcon()); // 마찬가지로 현재 플레이어 캐릭터를 백돌 캐릭터로 바꿔줌
 								blackcount++; // 흑돌의 갯수가 1개 증가

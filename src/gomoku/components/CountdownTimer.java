@@ -1,16 +1,46 @@
 package gomoku.components;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.Timer;
+
 public class CountdownTimer extends JLabel implements Runnable {
 
+<<<<<<< HEAD
 	private String[] count = {  "30.png", "29.png", "28.png", "27.png", "26.png", "25.png", "24.png", "23.png", "22.png",
 			"21.png", "20.png" ,"19.png", "18.png", "17.png", "16.png", "15.png", "14.png", "13.png", "12.png", "11.png", 
 			"10.png", "9.png","8.png", "7.png", "6.png", "5.png", "4.png", "3.png", "2.png", "1.png", "0.png"};
+=======
+	private String[] count = { "black.png", "1.png", "2.png", "black.png" };
+	private int index = 0;
+
+	public CountdownTimer() {
+
+	}
+
+	private void initData() {
+		// 초기 이미지 설정
+		setIcon(new ImageIcon("images/" + count[0]));
+		setSize(500, 500);
+		setLocation(500, 500);
+		setVisible(true);
+	}
+
+	private void setInitLayout() {
+
+	// Timer 설정: 5000ms(5초)마다 actionPerformed 메소드 호출
+	private String[] count = { "black.png", "20.png", "19.png", "18.png", "17.png", "16.png", "15.png", "14.png",
+			"13.png", "12.png", "11.png", "10.png", "9.png", "8.png", "7.png", "6.png", "5.png", "4.png", "3.png",
+			"2.png", "1.png", "0.png", };
+>>>>>>> 87befaeddcdfd97c83694b2bcde92acbf88ce6df
+	private int index = 0;
+	private Background mconText;
+	private String[] count = { "20.png", "19.png", "18.png", "17.png", "16.png", "15.png", "14.png", "13.png", "12.png",
+			"11.png", "10.png", "9.png", "8.png", "7.png", "6.png", "5.png", "4.png", "3.png", "2.png", "1.png",
+			"0.png", };
 	private int index = 0;
 	private Background mconText;
 

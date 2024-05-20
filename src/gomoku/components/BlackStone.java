@@ -76,7 +76,11 @@ public class BlackStone extends JLabel {
 	}
 
 	public void initData() {
+<<<<<<< HEAD
 		blackStone = new ImageIcon("images/blackstone.png");
+=======
+		blackStone = new ImageIcon("images/blackStone.png");
+>>>>>>> 87befaeddcdfd97c83694b2bcde92acbf88ce6df
 		x = mContext.cursor.getX() - 10;
 		y = mContext.cursor.getY() - 45;
 		color = 1; // color 값 받아와서 적용될 수 있게 수정.
